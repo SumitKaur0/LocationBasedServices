@@ -1,0 +1,227 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	In dieser Datei werden alle Packages eingebunden, 	%
+% welche für das Dokument nötig sind. Desweiteren 		%
+% werden die Dokumentinformationen gesetzt.						%
+%																											%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+
+%
+\documentclass[pdftex, 		a4paper, 		% DIN A4 verwenden
+							titlepage,	    % separate Titelseite
+							%draft,			% Draft-Version, keine Bilder im pdf!
+							emulatestandardclasses,
+							final,			% Final-Version
+							oneside,		% zweiseitiger Druck %X
+							11pt,			% Schriftgröße 12pt
+							%BCOR20mm,		    			    %X
+							DIV=calc,		
+							headsepline,	
+							%tocbasic,
+							%openany,
+							%pointlessnumbers
+							]{article}	%	KOMAScript scrbook-Dokumentklasse							
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Einbinden der Pakete 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=3cm, bottom=3cm, bindingoffset=0mm]{geometry}
+%bindingoffset=15mm]
+
+\usepackage[ngerman,english]{babel}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[pdftex]{graphicx}
+\usepackage{chngcntr}
+\counterwithin{table}{section}
+\counterwithin{figure}{section} %X
+\counterwithin{equation}{section} %X
+\usepackage{booktabs}
+% PDF Dateien einbinden
+\usepackage{pdfpages}
+\usepackage{textcomp} 
+\usepackage{upgreek}%kein Kursiv mehr
+\pdfminorversion=6
+\pdfcompresslevel=9
+
+% Abstand zu Section...
+%\RedeclareSectionCommand[beforeskip=-1.5\baselineskip,afterskip=.5\baselineskip]{section}
+%\RedeclareSectionCommand[beforeskip=-.75\baselineskip,afterskip=.5\baselineskip]{subsection}
+%\RedeclareSectionCommand[beforeskip=-.5\baselineskip,afterskip=.25\baselineskip]{subsubsection}
+%\RedeclareSectionCommand[beforeskip=.5\baselineskip,afterskip=-1em]{paragraph}
+
+\usepackage{textcomp} %griechische Alphabet nicht kursiv
+
+%Einige Pakete haben Probleme mit dem Komaskript.
+\usepackage{scrhack} 
+
+\usepackage{xcolor}
+\definecolor{urlLinkColor}{rgb}{0,0,0.5}
+\definecolor{LinkColor}{rgb}{0,0,0}
+
+\usepackage{abstract} %Abstrakt
+
+\usepackage{csquotes}
+\usepackage[backend=biber,style= apa, sortcites = true]{biblatex}
+
+\newcommand\ifintextcite{\ifdefstring{\blx@delimcontext}{textcite}} %parencite und textcite unterschiedlich
+\DefineBibliographyStrings{german}{
+	andothers = {\ifintextcite{and others}{et\addabbrvspace al.}},
+%	nodate = {o.D.},
+%	backrefpage  = {\lowercase :}
+%	pages = {:}
+}
+\setlength{\bibitemsep}{12pt}
+\addbibresource{source/bib/references.bib}
+	
+\usepackage[latin1]{inputenc} % Umlaute %  
+\usepackage[scaled]{berasans}				% Schriftfamilie
+\renewcommand{\rmdefault}{phv}
+\renewcommand{\sfdefault}{phv}
+
+% Grafikpaket
+\usepackage{makeidx}   				% Paket zur Erzeugung eines Index
+\usepackage[normalem]{ulem}   % bietet Unterstreichungsvarianten
+%\usepackage{picins} 					% Bilder im Absatz platzieren
+\usepackage[T1]{fontenc}			% Erweiterten Zeichensatz aktivieren
+\usepackage{multido}					% ermöglicht Schleifenartiges wiederholen von Befehlen
+\usepackage{mdwlist}					% ermöglicht das Setzen des Zählers bei Aufzählungspunkten
+\usepackage{paralist}					% Paket für Aufzählungen, erweitert Enumerate-Paket
+\usepackage{longtable}				% mehrseitige Tabellen
+%\usepackage{tocloft}
+\parindent0pt           			% verzichte auf Einrücken der ersten Zeile
+\parskip2ex            	% Abstand zwischen den Absätzen
+
+\usepackage{floatflt,epsfig} %text neben Bild
+
+%\usepackage{setspace}					% Paket zum Einstellen des Zeilenabstands
+%\doublespacing								% doppelter Zeilenabstand
+\linespread{1.5}
+
+
+\usepackage{color}
+\definecolor{hcu-blau}{RGB}{54, 141, 207}
+
+% Farbeinstellungen für die Links im PDF Dokument.
+%
+\makeindex
+
+%-----------Paket für absolute Positionierung von Grafiken------------------
+\usepackage[absolute]{textpos}
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{\TPHorizModule}
+
+%-----------Aufzählungen und Einstellungen für Sourcecode-------------------
+%\usepackage[savemem]{listings} %Bei wenig Arbeitsspeicher dies Option [savemem] aktivieren.
+\usepackage{listings}
+\lstloadlanguages{TeX,XML, Java} % TeX sprache laden, notwendig wegen option 'savemem'
+\lstset{%
+	language=[LaTeX]TeX,     % Sprache des Quellcodes ist TeX
+	numbers=left,            % Zelennummern links
+	stepnumber=1,            % Jede Zeile nummerieren.
+	numbersep=5pt,           % 5pt Abstand zum Quellcode
+	numberstyle=\tiny,       % Zeichengrösse 'tiny' für die Nummern.
+	breaklines=true,         % Zeilen umbrechen wenn notwendig.
+	breakautoindent=true,    % Nach dem Zeilenumbruch Zeile einrücken.
+	postbreak=\space,        % Bei Leerzeichen umbrechen.
+	tabsize=2,               % Tabulatorgrösse 2
+	basicstyle=\ttfamily\footnotesize, % Nichtproportionale Schrift, klein für den Quellcode
+	showspaces=false,        % Leerzeichen nicht anzeigen.
+	showstringspaces=false,  % Leerzeichen auch in Strings ('') nicht anzeigen.
+	extendedchars=true,      % Alle Zeichen vom Latin1 Zeichensatz anzeigen.
+	backgroundcolor=\color{ListingBackground}} % Hintergrundfarbe des Quellcodes setzen.
+
+
+\lstset{
+  basicstyle=\small\ttfamily,
+  columns=fullflexible,
+  showstringspaces=false,
+  %commentstyle=\color{gray}\upshape
+}
+%neue Lang definieren, als Bsp.
+\lstdefinelanguage{XML-changed}
+{
+  basicstyle=\footnotesize\ttfamily\bfseries,
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  stringstyle=\color{black},
+  identifierstyle=\color{darkblue},
+  keywordstyle=\color{cyan},
+  morekeywords={xmlns,version,type}% list your attributes here
+}
+
+%-----------Caption Package-------------------
+\usepackage{caption}
+\usepackage{subcaption}
+\DeclareCaptionFont{hcu-blau}{\color{hcu-blau}}
+
+\usepackage{silence}
+\WarningFilter{scrbook}{Usage of package `fancyhdr'}
+
+\usepackage[labelfont = {bf,it}, font={footnotesize,it}, labelsep = space]{caption} %Beschirftung Tabelle/Abbildung
+
+%\usepackage[labelfont={hcu-blau,{bf}}]{caption}
+\renewcommand{\arraystretch}{1.0}   %tabellenabstand
+
+\usepackage[labelfont = {bf,it}, font={footnotesize,it}, labelsep = space]{subcaption}
+
+%-----------Header+Footer---------------------------------------------------
+%\usepackage{fancyhdr}					
+%\pagestyle{fancy}
+%\fancyhf{}							
+%\lhead{\leftmark}
+%\rhead{\DeinName}
+%\rfoot{\thepage} 
+%\fancyfoot[EL]{\thepage}   %Seitenzahl abwechselt
+%\fancyfoot[OR]{\thepage}   %Seitenzahl abwechselt
+%\renewcommand{\headrulewidth}{0.2pt} % Kopflinie
+%\renewcommand{\sectionmark}[1]{\markleft{\arabic{chapter}.\arabic{section}\ #1}}
+
+%--------------------------------------------------------------------------------
+
+\usepackage{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\clearpairofpagestyles
+
+\ohead{\pagemark}
+%\chead{Kopfzeile Mitte}
+\ihead{\leftmark}
+%\ifoot{Fußzeile innen}
+%\cfoot{Fußzeile Mitte}
+%\ofoot{\pagemark}
+
+%\renewcommand*\chapterpagestyle{scrheadings}
+\renewcommand{\sectionmark}[1]{\markleft{\arabic{section}\ #1}}
+%--------------------------------------------------------------------------------
+
+% -------Für ToDo-Notes--------------------------------------------------------------------
+\usepackage[color=red, shadow]{todonotes} % ", disable" deaktiviert ToDo-Notes
+%Vereinfachtes "Inline-Todo"
+\newcommand{\td}[1]{{\todo[inline]{#1}}}
+\newcommand{\tdu}[1]{{\todo[inline, color=green!40]{#1}}}
+
+%--------Für Links-------------------------------------------------------------------------
+%--------HyperRef konfigurieren-------------------------------------------------------------------------
+
+\usepackage[
+	pdftitle={\Titelpdf},
+	pdfauthor={\DeinName},
+	pdfsubject={\TitelArbeit},
+	pdfcreator={MiKTeX, LaTeX with hyperref and KOMA-Script auf Basis der Vorlage von seiler.it},
+	pdfkeywords={Bachelorarbeit, Hamburg, HafenCity Universität},%weitere Keywords hier einfügen
+	pdfpagemode=UseOutlines,%                                  
+	pdfdisplaydoctitle=true,%                                  
+	pdflang=de%                                              
+]{hyperref}
+
+\hypersetup{%
+	colorlinks=true,%        Aktivieren von farbigen Links im Dokument (keine Rahmen)
+	linkcolor=LinkColor,%    Farbe festlegen.
+	citecolor=LinkColor,%    Farbe festlegen.
+	filecolor=LinkColor,%    Farbe festlegen.
+	menucolor=LinkColor,%    Farbe festlegen.
+	urlcolor=LinkColor,%     Farbe von URL's im Dokument.
+	bookmarksnumbered=true%  Überschriftsnummerierung im PDF Inhalt anzeigen.
+}

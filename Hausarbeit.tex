@@ -1,0 +1,33 @@
+\newcommand{\Titelpdf}{Thema1-Gr3-Kaur-Zeyse}
+\newcommand{\DeinName}{Sumit Kaur und Simeon Zeyse}
+\newcommand{\Matrikelnummer}{6059167 und 6056745}
+\newcommand{\TitelArbeit}{Topic 1: Story Maps\\[0.4mm]}
+\newcommand{\PrueferEins}{Prof. Dr.-Ing. Jochen Schiewe}
+\newcommand{\artDerArbeit}{Seminar GIT}
+\newcommand{\Datum}{\today}
+
+\input{source/header}
+
+% Beginn des Dokuments
+\begin{document}
+%\nocite{*}
+
+\include{source/Titelseite}
+%\frontmatter
+\pagenumbering{Roman} 
+%\listoffigures
+\clearpage
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+%\mainmatter
+% Abstand Gleichung und Text
+\setlength\abovedisplayskip{8pt}
+\setlength\belowdisplayskip{8pt}
+\include{source/content/text}
+\addcontentsline{toc}{section}{Bibliography}
+\printbibliography[title = Bibliography]
+%\backmatter
+\end{document}
+
+
