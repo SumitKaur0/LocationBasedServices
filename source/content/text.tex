@@ -1,4 +1,68 @@
-\section{Introduction}
-Storytelling in many ways are a big part of many subjects in school. Especially when it comes to a subject like geography, history or social studies, it is often essential to understand the temporal and spatial context of a story. This is when map based Storytelling can play to its strengths. Such Story Maps can visualize spatial data and temporal order at the same time while including the content of the story. Furthermore, visual storytelling offers hybridization in cartography through combining technology and multimedia. Story Maps encourage non-expert user groups to participate in map creation. They can use it to generate their own location-based stories \parencite{kerski2015}.
+\section{Einleitung}
+
+\section{Das dynamischer Kalman Filter}
+Eicker:\\
+Setzt sich zusammen aus einem Beobachtungsmodell und einem Bewegungsmodell zusammen. Bei dem Beobachtungsmodell handelt es sich um Beobachtungen und ihre Unsicherheiten. Bei dem Bewegungsmodell spricht wird auch von einer Prädiktion (dynamisches Modell) und ihren Unsicherheiten gesprochen. Aus ihr erfolgt dann die Schätzung des Zustandes. 
+
+\subsection{Diskreter Kalmanfilter (lineares Modell)}
+Idee: Beobachtungen zu bestimmten (diskreten) Zeitpunkten mit einem Bewegungsmodell kombinieren. Das Bewegungsmodell prädiziert dann den Zustandsvektor ausgehend von der Schätzung des vorherigen Schrittes.
+
+Beobachtungsmodell:\\
+$l_{i+1} = A_{i+1}x_{i+1} + e_{i+1}$\\
+l = Beobachtungen/Messung\\
+A = Designmatrix\\
+e = Residuen (Beobachtungsrauschen) --> e = -v\\
+Residuen sind normalverteilt, Erwartungswert = 0\\
+
+Bewegungsmodell:\\
+$x_{i+1} = T_ix_i + C_iw_1$\\
+T = Transitionsmatrix (prädiziert Bewegung von einem zum nächsten Zeitpunkt)\\
+w = Störgröße (Unsicherheit im Bewegungsmodell -> Rauschen)\\
+C = Störgrößenmatrix (Auswirkung dieser Unsicherheit auf die Prädiktion des Zustandes)\\
+Störgröße normalverteilt, Erwartungswert = 0 -> beeinflusst nur das stochastisches Modell aber nicht die eigentliche Prädiktion\\
+
+1. Prädiktion: \\
+Welche Trajektorie des Fahrzeugs sagt das Bewegungsmodell voraus?\\
+$\bar{x}_{i+1} = T_i + \hat{x}_{i}$\\
+$\sum(\bar{x}_{i+1}) = T_i\sum(\hat{x}_{i})T_i^T + C_i\sum(w_{i})C_i^T$\\
+
+2. Innovation:\\
+Welche Trajektorie des Fahrzeugs sagt das Bewegungsmodell voraus? Was behaupten die Beobachtungen? Wie sehr weichen die Beobachtungen von der Prädiktion ab? => Innovation\\
+$d_{i+1} = l_{+1} - A_{i+1}\bar{x}_{i+1}$\\
+$\sum(d_{i+1}) = \sum(l_{i+1}) + A_{i+1}\sum(\bar{x}_{i+1})A_{i+1}^T$
+
+3. Gain Matrix (K-Matrix):\\
+Relative Gewichtung von Prädiktion und Beobachtungen anhand der jeweiligen Genauigkeiten\\
+$K_{i+1} = \sum(\bar{x}_{i+1})A_{i+1}^T\sum^{-1}(d_{i+1})$
+
+4. Update: \\
+Gewichtetes Mittel aus Prädiktion und  Innovation\\
+$\hat{x}_{i+1} = \bar{x}_{i+1} + K_{i+1}d_{i+1}$\\
+$\sum(\hat{x}_{i+1}) = [I-K_{i+1}A_{i+1}]\sum(\bar{x}_{i+1})$
+
+Geschichte des Kalman-Filters:\\
+Erdunfen von Rudolf E. Kalman (Transcations of the ASME-Journal of Basic Engineering, 82 (Series D): 35-45.Copyright \copy 1960 by ASME)
+
+Gut geeignet, um die Bahnen von Raketen zu berechnen (der Apollo Mondmission)
+
+Dynamisches Modell: Trajektorie der Mondrakete
+Beobachtungen: Space sextant, inertial navigator (Weltraumsextant, Trägheitsnavigator)
+
+\subsection{Extended Kalmanfilter (nicht- lineares Modell)}
+Weder Bewegungsmodell noch das Beobachtungsmodell ist linear, deshalb wird das extended Kalman Filter gebraucht.\\
+$x_{i+1} = f^{i+1}_i (x_i, w_i)$\\
+$l_{i+1} = a_{i+1}(x_{i+1}) + e_{i+1}$\\
+
+Bei nicht-linearen Zusammenhängen werden die Matrizen A, T und C durch Linearisierung (partielle Ableitungen) der nicht-linearen Funktionen f und a bestimmt:
+
+$T = f(x,w) abgeleitet nach x$\\
+$C = f(x,c) abgeleitet nach w$\\
+$A = a(x) abgeleitet nach x$\\
+
+Inpur: \\
+$x_{i+1} = f^{i+1}_i (x_i, w_i)$\\
+
+\subsubsection{Weitere Quellen:}
+https://www.cbcity.de/das-kalman-filter-einfach-erklaert-teil-2
 
 \bibliography
