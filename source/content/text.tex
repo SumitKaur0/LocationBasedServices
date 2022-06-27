@@ -1,24 +1,28 @@
 \section{Einleitung}
 
-\section{Das dynamischer Kalman Filter}
+\section{Methoden}
+\subsection{Das dynamischer Kalman Filter}
 Eicker:\\
-Setzt sich zusammen aus einem Beobachtungsmodell und einem Bewegungsmodell zusammen. Bei dem Beobachtungsmodell handelt es sich um Beobachtungen und ihre Unsicherheiten. Bei dem Bewegungsmodell spricht wird auch von einer Prädiktion (dynamisches Modell) und ihren Unsicherheiten gesprochen. Aus ihr erfolgt dann die Schätzung des Zustandes. 
+Ein Kalman Filter findet dort Anwendung, wo bestimmte Sensoren nicht funktionieren oder sogar ausfallen und man dennoch die Systemgrößen  schätzen möchte. Dafür setzt sich das dynamische Kalman Filter aus einem Beobachtungsmodell und einem Bewegungsmodell zusammen. Bei dem Beobachtungsmodell handelt es sich um Beobachtungen und ihre Unsicherheiten. Bei dem Bewegungsmodell spricht wird auch von einer Prädiktion (dynamisches Modell) und ihren Unsicherheiten gesprochen. Aus ihr erfolgt dann die Schätzung des Zustandes. 
 
-\subsection{Diskreter Kalmanfilter (lineares Modell)}
-Idee: Beobachtungen zu bestimmten (diskreten) Zeitpunkten mit einem Bewegungsmodell kombinieren. Das Bewegungsmodell prädiziert dann den Zustandsvektor ausgehend von der Schätzung des vorherigen Schrittes.
+\subsubsection{Diskreter Kalman-Filter (lineares Modell)}
+Bei dem diskreten Kalman-Filter ist die Idee die Beobachtungen zu bestimmten (diskreten) Zeitpunkten mit einem Bewegungsmodell zu kombinieren. Das Bewegungsmodell prädiziert dann den Zustandsvektor ausgehend von der Schätzung des vorherigen Schrittes. Generell werden vier Schritte benötigt: die Prädiktion, die Innovation, die Kalman-Gain-Matrix und das Update. 
 
-Beobachtungsmodell:\\
-$l_{i+1} = A_{i+1}x_{i+1} + e_{i+1}$\\
-l = Beobachtungen/Messung\\
-A = Designmatrix\\
-e = Residuen (Beobachtungsrauschen) --> e = -v\\
-Residuen sind normalverteilt, Erwartungswert = 0\\
+Das generelle Beobachtungsmodell sieht wie folgt aus:
+\begin{equation}
+\boldsymbol{l}_{i+1} = \boldsymbol{A}_{i+1}\boldsymbol{x}_{i+1} + \boldsymbol{e}_{i+1} \text{,}
+\end{equation}
+mit $\boldsymbol{l}$ = Beobachtungen/Messungen, $\boldsymbol{A}$ = Designmatrix, $\boldsymbol{x}$ = unbekannte Parameter und $\boldsymbol{e}$ = Residuen (Beobachtungsrauschen). Die Designmatrix beinhaltet die partiellen Ableitungen der Beobachtungsgleichungen nach den Parametern. Bei den Residuen handelt es sich um die negierten Verbesserungen. Sie sind normalverteilt mit einem Erwartungswert von 0. 
 
-Bewegungsmodell:\\
-$x_{i+1} = T_ix_i + C_iw_1$\\
-T = Transitionsmatrix (prädiziert Bewegung von einem zum nächsten Zeitpunkt)\\
-w = Störgröße (Unsicherheit im Bewegungsmodell -> Rauschen)\\
-C = Störgrößenmatrix (Auswirkung dieser Unsicherheit auf die Prädiktion des Zustandes)\\
+Das hier verwendete Bewegungsmodell sieht wie folgt aus:\\
+\begin{equation}\label{x_i+1_allg}
+\boldsymbol{x}_{i+1} = \boldsymbol{T}_i\boldsymbol{x}_i + \boldsymbol{C}_i\boldsymbol{w}_i \text{,}
+\end{equation}
+mit $\boldsymbol{T}$ = Transitionsmatrix (prädiziert Bewegung von einem zum nächsten Zeitpunkt), $\boldsymbol{w}$ = Störgröße (Unsicherheit im Bewegungsmodell: Rauschen), $\boldsymbol{C}$ = Störgrößenmatrix (Auswirkung dieser Unsicherheit auf die Prädiktion des Zustandes). Da wir annehmen, dass die Unsicherheiten im Bewegungsmodell ausreichend von den Varianzen der geschätzten Parameter abgedeckt werden, wird die Formel \ref{x_i+1_allg} durch die folgende Formeln ersetzt:
+\begin{equation}\label{x_i+1}
+	x_{i+1} = T_ix_i \text{,}
+\end{equation}
+
 Störgröße normalverteilt, Erwartungswert = 0 -> beeinflusst nur das stochastisches Modell aber nicht die eigentliche Prädiktion\\
 
 1. Prädiktion: \\
@@ -48,21 +52,39 @@ Gut geeignet, um die Bahnen von Raketen zu berechnen (der Apollo Mondmission)
 Dynamisches Modell: Trajektorie der Mondrakete
 Beobachtungen: Space sextant, inertial navigator (Weltraumsextant, Trägheitsnavigator)
 
-\subsection{Extended Kalmanfilter (nicht- lineares Modell)}
+\subsubsection{Extended Kalmanfilter (nicht- lineares Modell)}
 Weder Bewegungsmodell noch das Beobachtungsmodell ist linear, deshalb wird das extended Kalman Filter gebraucht.\\
 $x_{i+1} = f^{i+1}_i (x_i, w_i)$\\
 $l_{i+1} = a_{i+1}(x_{i+1}) + e_{i+1}$\\
 
 Bei nicht-linearen Zusammenhängen werden die Matrizen A, T und C durch Linearisierung (partielle Ableitungen) der nicht-linearen Funktionen f und a bestimmt:
 
-$T = f(x,w) abgeleitet nach x$\\
-$C = f(x,c) abgeleitet nach w$\\
-$A = a(x) abgeleitet nach x$\\
+\begin{equation}
+T = \frac{\partial f(x,w)}{\partial x}
+\end{equation}
 
-Inpur: \\
+\begin{equation}
+C = \frac{\partial f(x,w)}{\partial w}
+\end{equation}
+
+\begin{equation}
+A = \frac{\partial a(x)}{\partial x}
+\end{equation}
+
+Input: \\
 $x_{i+1} = f^{i+1}_i (x_i, w_i)$\\
 
 \subsubsection{Weitere Quellen:}
 https://www.cbcity.de/das-kalman-filter-einfach-erklaert-teil-2
 
-\bibliography
+\subsection{Weigted Least-Square}
+
+\section{Ergebnisse}
+
+\section{Herausforderungen}
+
+\section{Fazit und Ausblick}
+\begin{equation*}
+	x_1^2 = x_1'
+\end{equation*}
+%\bibliography
