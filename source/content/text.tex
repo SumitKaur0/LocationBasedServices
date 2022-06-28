@@ -60,15 +60,15 @@ $l_{i+1} = a_{i+1}(x_{i+1}) + e_{i+1}$\\
 Bei nicht-linearen Zusammenhängen werden die Matrizen A, T und C durch Linearisierung (partielle Ableitungen) der nicht-linearen Funktionen f und a bestimmt:
 
 \begin{equation}
-T = \frac{\partial f(x,w)}{\partial x}
+\boldsymbol{T} = \frac{\partial f(x,w)}{\partial x}
 \end{equation}
 
 \begin{equation}
-C = \frac{\partial f(x,w)}{\partial w}
+\boldsymbol{C} = \frac{\partial f(x,w)}{\partial w}
 \end{equation}
 
 \begin{equation}
-A = \frac{\partial a(x)}{\partial x}
+\boldsymbol {A }= \frac{\partial a(x)}{\partial x}
 \end{equation}
 
 Input: \\
@@ -78,13 +78,34 @@ $x_{i+1} = f^{i+1}_i (x_i, w_i)$\\
 https://www.cbcity.de/das-kalman-filter-einfach-erklaert-teil-2
 
 \subsection{Weigted Least-Square}
+Weighted Least-Square basiert auf der Grundlage der Methode der kleinsten Quadrate. Dabei werden die Parameter so gewählt, dass die Quadratsumme der Verbesserungen möglichst klein ist. 
+
+\begin{equation}
+ \left| \boldsymbol{v} \right|^2 = \sum_{i=1}^{n}v_i^2 	\rightarrow min 
+\end{equation}
+
+\begin{equation}
+\boldsymbol{l}+\boldsymbol{v} = \boldsymbol{A}\boldsymbol{x} \textrm{ mit } \boldsymbol{\sum(l)} = \sigma_0^2\boldsymbol{P}^{-1}
+\end{equation}
+
+Wobei die linke Gleichung das funktionale Modell repräsentiert, in dem der funktionale Zusammenhang zwischen Beobachtungen und Unbekannten steckt. Die rechte Gleichung nennt sich auch das stochastische Modell und dient der Beschreibung der Messunsicherheit bzw. zur Einführung von Gewichten für die Beobachtungen. Dafür wird die Gewichtsmatrix $\boldsymbol{P}$ eingeführt. 
+
+Schätzung der unbekannten Parameter:
+\begin{equation}
+	\hat{\boldsymbol{x}} = \left(\boldsymbol{A}^T\boldsymbol{P}\boldsymbol{A}\right)^{-1}\boldsymbol{A}^T\boldsymbol{P}\boldsymbol{l}
+\end{equation}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{source/images/GMM}
+	\caption{}
+	\label{fig:gmm}
+\end{figure}
 
 \section{Ergebnisse}
 
 \section{Herausforderungen}
 
 \section{Fazit und Ausblick}
-\begin{equation*}
-	x_1^2 = x_1'
-\end{equation*}
+
 %\bibliography
