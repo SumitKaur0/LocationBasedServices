@@ -1,7 +1,13 @@
 \section{Einleitung}
-Leitfrage: \textbf{Wie unterscheiden sich die Ergebnisse einer Ausgleichung von ?Personal Dead Reckoning? mittels Kalman-Filter und Least-Squares Methode?} 
+Da ein inertiales Navigationssystem (INS) ohne GNSS-Signale auskommen, können sie hervorragend in der Indoor-Navigation eingesetzt werden. Dafür wird ein einfacher Bewegungssensor benötigt, welcher sich beispielsweise in einem Ortungssystem für gehende Personen befindet, das so genannte \textit{Personal Dead Reckoning (PDR)}-System. Das PDR-System verwendet eine Inertialmesseinheit (IMU). Diese wird am Schuh des Nutzers befestigt und liefert Informationen wie die Drehgeschwindigkeit und Beschleunigung. Diese Informationen können damit helfen den Standpunkt des Nutzers relativ zu einem bekannten Referenzpunkten in Echtzeit zu ermitteln \parencite{borenstein2007}. In dieser Arbeit werden sogenannte 5G-Koordinaten als bekannte Referenzpunkte verwendet. Nachteile eines PDR-System ist das sie durch akkumulierte Messfehler einen Drift aufweisen. Dieser Drift kann mit Hilfe der 5G-Koordinaten und einer Optimierung der Trajektorie verringert werden. Dafür sind in der Geodäsie Optimierungsansätze wie das Kalman-Filter oder die Methode der kleinsten Quadrate (engl.: Least-Square) häufig im Einsatz.
 
-\textcolor{red}{Einführung in das Thema, einschließlich der Problemstellung und ähnlicher Arbeiten.}
+Diese Arbeit beschäftigt sich daher mit folgender Frage: Wie unterscheiden sich die Ergebnisse einer Ausgleichung von Personal Dead Reckoning (PDR) mittels dem Kalman-Filter und der Least-Square Methode?
+
+\textcite{kjellson2021} beschäftigte sich außerdem mit dem Thema. In ihrem Paper wird die Deep-Learning-Methoden beschrieben sowohl für die Schätzung von absoluten Positionen als auch für die Durchführung einer Koppelnavigation für Fußgänger (PDR). Beiden Ansätze wurden zur Optimierung der Trajektorie mit Hilfe der gewichteten kleinsten Quadrate (engl.: weighted least square) kombiniert.
+
+\textcolor{red}{Was ist das Problem?\\ Warum ist es wichtig?\\Was sind die Anwendungsbereiche des Themas?\\Was sind die bisherigen Herausforderungen?\\Was ist der Schwerpunkt dieser Arbeit?}
+
+\subsection{Aufbau der Arbeit}
 
 
 \section{Methodologie}
@@ -20,7 +26,7 @@ Das generelle Beobachtungsmodell sieht wie folgt aus:
 \end{equation}
 mit $\boldsymbol{l}$ = Beobachtungen/Messungen, $\boldsymbol{A}$ = Designmatrix, $\boldsymbol{x}$ = unbekannte Parameter und $\boldsymbol{e}$ = Residuen (Beobachtungsrauschen). Die Designmatrix beinhaltet die partiellen Ableitungen der Beobachtungsgleichungen nach den Parametern. Bei den Residuen handelt es sich um die negierten Verbesserungen. Sie sind normalverteilt mit einem Erwartungswert von 0. 
 
-Das hier verwendete Bewegungsmodell sieht wie folgt aus:\\
+Das hier verwendete Bewegungsmodell sieht wie folgt aus:
 \begin{equation}\label{x_i+1_allg}
 \boldsymbol{x}_{i+1} = \boldsymbol{T}_i\boldsymbol{x}_i + \boldsymbol{C}_i\boldsymbol{w}_i \text{,}
 \end{equation}
@@ -28,27 +34,22 @@ mit $\boldsymbol{T}$ = Transitionsmatrix (prädiziert Bewegung von einem Zeitpunk
 \begin{equation}\label{x_i+1}
 \boldsymbol{x}_{i+1} = \boldsymbol{T}_i\boldsymbol{x}_i.
 \end{equation}
-
 1. Prädiktion: 
 Welche Trajektorie des Fahrzeugs sagt das Bewegungsmodell voraus?
 
 In der Prädiktion wird der aktuelle Schritt mit den Daten des vorherigen Schrittes und der Transitionsmatrix berechnet. Die Transitionsmatrix beinhaltet die partiellen Ableitungen der prädizierten Größen nach den Schätzungen des vorigen Schrittes. Die zugehörige Kovarianzmatrix wird mit Hilfe des Varianzfortpflanzungsgesetzes berechnet.
-
 \begin{equation}
 \boldsymbol{\bar{x}}_{i+1} = \boldsymbol{T}_i +\boldsymbol{\hat{x}}_{i}\\
 \end{equation}
 \begin{equation}
 \boldsymbol{\sum}(\boldsymbol{\bar{x}}_{i+1}) = \boldsymbol{T}_i\boldsymbol{\sum}(\boldsymbol{\hat{x}}_{i})\boldsymbol{T}_i^T + \boldsymbol{C}_i\boldsymbol{\sum}(\boldsymbol{w}_{i})\boldsymbol{C}_i^T\\
 \end{equation}
-
 2. Innovation:
 Welche Trajektorie des Fahrzeugs sagt das Bewegungsmodell voraus? Was behaupten die Beobachtungen? Wie sehr weichen die Beobachtungen von der Prädiktion ab? => Innovation
 
 In dem 2. Schritt der Innovation wird die Differenz der Prädiktion zu den Beobachtungen berechnet und auch hier wird mit Hilfe des VFGs die Kovarianzmatrix gerechnet
 
 $X_{5G}$ und $Y_{5G}$, $\Delta x_i$ und $\Delta y_i$ = Differnez zwischen der aufsummierten schrittänge, und schrittrichtung. 
-
-
 \begin{equation}
 \boldsymbol{d}_{i+1} = \boldsymbol{l}_{i+1} - \boldsymbol{A}_{i+1}\boldsymbol{\bar{x}}_{i+1}
 \end{equation}
@@ -62,11 +63,9 @@ Dann folgt die Berechnung der Kalman Gain Matrix, die in dem Update die Innovati
 Relative Gewichtung von Prädiktion und Beobachtungen anhand der jeweiligen Genauigkeiten
 
 Kalman Gain Matrix setzt sich aus den Kov.Matrizen der prädiktion und der innovation zusammen. Je genauer die Kov mtarix der innovation ist desto mehr gewicht erhalten die 
-
 \begin{equation}
 \boldsymbol{K}_{i+1} = \boldsymbol{\sum}(\boldsymbol{\bar{x}}_{i+1})\boldsymbol{A}_{i+1}^T\boldsymbol{\sum}^{-1}(\boldsymbol{d}_{i+1})
 \end{equation}
-
 4. Update: \\
 Gewichtetes Mittel aus Prädiktion und  Innovation
 \begin{equation}
