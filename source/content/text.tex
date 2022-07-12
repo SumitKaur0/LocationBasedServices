@@ -1,6 +1,12 @@
 \section{Einleitung}
+Leitfrage: \textbf{Wie unterscheiden sich die Ergebnisse einer Ausgleichung von ?Personal Dead Reckoning? mittels Kalman-Filter und Least-Squares Methode?} 
 
-\section{Methoden}
+\textcolor{red}{Einführung in das Thema, einschließlich der Problemstellung und ähnlicher Arbeiten.}
+
+
+\section{Methodologie}
+\textcolor{red}{Erläuterung der Methoden in der Theorie und des allgemeinen Konzepts\\für diejenigen, die bereits bestehende Konzepte, Algorithmen, Methoden, etc. verwendet haben. }
+
 \subsection{Das dynamischer Kalman Filter}
 Eicker:\\
 Ein Kalman Filter findet dort Anwendung, wo bestimmte Sensoren nicht funktionieren oder sogar ausfallen und man dennoch die Systemgrößen  schätzen möchte. Dafür setzt sich das dynamische Kalman Filter aus einem Beobachtungsmodell und einem Bewegungsmodell zusammen. Bei dem Beobachtungsmodell handelt es sich um Beobachtungen und ihre Unsicherheiten. Bei dem Bewegungsmodell spricht wird auch von einer Prädiktion (dynamisches Modell) und ihren Unsicherheiten gesprochen. Aus ihr erfolgt dann die Schätzung des Zustandes. 
@@ -18,31 +24,57 @@ Das hier verwendete Bewegungsmodell sieht wie folgt aus:\\
 \begin{equation}\label{x_i+1_allg}
 \boldsymbol{x}_{i+1} = \boldsymbol{T}_i\boldsymbol{x}_i + \boldsymbol{C}_i\boldsymbol{w}_i \text{,}
 \end{equation}
-mit $\boldsymbol{T}$ = Transitionsmatrix (prädiziert Bewegung von einem zum nächsten Zeitpunkt), $\boldsymbol{w}$ = Störgröße (Unsicherheit im Bewegungsmodell: Rauschen), $\boldsymbol{C}$ = Störgrößenmatrix (Auswirkung dieser Unsicherheit auf die Prädiktion des Zustandes). Da wir annehmen, dass die Unsicherheiten im Bewegungsmodell ausreichend von den Varianzen der geschätzten Parameter abgedeckt werden, wird die Formel \ref{x_i+1_allg} durch die folgende Formeln ersetzt:
+mit $\boldsymbol{T}$ = Transitionsmatrix (prädiziert Bewegung von einem Zeitpunkt zum nächsten), $\boldsymbol{w}$ = Störgröße (Unsicherheit im Bewegungsmodell: Rauschen), $\boldsymbol{C}$ = Störgrößenmatrix (Auswirkung dieser Unsicherheit auf die Prädiktion des Zustandes). Da wir annehmen, dass die Unsicherheiten im Bewegungsmodell ausreichend von den Varianzen der geschätzten Parameter abgedeckt werden, wird die Formel \ref{x_i+1_allg} durch die folgende Formeln ersetzt:
 \begin{equation}\label{x_i+1}
-	x_{i+1} = T_ix_i \text{,}
+\boldsymbol{x}_{i+1} = \boldsymbol{T}_i\boldsymbol{x}_i.
 \end{equation}
 
-Störgröße normalverteilt, Erwartungswert = 0 -> beeinflusst nur das stochastisches Modell aber nicht die eigentliche Prädiktion\\
+1. Prädiktion: 
+Welche Trajektorie des Fahrzeugs sagt das Bewegungsmodell voraus?
 
-1. Prädiktion: \\
-Welche Trajektorie des Fahrzeugs sagt das Bewegungsmodell voraus?\\
-$\bar{x}_{i+1} = T_i + \hat{x}_{i}$\\
-$\sum(\bar{x}_{i+1}) = T_i\sum(\hat{x}_{i})T_i^T + C_i\sum(w_{i})C_i^T$\\
+In der Prädiktion wird der aktuelle Schritt mit den Daten des vorherigen Schrittes und der Transitionsmatrix berechnet. Die Transitionsmatrix beinhaltet die partiellen Ableitungen der prädizierten Größen nach den Schätzungen des vorigen Schrittes. Die zugehörige Kovarianzmatrix wird mit Hilfe des Varianzfortpflanzungsgesetzes berechnet.
 
-2. Innovation:\\
-Welche Trajektorie des Fahrzeugs sagt das Bewegungsmodell voraus? Was behaupten die Beobachtungen? Wie sehr weichen die Beobachtungen von der Prädiktion ab? => Innovation\\
-$d_{i+1} = l_{+1} - A_{i+1}\bar{x}_{i+1}$\\
-$\sum(d_{i+1}) = \sum(l_{i+1}) + A_{i+1}\sum(\bar{x}_{i+1})A_{i+1}^T$
+\begin{equation}
+\boldsymbol{\bar{x}}_{i+1} = \boldsymbol{T}_i +\boldsymbol{\hat{x}}_{i}\\
+\end{equation}
+\begin{equation}
+\boldsymbol{\sum}(\boldsymbol{\bar{x}}_{i+1}) = \boldsymbol{T}_i\boldsymbol{\sum}(\boldsymbol{\hat{x}}_{i})\boldsymbol{T}_i^T + \boldsymbol{C}_i\boldsymbol{\sum}(\boldsymbol{w}_{i})\boldsymbol{C}_i^T\\
+\end{equation}
 
-3. Gain Matrix (K-Matrix):\\
-Relative Gewichtung von Prädiktion und Beobachtungen anhand der jeweiligen Genauigkeiten\\
-$K_{i+1} = \sum(\bar{x}_{i+1})A_{i+1}^T\sum^{-1}(d_{i+1})$
+2. Innovation:
+Welche Trajektorie des Fahrzeugs sagt das Bewegungsmodell voraus? Was behaupten die Beobachtungen? Wie sehr weichen die Beobachtungen von der Prädiktion ab? => Innovation
+
+In dem 2. Schritt der Innovation wird die Differenz der Prädiktion zu den Beobachtungen berechnet und auch hier wird mit Hilfe des VFGs die Kovarianzmatrix gerechnet
+
+$X_{5G}$ und $Y_{5G}$, $\Delta x_i$ und $\Delta y_i$ = Differnez zwischen der aufsummierten schrittänge, und schrittrichtung. 
+
+
+\begin{equation}
+\boldsymbol{d}_{i+1} = \boldsymbol{l}_{i+1} - \boldsymbol{A}_{i+1}\boldsymbol{\bar{x}}_{i+1}
+\end{equation}
+\begin{equation}
+\boldsymbol{\sum}(\boldsymbol{d}_{i+1}) = \boldsymbol{\sum}(\boldsymbol{l}_{i+1}) + \boldsymbol{A}_{i+1}\boldsymbol{\sum}(\boldsymbol{\bar{x}}_{i+1})\boldsymbol{A}_{i+1}^T
+\end{equation}
+
+Dann folgt die Berechnung der Kalman Gain Matrix, die in dem Update die Innovation gewichtet. Die zugehörige Kov.matrix des Updates wird auch wieder mit dem VFG berechnet.
+
+3. Gain Matrix (K-Matrix):
+Relative Gewichtung von Prädiktion und Beobachtungen anhand der jeweiligen Genauigkeiten
+
+Kalman Gain Matrix setzt sich aus den Kov.Matrizen der prädiktion und der innovation zusammen. Je genauer die Kov mtarix der innovation ist desto mehr gewicht erhalten die 
+
+\begin{equation}
+\boldsymbol{K}_{i+1} = \boldsymbol{\sum}(\boldsymbol{\bar{x}}_{i+1})\boldsymbol{A}_{i+1}^T\boldsymbol{\sum}^{-1}(\boldsymbol{d}_{i+1})
+\end{equation}
 
 4. Update: \\
-Gewichtetes Mittel aus Prädiktion und  Innovation\\
-$\hat{x}_{i+1} = \bar{x}_{i+1} + K_{i+1}d_{i+1}$\\
-$\sum(\hat{x}_{i+1}) = [I-K_{i+1}A_{i+1}]\sum(\bar{x}_{i+1})$
+Gewichtetes Mittel aus Prädiktion und  Innovation
+\begin{equation}
+\boldsymbol{\hat{x}}_{i+1} = \boldsymbol{\bar{x}}_{i+1} + \boldsymbol{K}_{i+1}\boldsymbol{d}_{i+1}
+\end{equation}
+\begin{equation}
+\boldsymbol{\sum}(\boldsymbol{\hat{x}}_{i+1}) = [\boldsymbol{I}-\boldsymbol{K}_{i+1}\boldsymbol{A}_{i+1}]\boldsymbol{\sum}(\boldsymbol{\bar{x}}_{i+1})
+\end{equation}
 
 Geschichte des Kalman-Filters:\\
 Erdunfen von Rudolf E. Kalman (Transcations of the ASME-Journal of Basic Engineering, 82 (Series D): 35-45.Copyright \copy 1960 by ASME)
@@ -53,26 +85,28 @@ Dynamisches Modell: Trajektorie der Mondrakete
 Beobachtungen: Space sextant, inertial navigator (Weltraumsextant, Trägheitsnavigator)
 
 \subsubsection{Extended Kalmanfilter (nicht- lineares Modell)}
-Weder Bewegungsmodell noch das Beobachtungsmodell ist linear, deshalb wird das extended Kalman Filter gebraucht.\\
-$x_{i+1} = f^{i+1}_i (x_i, w_i)$\\
-$l_{i+1} = a_{i+1}(x_{i+1}) + e_{i+1}$\\
+Weder Bewegungsmodell noch das Beobachtungsmodell ist linear, deshalb wird das extended Kalman Filter gebraucht.
 
+Neues Bewegungsmodell:
+\begin{equation}
+\boldsymbol{x}_{i+1} = \boldsymbol{f}^{i+1}_i(\boldsymbol{x}_i, \boldsymbol{w}_i)
+\end{equation}
+\begin{equation}
+\boldsymbol{l}_{i+1} = \boldsymbol{a}_{i+1}(\boldsymbol{x}_{i+1}) + \boldsymbol{e}_{i+1}
+\end{equation}
 Bei nicht-linearen Zusammenhängen werden die Matrizen A, T und C durch Linearisierung (partielle Ableitungen) der nicht-linearen Funktionen f und a bestimmt:
 
 \begin{equation}
-\boldsymbol{T} = \frac{\partial f(x,w)}{\partial x}
+\boldsymbol{T}_i = \frac{\partial \boldsymbol{f}_i^{i+1}(\boldsymbol{x}_i,\boldsymbol{w}_i)}{\partial \boldsymbol{x}_i} \bigg|_{x_i = \hat{x}_i}
 \end{equation}
 
 \begin{equation}
-\boldsymbol{C} = \frac{\partial f(x,w)}{\partial w}
+\boldsymbol{C}_i = \frac{\partial \boldsymbol{f}_i^{i+1}(\boldsymbol{x}_i,\boldsymbol{w}_i)}{\partial \boldsymbol{w}_i} \bigg|_{w_i}
 \end{equation}
 
 \begin{equation}
-\boldsymbol {A }= \frac{\partial a(x)}{\partial x}
+\boldsymbol{A}_{i+1}= \frac{\partial \boldsymbol{a}_{i+1}(\boldsymbol{x}_{i+1})}{\partial \boldsymbol{x}_{i+1}} \bigg|_{x_{i+1} = \bar{x}_{i+1}}
 \end{equation}
-
-Input: \\
-$x_{i+1} = f^{i+1}_i (x_i, w_i)$\\
 
 \subsubsection{Weitere Quellen:}
 https://www.cbcity.de/das-kalman-filter-einfach-erklaert-teil-2
@@ -88,24 +122,24 @@ Weighted Least-Square basiert auf der Grundlage der Methode der kleinsten Quadra
 \boldsymbol{l}+\boldsymbol{v} = \boldsymbol{A}\boldsymbol{x} \textrm{ mit } \boldsymbol{\sum(l)} = \sigma_0^2\boldsymbol{P}^{-1}
 \end{equation}
 
-Wobei die linke Gleichung das funktionale Modell repräsentiert, in dem der funktionale Zusammenhang zwischen Beobachtungen und Unbekannten steckt. Die rechte Gleichung nennt sich auch das stochastische Modell und dient der Beschreibung der Messunsicherheit bzw. zur Einführung von Gewichten für die Beobachtungen. Dafür wird die Gewichtsmatrix $\boldsymbol{P}$ eingeführt. 
+Wobei die linke Gleichung das funktionale Modell repräsentiert, in dem der funktionale Zusammenhang zwischen Beobachtungen und Unbekannten steckt. Die rechte Gleichung nennt sich auch das stochastische Modell und dient der Beschreibung der Messunsicherheit bzw. zur Einführung von Gewichten für die Beobachtungen. Dafür wird die Gewichtsmatrix $\boldsymbol{P}$ eingeführt.
 
 Schätzung der unbekannten Parameter:
 \begin{equation}
 	\hat{\boldsymbol{x}} = \left(\boldsymbol{A}^T\boldsymbol{P}\boldsymbol{A}\right)^{-1}\boldsymbol{A}^T\boldsymbol{P}\boldsymbol{l}
 \end{equation}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.7\linewidth]{source/images/GMM}
-	\caption{}
-	\label{fig:gmm}
-\end{figure}
+\section{Implementation}
+\textcolor{red}{Detaillierte Ausführung der Arbeitsschritte einschließlich der Ergebnisse bei verschiedenen Implementierungsparametern.}
 
-\section{Ergebnisse}
+\subsection{Weighted-Least-Square}
+Für jeden Durchgang eine weitere Schleife: 5G faken, indem delta x und delta y auf Koordiaten addieren, welche die PDR Werte , solange bis zur nächsten 5G Koordniate. 
 
-\section{Herausforderungen}
+Genauigkeit: \\
+s1 (absolut, 5G): 3
+s2 (relativ, PDR): 0.2 
 
 \section{Fazit und Ausblick}
+\textcolor{red}{Eine Erörterung (oder "Bewertung") der Ergebnisse, Zusammenfassung und zukünftige Forschungsperspektiven}
 
 %\bibliography
