@@ -137,15 +137,23 @@ Schätzung der unbekannten Parameter:
 Informationen über Datensatz, Ground Truth, Implementation in Python
 
 \subsection{Diskreter Kalman-Filter}
-Im ersten Schritt des Kalman Filters der Prädiktion wird eine Voraussage getroffen. Dies geschieht anhand des vorangegangenen Punktes sowie den folgenden $\Delta x$ bzw. $\Delta y$ Werten. Die Delta Werte wurden bereits im Vorlauf aus den PDR Werten berechnet. Die Umrechnung erfolgte durch folgende Formeln:
+Im ersten Schritt des Kalman Filters der Prädiktion wird eine Voraussage getroffen. Dies geschieht anhand des Bewegungsmodells:
+\begin{equation}
+\begin{spmatrix}{}
+x_{i}+\Delta x_{i}\\
+y_{i}+\Delta y_{i}\\
+\Delta x_{i}\\
+\Delta y_{i}\\
+\end{spmatrix}
+\end{equation}
+In diesem wird auf den vorangegangenen Punkt die folgenden  $\Delta x$ bzw. $\Delta y$ Werten aufaddiert. Die $\Delta$-Werte wurden bereits im Vorlauf aus den PDR Werten berechnet. Die Umrechnung erfolgte durch folgende Formeln:
 \begin{equation}
 	\Delta x = L\cdot\cos(\Phi_0 + R)
 \end{equation}
 \begin{equation}
 	\Delta y = L\cdot\sin(\Phi_0 + R)
 \end{equation}
-wobei $L$ für die Schrittlänge und $R$ für die Schrittrichtung gilt. $\Phi_0$ ist dabei die Startrichtung, welche für diesen Datensatz auf 3.5 [radiant] festgelegt worden ist. Die Delta Werte werden solange addiert, bis der Zeitpunkt erreicht worden ist, an dem eine neue 5G Beobachtung vorliegt. Neben der Voraussage x wird auch die dazu gehörige Kovarianzmatrix mit folgender Formel berechnet....
-
+wobei $L$ für die Schrittlänge und $R$ für die Schrittrichtung gilt. $\Phi_0$ ist dabei die Startrichtung, welche für diesen Datensatz auf 3.5 [radiant] festgelegt worden ist. Im Kalman Filter funktioniert das aufaddieren mittels einer Transitionsmatrix $\textbf{T}$, welche die partiellen Ableitungen des Bewegungsmodell nach den geschätzten Parametern beinhaltet. In diesem Fall sind diese partiellen Ableitungen allerdings alle trivial und sind entweder 0 oder 1.  So ergibt sich folgende Formel zur Berechnung der Prädiktion $\bar{\boldsymbol{x}}_{i+1}$.
 
 \begin{equation}
 \bar{\boldsymbol{x}}_{i+1} = 
@@ -171,16 +179,8 @@ wobei $L$ für die Schrittlänge und $R$ für die Schrittrichtung gilt. $\Phi_0$ is
 \end{spmatrix}
 \end{equation}
 
+Dieser Prädiktionsschritt wird so lange durchgeführt, bis der Zeitpunkt erreicht worden ist, an dem eine neue 5G Beobachtung vorliegt. Neben der Voraussage x wird auch die dazu gehörige Kovarianzmatrix mit folgender Formel berechnet....
 Bewegungsmodell sieht wie folgt aus:
-\begin{equation}
-	\begin{bmatrix}
-		x_{i}+\Delta x_{i}\\
-		y_{i}+\Delta y_{i}\\
-		\Delta x_{i}\\
-		\Delta y_{i}\\
-	\end{bmatrix}
-\end{equation}
-Wenn man dieses Bewegungsmodell nach den geschätzten Parametern ableitet erhält man die partiellen Ableitungen, die in der Transitionsmatrix stehen. 
 
 \subsection{Extended Kalman-Filter}
 \subsection{Weighted-Least-Square}
