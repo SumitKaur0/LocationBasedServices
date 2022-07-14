@@ -31,6 +31,9 @@
 \usepackage[ngerman,english]{babel}
 \usepackage{multirow}
 \usepackage{amsmath}
+\newenvironment{spmatrix}[1]
+{\def\mysubscript{#1}\mathop\bgroup\begin{pmatrix}}
+	{\end{pmatrix}\egroup_{\textstyle\mathstrut\mysubscript}}
 \usepackage{amssymb}
 \usepackage[pdftex]{graphicx}
 \usepackage{chngcntr}
