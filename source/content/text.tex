@@ -20,7 +20,7 @@ Der Filter ist nach Rudolf E. Kálmán (19. Mai 1930 - 2. Juli 2016) benannt wurde
 
 Bei dem Kalman Filter unterscheidet man zwei Arten von Filter: der statische und der dynamische Kalman Filter. Diese Arbeit wird sich mit dem dynamischen Kalman Filter auseinander setzen. Dieser setzt sich aus einem Beobachtungsmodell und einem Bewegungsmodell zusammen. Bei dem Beobachtungsmodell handelt es sich um Beobachtungen und ihre Unsicherheiten. Bei dem Bewegungsmodell wird auch von einer Prädiktion (dynamisches Modell) und ihren Unsicherheiten gesprochen. Aus ihr erfolgt dann die Schätzung des Zustandes. Wenn sowohl Beobachtungsmodell als auch Bewegungsmodell linear sind wird der diskrete Kalman Filter verwendet. Wenn beide Modelle nicht-linear sind findet der Extended Kalman Filter Anwednung. 
 
-\subsubsection{Diskreter Kalman-Filter (lineares Modell)}
+\subsubsection{Diskreter Kalman-Filter (lineares Modell)}\label{subsub_diskret}
 Bei dem diskreten Kalman-Filter ist die Idee die Beobachtungen zu bestimmten (diskreten) Zeitpunkten mit einem Bewegungsmodell zu kombinieren. Das Bewegungsmodell prädiziert dann den Zustandsvektor ausgehend von der Schätzung des vorherigen Schrittes. Generell werden vier Schritte benötigt: die Prädiktion, die Innovation, die Kalman-Gain-Matrix und das Update. 
 
 Das generelle Beobachtungsmodell sieht wie folgt aus:
@@ -45,7 +45,7 @@ In der Prädiktion wird der aktuelle Schritt mit den Daten des vorherigen Schritt
 \boldsymbol{\bar{x}}_{i+1} = \boldsymbol{T}_i +\boldsymbol{\hat{x}}_{i}\\
 \end{equation}
 \begin{equation}
-\boldsymbol{\sum}(\boldsymbol{\bar{x}}_{i+1}) = \boldsymbol{T}_i\boldsymbol{\sum}(\boldsymbol{\hat{x}}_{i})\boldsymbol{T}_i^T + \boldsymbol{C}_i\boldsymbol{\sum}(\boldsymbol{w}_{i})\boldsymbol{C}_i^T\\
+\boldsymbol{\Sigma}(\boldsymbol{\bar{x}}_{i+1}) = \boldsymbol{T}_i\boldsymbol{\Sigma}(\boldsymbol{\hat{x}}_{i})\boldsymbol{T}_i^T + \boldsymbol{C}_i\boldsymbol{\Sigma}(\boldsymbol{w}_{i})\boldsymbol{C}_i^T\\
 \end{equation}
 2. Innovation:
 Welche Trajektorie des Fahrzeugs sagt das Bewegungsmodell voraus? Was behaupten die Beobachtungen? Wie sehr weichen die Beobachtungen von der Prädiktion ab? => Innovation
@@ -57,7 +57,7 @@ $X_{5G}$ und $Y_{5G}$, $\Delta x_i$ und $\Delta y_i$ = Differnez zwischen der au
 \boldsymbol{d}_{i+1} = \boldsymbol{l}_{i+1} - \boldsymbol{A}_{i+1}\boldsymbol{\bar{x}}_{i+1}
 \end{equation}
 \begin{equation}
-\boldsymbol{\sum}(\boldsymbol{d}_{i+1}) = \boldsymbol{\sum}(\boldsymbol{l}_{i+1}) + \boldsymbol{A}_{i+1}\boldsymbol{\sum}(\boldsymbol{\bar{x}}_{i+1})\boldsymbol{A}_{i+1}^T
+\boldsymbol{\Sigma}(\boldsymbol{d}_{i+1}) = \boldsymbol{\Sigma}(\boldsymbol{l}_{i+1}) + \boldsymbol{A}_{i+1}\boldsymbol{\Sigma}(\boldsymbol{\bar{x}}_{i+1})\boldsymbol{A}_{i+1}^T
 \end{equation}
 
 Dann folgt die Berechnung der Kalman Gain Matrix, die in dem Update die Innovation gewichtet. Die zugehörige Kov.matrix des Updates wird auch wieder mit dem VFG berechnet.
@@ -67,7 +67,7 @@ Relative Gewichtung von Prädiktion und Beobachtungen anhand der jeweiligen Genau
 
 Kalman Gain Matrix setzt sich aus den Kov.Matrizen der prädiktion und der innovation zusammen. Je genauer die Kov mtarix der innovation ist desto mehr gewicht erhalten die 
 \begin{equation}
-\boldsymbol{K}_{i+1} = \boldsymbol{\sum}(\boldsymbol{\bar{x}}_{i+1})\boldsymbol{A}_{i+1}^T\boldsymbol{\sum}^{-1}(\boldsymbol{d}_{i+1})
+\boldsymbol{K}_{i+1} = \boldsymbol{\Sigma}(\boldsymbol{\bar{x}}_{i+1})\boldsymbol{A}_{i+1}^T\boldsymbol{\Sigma}^{-1}(\boldsymbol{d}_{i+1})
 \end{equation}
 4. Update: \\
 Gewichtetes Mittel aus Prädiktion und  Innovation
@@ -75,7 +75,7 @@ Gewichtetes Mittel aus Prädiktion und  Innovation
 \boldsymbol{\hat{x}}_{i+1} = \boldsymbol{\bar{x}}_{i+1} + \boldsymbol{K}_{i+1}\boldsymbol{d}_{i+1}
 \end{equation}
 \begin{equation}
-\boldsymbol{\sum}(\boldsymbol{\hat{x}}_{i+1}) = [\boldsymbol{I}-\boldsymbol{K}_{i+1}\boldsymbol{A}_{i+1}]\boldsymbol{\sum}(\boldsymbol{\bar{x}}_{i+1})
+\boldsymbol{\Sigma}(\boldsymbol{\hat{x}}_{i+1}) = [\boldsymbol{I}-\boldsymbol{K}_{i+1}\boldsymbol{A}_{i+1}]\boldsymbol{\Sigma}(\boldsymbol{\bar{x}}_{i+1})
 \end{equation}
 
 Geschichte des Kalman-Filters:\\
@@ -117,11 +117,11 @@ https://www.cbcity.de/das-kalman-filter-einfach-erklaert-teil-2
 Weighted Least-Square basiert auf der Grundlage der Methode der kleinsten Quadrate. Dabei werden die Parameter so gewählt, dass die Quadratsumme der Verbesserungen möglichst klein ist. 
 
 \begin{equation}
- \left| \boldsymbol{v} \right|^2 = \sum_{i=1}^{n}v_i^2 	\rightarrow min 
+ \left| \boldsymbol{v} \right|^2 = \Sigma_{i=1}^{n}v_i^2 	\rightarrow min 
 \end{equation}
 
 \begin{equation}
-\boldsymbol{l}+\boldsymbol{v} = \boldsymbol{A}\boldsymbol{x} \textrm{ mit } \boldsymbol{\sum(l)} = \sigma_0^2\boldsymbol{P}^{-1}
+\boldsymbol{l}+\boldsymbol{v} = \boldsymbol{A}\boldsymbol{x} \textrm{ mit } \boldsymbol{\Sigma(l)} = \sigma_0^2\boldsymbol{P}^{-1}
 \end{equation}
 
 Wobei die linke Gleichung das funktionale Modell repräsentiert, in dem der funktionale Zusammenhang zwischen Beobachtungen und Unbekannten steckt. Die rechte Gleichung nennt sich auch das stochastische Modell und dient der Beschreibung der Messunsicherheit bzw. zur Einführung von Gewichten für die Beobachtungen. Dafür wird die Gewichtsmatrix $\boldsymbol{P}$ eingeführt.
@@ -146,14 +146,14 @@ y_{i}+\Delta y_{i}\\
 \Delta y_{i}\\
 \end{spmatrix}
 \end{equation}
-In diesem wird auf den vorangegangenen Punkt die folgenden  $\Delta x$ bzw. $\Delta y$ Werten aufaddiert. Die $\Delta$-Werte wurden bereits im Vorlauf aus den PDR Werten berechnet. Die Umrechnung erfolgte durch folgende Formeln:
+In diesem wird auf den vorangegangenen Punkt die folgenden  $\Delta x_i$ bzw. $\Delta y_i$ Werten aufaddiert. Die $\Delta$-Werte wurden bereits im Vorlauf aus den PDR Werten berechnet. Die Umrechnung erfolgte durch folgende Formeln:
 \begin{equation}
-	\Delta x = L\cdot\cos(\Phi_0 + R)
+	\Delta x_i = L_i\cdot\cos(\Phi_0 + R_i)
 \end{equation}
 \begin{equation}
-	\Delta y = L\cdot\sin(\Phi_0 + R)
+	\Delta y_i = L_i\cdot\sin(\Phi_0 + R_i)
 \end{equation}
-wobei $L$ für die Schrittlänge und $R$ für die Schrittrichtung gilt. $\Phi_0$ ist dabei die Startrichtung, welche für diesen Datensatz auf 3.5 [radiant] festgelegt worden ist. Im Kalman Filter funktioniert das aufaddieren mittels einer Transitionsmatrix $\textbf{T}$, welche die partiellen Ableitungen des Bewegungsmodell nach den geschätzten Parametern beinhaltet. In diesem Fall sind diese partiellen Ableitungen allerdings alle trivial und sind entweder 0 oder 1.  So ergibt sich folgende Formel zur Berechnung der Prädiktion $\bar{\boldsymbol{x}}_{i+1}$.
+wobei $L$ für die Schrittlänge und $R$ für die Schrittrichtung gilt. $\Phi_0$ ist dabei die Startrichtung, welche für diesen Datensatz auf 3.5 [radiant] festgelegt worden ist. Im Kalman Filter funktioniert das aufaddieren mittels einer Transitionsmatrix $\boldsymbol{T}$, welche die partiellen Ableitungen des Bewegungsmodell nach den geschätzten Parametern beinhaltet. In diesem Fall sind diese partiellen Ableitungen allerdings alle trivial und sind entweder 0 oder 1.  So ergibt sich folgende Formel zur Berechnung der Prädiktion $\bar{\boldsymbol{x}}_{i+1}$.
 
 \begin{equation}
 \bar{\boldsymbol{x}}_{i+1} = 
@@ -179,8 +179,53 @@ wobei $L$ für die Schrittlänge und $R$ für die Schrittrichtung gilt. $\Phi_0$ is
 \end{spmatrix}
 \end{equation}
 
-Dieser Prädiktionsschritt wird so lange durchgeführt, bis der Zeitpunkt erreicht worden ist, an dem eine neue 5G Beobachtung vorliegt. Neben der Voraussage x wird auch die dazu gehörige Kovarianzmatrix mit folgender Formel berechnet....
-Bewegungsmodell sieht wie folgt aus:
+Dieser Prädiktionsschritt wird so lange durchgeführt, bis der Zeitpunkt erreicht worden ist, an dem eine neue 5G Beobachtung vorliegt. Neben der Voraussage $\bar{\boldsymbol{x}}_{i+1}$ wird auch die dazu gehörige Kovarianzmatrix aufgestellt:
+\begin{equation}
+\boldsymbol{\Sigma}(\boldsymbol{\bar{x}}_{i+1}) =
+\begin{spmatrix}{}
+	\sigma_{x_i}^2 & 0 & 0 & 0\\
+	0 & \sigma_{y_i}^2 & 0 & 0\\
+	0 & 0 & \sigma_{\Delta x_i}^2 & 0\\
+	0 & 0 & 0 & \sigma_{\Delta y_i}^2\\
+\end{spmatrix}
+\end{equation}
+
+Im zweiten Schritt, der Innovation, wird die Differenz $\boldsymbol{d}_{i+1}$ aus den Beobachtungen und der Prädiktion berechnet, da beide identisch aufgebaut sind, muss die Prädiktion nicht umgerechnet werden, aus diesem Grund ist die $A$ Matrix eine Einheitsmatrix, welche also folglich keinen Einfluss hat.
+\begin{equation}
+	{\boldsymbol{d}}_{i+1} = 
+		\begin{spmatrix}{\boldsymbol{l}_i}
+		X_{5G}\\
+		Y_{5G}\\
+		\Delta x_i\\
+		\Delta y_i\\
+	\end{spmatrix}
+	-
+	\begin{spmatrix}{\boldsymbol{A}_{i+1}}
+		1 & 0 & 0 & 0\\
+		0 & 1 & 0 & 0\\
+		0 & 0 & 1 & 0\\
+		0 & 0 & 0 & 1\\
+	\end{spmatrix}
+	\cdot
+	\begin{spmatrix}{\bar{\boldsymbol{x}}_{i+1}}
+		x_{i+1}\\
+		y_{i+1}\\
+		\Delta x_{i+1}\\
+		\Delta y_{i+1}\\
+	\end{spmatrix}
+\end{equation}
+Die zugehörige Kovarianzmatrix der Beobachtungen wird wie folgt aufgestellt:
+\begin{equation}
+	\boldsymbol{\Sigma}(\boldsymbol{l}_{i+1}) =
+	\begin{spmatrix}{}
+		\sigma_{X_{5G}}^2 & 0 & 0 & 0\\
+		0 & \sigma_{Y_{5G}}^2 & 0 & 0\\
+		0 & 0 & \sigma_{\Delta x_i}^2 & 0\\
+		0 & 0 & 0 & \sigma_{\Delta y_i}^2\\
+	\end{spmatrix}
+\end{equation}
+
+Die Ergebnisse der Zwischenschritte werden dann in die Formeln, die bereits im Kapitel \ref{subsub_diskret} (3. Gain-Matrix und 4. Update) aufgelistet sind eingesetzt, um am Ende ein Update zu erhalten. Dieses Update wird dann im nächsten Schritt das neue $\hat{x}_i$.
 
 \subsection{Extended Kalman-Filter}
 \subsection{Weighted-Least-Square}
