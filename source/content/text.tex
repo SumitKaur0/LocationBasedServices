@@ -191,7 +191,6 @@ Dieser Prädiktionsschritt wird so lange durchgeführt, bis der Zeitpunkt erreicht
 \end{equation}
 
 Im zweiten Schritt, der Innovation, wird die Differenz $\boldsymbol{d}_{i+1}$ aus den Beobachtungen und der Prädiktion berechnet, da beide identisch aufgebaut sind, muss die Prädiktion nicht umgerechnet werden, aus diesem Grund ist die $A$ Matrix eine Einheitsmatrix, welche also folglich keinen Einfluss hat.
-
 \begin{equation}
 	{\boldsymbol{d}}_{i+1} = 
 		\begin{spmatrix}{\boldsymbol{l}_i}
@@ -215,9 +214,7 @@ Im zweiten Schritt, der Innovation, wird die Differenz $\boldsymbol{d}_{i+1}$ au
 		\Delta y_{i+1}\\
 	\end{spmatrix}
 \end{equation}
-
 Die zugehörige Kovarianzmatrix der Beobachtungen wird wie folgt aufgestellt:
-
 \begin{equation}
 	\boldsymbol{\Sigma}(\boldsymbol{l}_{i+1}) =
 	\begin{spmatrix}{}
@@ -233,16 +230,17 @@ Die Ergebnisse der Zwischenschritte werden dann in die Formeln, die bereits im K
 \subsection{Extended Kalman-Filter}
 \subsection{Weighted-Least-Square}
 
-Für die Implementation der Weighted-Least-Square Methode werden in einem ersten Schritt die 5G Beobachtungen mit Hilfe der PDR Beobachtungen interpoliert ($x_i$,$y_i$ siehe Formel \ref{x_i} und \ref{y_i}), indem aus der Schrittlänge $L$ und der Schrittrichtung $R$, $\Delta x$ und $\Delta y$ berechnet werden und diese auf die 5G Koordinaten aufaddiert werden. Für die Schrittrichtung ist die Nordrichtung $\Phi_0$ essentiell, welche für den Beispieldatensatz bei 3.5 rad liegt.
+Für die Implentation der Weighted-Least-Square Methode werden in einem ersten Schritt die 5G Beobachtungen anhand der PDR Beobachtungen Interpoliert ($x_i, y_i$), indem aus der Schrittlänge L und der Schrittrichtung R, Delta x und Delta y berechnet werden und diese auf die 5G Koordinaten aufaddiert werden. Für die Schrittrichtung ist die Nordrichtung $\Phi_0$ essentiell, welche für den Beispiel Datensatz ei 3.5 rad liegt.
 
-\begin{equation}\label{x_i}
+\begin{equation}
 x_i = x_i-1 + L_i \cdot \cos(\Phi_0 + R_i)
 \end{equation}
 \begin{equation}
 y_i = y_i-1 + L_i \cdot \sin(\Phi_0 + R_i)
-\end{equation}\label{y_i}
+\end{equation}
 
-Als Ergebnis liegt nun für jede PDR Beobachtung ebenfalls eine 5G Beobachtung bzw. eine Interpolierte 5G Beobachtung vor. Dies ist die Voraussetzung für das Anwenden der Least-Square-Methode. 
+Als Ergebnis liegt nun für jede PDR Beobactung ebenfalls eine 5G Beobachtung bzw. eine Interpolierte 5G Beobachtung vor. Dies ist die Vorraussetzung für das Anwenden der Least-Square-Methode. 
+
 
 Für jeden Durchgang eine weitere Schleife: 5G faken, indem delta x und delta y auf Koordiaten addieren, welche die PDR Werte , solange bis zur nächsten 5G Koordniate. 
 
