@@ -229,6 +229,19 @@ Die Ergebnisse der Zwischenschritte werden dann in die Formeln, die bereits im K
 
 \subsection{Extended Kalman-Filter}
 \subsection{Weighted-Least-Square}
+
+Für die Implentation der Weighted-Least-Square Methode werden in einem ersten Schritt die 5G Beobachtungen anhand der PDR Beobachtungen Interpoliert ($x_i, y_i$), indem aus der Schrittlänge L und der Schrittrichtung R, Delta x und Delta y berechnet werden und diese auf die 5G Koordinaten aufaddiert werden. Für die Schrittrichtung ist die Nordrichtung $\Phi_0$ essentiell, welche für den Beispiel Datensatz ei 3.5 rad liegt.
+
+\begin{equation}
+x_i = x_i-1 + L_i \cdot \cos(\Phi_0 + R_i)
+\end{equation}
+\begin{equation}
+y_i = y_i-1 + L_i \cdot \sin(\Phi_0 + R_i)
+\end{equation}
+
+Als Ergebnis liegt nun für jede PDR Beobactung ebenfalls eine 5G Beobachtung bzw. eine Interpolierte 5G Beobachtung vor. Dies ist die Vorraussetzung für das Anwenden der Least-Square-Methode. 
+
+
 Für jeden Durchgang eine weitere Schleife: 5G faken, indem delta x und delta y auf Koordiaten addieren, welche die PDR Werte , solange bis zur nächsten 5G Koordniate. 
 
 Genauigkeit: \\
