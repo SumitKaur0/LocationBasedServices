@@ -127,7 +127,8 @@ Weighted Least-Square basiert auf der Grundlage der Methode der kleinsten Quadra
 Wobei die linke Gleichung das funktionale Modell repräsentiert, in dem der funktionale Zusammenhang zwischen Beobachtungen und Unbekannten steckt. Die rechte Gleichung nennt sich auch das stochastische Modell und dient der Beschreibung der Messunsicherheit bzw. zur Einführung von Gewichten für die Beobachtungen. Dafür wird die Gewichtsmatrix $\boldsymbol{P}$ eingeführt.
 
 Schätzung der unbekannten Parameter:
-\begin{equation}
+
+\begin{equation}\label{LS}
 	\hat{\boldsymbol{x}} = \left(\boldsymbol{A}^T\boldsymbol{P}\boldsymbol{A}\right)^{-1}\boldsymbol{A}^T\boldsymbol{P}\boldsymbol{l}
 \end{equation}
 
@@ -215,6 +216,7 @@ Im zweiten Schritt, der Innovation, wird die Differenz $\boldsymbol{d}_{i+1}$ au
 	\end{spmatrix}
 \end{equation}
 Die zugehörige Kovarianzmatrix der Beobachtungen wird wie folgt aufgestellt:
+
 \begin{equation}
 	\boldsymbol{\Sigma}(\boldsymbol{l}_{i+1}) =
 	\begin{spmatrix}{}
@@ -228,22 +230,18 @@ Die zugehörige Kovarianzmatrix der Beobachtungen wird wie folgt aufgestellt:
 Die Ergebnisse der Zwischenschritte werden dann in die Formeln, die bereits im Kapitel \ref{subsub_diskret} (3. Gain-Matrix und 4. Update) aufgelistet sind eingesetzt, um am Ende ein Update zu erhalten. Dieses Update wird dann im nächsten Schritt das neue $\hat{x}_i$.
 
 \subsection{Extended Kalman-Filter}
-\subsection{Weighted-Least-Square}
 
+\subsection{Weighted-Least-Square}
 Für die Implentation der Weighted-Least-Square Methode werden in einem ersten Schritt die 5G Beobachtungen anhand der PDR Beobachtungen Interpoliert ($x_i, y_i$), indem aus der Schrittlänge L und der Schrittrichtung R, Delta x und Delta y berechnet werden und diese auf die 5G Koordinaten aufaddiert werden. Für die Schrittrichtung ist die Nordrichtung $\Phi_0$ essentiell, welche für den Beispiel Datensatz ei 3.5 rad liegt.
 
 \begin{equation}
-x_i = x_i-1 + L_i \cdot \cos(\Phi_0 + R_i)
+x_{i+1} = x_i + L_i \cdot \cos(\Phi_0 + R_i)
 \end{equation}
 \begin{equation}
-y_i = y_i-1 + L_i \cdot \sin(\Phi_0 + R_i)
+y_{i+1} = y_i + L_i \cdot \sin(\Phi_0 + R_i)
 \end{equation}
 
-Als Ergebnis liegt nun für jede PDR Beobactung ebenfalls eine 5G Beobachtung bzw. eine Interpolierte 5G Beobachtung vor. Dies ist die Vorraussetzung für das Anwenden der Least-Square-Methode. 
-
-
-Für jeden Durchgang eine weitere Schleife: 5G faken, indem delta x und delta y auf Koordiaten addieren, welche die PDR Werte , solange bis zur nächsten 5G Koordniate. 
-
+Dieses Interpolieren wird so häufig durchgeführt, bis eine neue 5G Beobachtung vorliegt. Als Ergebnis liegt nun für jede PDR Beobachtung eine 5G Beobachtung bzw. eine Interpolierte 5G Beobachtung vor. Dies ist die Voraussetzung für das Anwenden der Least-Square-Methode. Anschließend können die Daten in die Schätzung der unbekannten Parameter eingehen (siehe Formel \ref{LS}). In der Gewichtsmatrix $P$ findet die Gewichtung der Beobachtungen statt, wobei absolute (5G Koordinaten) und relative Beobachtungen (PDR Werte) unterschiedliche Standardabweichungen und somit Gewichte erhalten. So wird gesteuert, welche Beobachtungen mehr Einfluss bei dem Ausgleich haben sollen und bei welchen die quadratische Verbesserung höher sein darf. Die Ausgleichung findet bei jedem dazukommenden 5G Punkt neu statt. 
 Genauigkeit: \\
 s1 (absolut, 5G): 3
 s2 (relativ, PDR): 0.2 
