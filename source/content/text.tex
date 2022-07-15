@@ -120,7 +120,7 @@ Weighted Least-Square basiert auf der Grundlage der Methode der kleinsten Quadra
  \left| \boldsymbol{v} \right|^2 = \Sigma_{i=1}^{n}v_i^2 	\rightarrow min 
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{LS}
 \boldsymbol{l}+\boldsymbol{v} = \boldsymbol{A}\boldsymbol{x} \textrm{ mit } \boldsymbol{\Sigma(l)} = \sigma_0^2\boldsymbol{P}^{-1}
 \end{equation}
 
@@ -233,16 +233,15 @@ Die Ergebnisse der Zwischenschritte werden dann in die Formeln, die bereits im K
 Für die Implentation der Weighted-Least-Square Methode werden in einem ersten Schritt die 5G Beobachtungen anhand der PDR Beobachtungen Interpoliert ($x_i, y_i$), indem aus der Schrittlänge L und der Schrittrichtung R, Delta x und Delta y berechnet werden und diese auf die 5G Koordinaten aufaddiert werden. Für die Schrittrichtung ist die Nordrichtung $\Phi_0$ essentiell, welche für den Beispiel Datensatz ei 3.5 rad liegt.
 
 \begin{equation}
-x_i = x_i-1 + L_i \cdot \cos(\Phi_0 + R_i)
+x_{i+1} = x_{i} + L_i \cdot \cos(\Phi_0 + R_i)
 \end{equation}
 \begin{equation}
-y_i = y_i-1 + L_i \cdot \sin(\Phi_0 + R_i)
+y_{i+1} = y_{i} + L_i \cdot \sin(\Phi_0 + R_i)
 \end{equation}
 
-Als Ergebnis liegt nun für jede PDR Beobactung ebenfalls eine 5G Beobachtung bzw. eine Interpolierte 5G Beobachtung vor. Dies ist die Vorraussetzung für das Anwenden der Least-Square-Methode. 
+Dieses Interpolieren wird so häufig durchgeführt, bis eine neue 5G Beobachtung vorliegt. Als Ergebnis liegt nun für jede PDR Beobachtung eine 5G Beobachtung bzw. eine Interpolierte 5G Beobachtung vor. Dies ist die Vorraussetzung für das Anwenden der Least-Square-Methode. Anschließend können die Daten in die Schätzung der unbekannten Parameter eingehen \ref{LS}. In der Gewichtsmatrix P findet die Gewichtung der Beobachtungen statt, wobei absolute (5G Koordinaten) und relative Beobachtungen (PDR Werte) unterschiedliche Standardabweichungen und somit Gewichte erhalten. So wird gesteuert, bei welchen Beobachtungen die quadratische Verbesserung höher sein darf als bei anderen Beobachtungen. Die Ausgleichung findet bei jedem dazukommenden 5G Punkt neu statt. 
 
 
-Für jeden Durchgang eine weitere Schleife: 5G faken, indem delta x und delta y auf Koordiaten addieren, welche die PDR Werte , solange bis zur nächsten 5G Koordniate. 
 
 Genauigkeit: \\
 s1 (absolut, 5G): 3
