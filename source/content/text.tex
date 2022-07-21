@@ -256,6 +256,19 @@ y_{i+1} = y_i + L_i \cdot \sin(\Phi_0 + R_i)
 Dieses Interpolieren wird so häufig durchgeführt, bis eine neue 5G Beobachtung vorliegt. Als Ergebnis liegt nun für jede PDR Beobachtung eine 5G Beobachtung bzw. eine interpolierte 5G Beobachtung vor. Dies ist die Voraussetzung für das Anwenden der Least-Square-Methode. Anschließend können die Daten in die Schätzung der unbekannten Parameter eingehen (siehe Formel \ref{LS}). In der Gewichtsmatrix $P$ findet die Gewichtung der Beobachtungen statt, wobei absolute (5G Koordinaten) und relative Beobachtungen (PDR Werte) unterschiedliche Standardabweichungen und somit Gewichte erhalten. So wird gesteuert, welche Beobachtungen mehr Einfluss bei dem Ausgleich haben sollen und bei welchen die quadratische Verbesserung höher sein darf. Die Ausgleichung findet bei jedem dazukommenden 5G Punkt neu statt. 
 \subsubsection{Ergebnisse}
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{source/images/ls_11}
+	\caption{Least Square, 5G Koordinaten (nfg11) und Ground Truth}
+	\label{fig:ls_11}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{source/images/ls_53}
+	\caption{Least Square, 5G Koordinaten (nfg53) und Ground Truth}
+	\label{fig:ls_53}
+\end{figure}
 
 
 \subsection{Vergleich der Ergebnisse}
