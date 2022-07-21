@@ -63,8 +63,19 @@ In dem 2. Schritt der Innovation wird geschaut wie sehr die eigentlichen Beobach
 \begin{equation}
 \boldsymbol{\Sigma}(\boldsymbol{d}_{i+1}) = \boldsymbol{\Sigma}(\boldsymbol{l}_{i+1}) + \boldsymbol{A}_{i+1}\boldsymbol{\Sigma}(\boldsymbol{\bar{x}}_{i+1})\boldsymbol{A}_{i+1}^T
 \end{equation}
+<<<<<<< Updated upstream
 Dann folgt die Berechnung der Kalman Gain Matrix, welche die relative Gewichtung von Prädiktion und Beobachtungen anhand der jeweiligen Genauigkeiten beinhaltetet. Die zugehörige Kovarianzmatrix des Updates wird auch wieder mit Hilfe des VFGs berechnet.
 \begin{equation}
+=======
+
+Dann folgt die Berechnung der Kalman Gain Matrix, die in dem Update die Innovation gewichtet. Die zugehörige Kov.matrix des Updates wird auch wieder mit dem VFG berechnet.
+
+3. Gain Matrix (K-Matrix):
+Relative Gewichtung von Prädiktion und Beobachtungen anhand der jeweiligen Genauigkeiten
+
+Kalman Gain Matrix setzt sich aus den Kov.Matrizen der prädiktion und der innovation zusammen. Je genauer die Kov mtarix der innovation ist desto mehr gewicht erhalten die 
+\begin{equation}\label{kalman_gain_matrix}
+>>>>>>> Stashed changes
 \boldsymbol{K}_{i+1} = \boldsymbol{\Sigma}(\boldsymbol{\bar{x}}_{i+1})\boldsymbol{A}_{i+1}^T\boldsymbol{\Sigma}^{-1}(\boldsymbol{d}_{i+1})
 \end{equation}
 In dem vierten und letzten Schritt dem Update wird ein gewichtiets Mittel aus der Prädiktion und der Innovation errechnet.
@@ -219,7 +230,12 @@ Die Ergebnisse der Zwischenschritte werden dann in die Formeln, die bereits im K
 \subsection{Extended Kalman-Filter}
 
 \subsection{Weighted-Least-Square}
+<<<<<<< Updated upstream
 Für die Implentation der Weighted-Least-Square Methode werden in einem ersten Schritt die 5G Beobachtungen anhand der PDR Beobachtungen interpoliert ($x_i, y_i$), indem aus der Schrittlänge $L$ und der Schrittrichtung $R$, $\Delta x$ und $\Delta y$ berechnet werden und diese auf die 5G Koordinaten aufaddiert werden. Für die Schrittrichtung ist die Nordrichtung $\Phi_0$ essentiell, welche für den Beispieldatensatz bei 3.5 rad liegt.
+=======
+Für die Implentation der Weighted-Least-Square Methode werden in einem ersten Schritt die 5G Beobachtungen anhand der PDR Beobachtungen Interpoliert ($x_i, y_i$), indem aus der Schrittlänge L und der Schrittrichtung R, Delta x und Delta y berechnet werden und diese auf die 5G Koordinaten aufaddiert werden. Je nachdem wie häufig eine neue 5G Beobachtung vorliegt wird entweder eine 5G Beobachtung für ($x_i, y_i$) herangezogen oder der vorangegangene interpolierte 5G Wert. Für die Schrittrichtung ist die Nordrichtung $\Phi_0$ essentiell, welche für den Beispiel Datensatz bei 3.5 rad liegt.
+
+>>>>>>> Stashed changes
 \begin{equation}
 x_{i+1} = x_i + L_i \cdot \cos(\Phi_0 + R_i)
 \end{equation}
@@ -227,8 +243,38 @@ x_{i+1} = x_i + L_i \cdot \cos(\Phi_0 + R_i)
 y_{i+1} = y_i + L_i \cdot \sin(\Phi_0 + R_i)
 \end{equation}
 
+<<<<<<< Updated upstream
 Dieses Interpolieren wird so häufig durchgeführt, bis eine neue 5G Beobachtung vorliegt. Als Ergebnis liegt nun für jede PDR Beobachtung eine 5G Beobachtung bzw. eine interpolierte 5G Beobachtung vor. Dies ist die Voraussetzung für das Anwenden der Least-Square-Methode. Anschließend können die Daten in die Schätzung der unbekannten Parameter eingehen (siehe Formel \ref{LS}). In der Gewichtsmatrix $P$ findet die Gewichtung der Beobachtungen statt, wobei absolute (5G Koordinaten) und relative Beobachtungen (PDR Werte) unterschiedliche Standardabweichungen und somit Gewichte erhalten. So wird gesteuert, welche Beobachtungen mehr Einfluss bei dem Ausgleich haben sollen und bei welchen die quadratische Verbesserung höher sein darf. Die Ausgleichung findet bei jedem dazukommenden 5G Punkt neu statt. 
 
+=======
+Dieses Interpolieren wird so häufig durchgeführt, bis eine neue 5G Beobachtung vorliegt. Als Ergebnis liegt nun für jede PDR Beobachtung eine 5G Beobachtung bzw. eine Interpolierte 5G Beobachtung vor. Dies ist die Voraussetzung für das Anwenden der Least-Square-Methode. Anschließend können die Daten in die Schätzung der unbekannten Parameter eingehen (siehe Formel \ref{LS}). In der Gewichtsmatrix $P$ findet die Gewichtung der Beobachtungen statt, wobei absolute (5G Koordinaten) und relative Beobachtungen (PDR Werte) unterschiedliche Standardabweichungen und somit Gewichte erhalten. So wird gesteuert, welche Beobachtungen mehr Einfluss bei dem Ausgleich haben sollen und bei welchen die quadratische Verbesserung höher sein darf. Die Ausgleichung findet bei jedem dazukommenden 5G Punkt neu statt. 
+Genauigkeit: \\
+s1 (absolut, 5G): 3
+s2 (relativ, PDR): 0.2 
+\section{Ergebnisse}
+ Das Ergebnis des Kalman Filters lässt sich steuern indem man die Genauigkeiten der 5G Punkte respektive der PDR Beobachtungen anpasst. Mit den Genauigkeiten wird die Kalman-Gain Matrix \ref{kalman_gain_matrix} gebildet welche im 4. Schritt des Kalman Filters dann die Beobachtungen gewichten. Das Ergebnis kann dementsprechend anders aussehen. In Abbildung \ref{fig:kf_11_schlecht} sind zwei Kalman Filter zu sehen, Kalman Filter 1 springt von 5G Koordinate zu 5G Koordinate weil, die Genauigkeit der 5G Koordinaten relativ zu der PDR Genauigkeit wesentlich kleiner ist. Im Kalman Filter 2 wurde dies umgekehrt hier folgt der Kalman Filter fasst ausschließlich den PDR Werten. 
+ \begin{figure}[h!]
+ 	\centering
+ 	\includegraphics[width=1\linewidth]{source/images/kf_11_schlecht}
+ 	\caption{Kalman Filter, 5G Koordinaten und Ground Truth}
+ 	\label{fig:kf_11_schlecht}
+ \end{figure} 
+Beides sind Beispiele für einen schlecht eingestellten Kalman Filter die Genauigkeitswerte sollten so eingestellt werden, dass ein guter Kompromiss zwischen PDR und 5G Koordinaten gefunden wird und beide sich gut ausgleichen. In Abbildung \ref{fig:kf_11} ist ein Beispiel mit einigermaßen gut austarierten Genauigkeitswerten. Das Ergebnis ist eine Trajektorie welche nicht zu sehr auf die teils ungenauen 5G Koordinaten reagiert aber auch nicht auf Dauer von der Ground Truth wegdriftet. 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{source/images/kf_11}
+	\caption{Kalman Filter, 5G Koordinaten und Ground Truth}
+	\label{fig:kf_11}
+\end{figure}
+Abbildung \ref{fig:kf_53} zeigt den gleichen Filter allerdings mit dem 5G Datensatz welcher wesentlich weniger Beobachtungen beinhaltet und ungenauer ist. 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{source/images/kf_53}
+	\caption{Kalman Filter, 5G Koordinaten und Ground Truth}
+	\label{fig:kf_53}
+\end{figure}
+Abbildung \ref{fig:kf_53} zeigt die Trajektorie welche sich durch den normalen Kalman Filter ergibt, sowie die 5G Koordinaten und die Ground Truth.
+>>>>>>> Stashed changes
 \subsection{Vergleich der Ergebnisse}
 
 \section{Fazit und Ausblick}
