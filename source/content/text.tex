@@ -1,5 +1,5 @@
 \section{Einleitung}
-Vorallem in unübersichtlichen und unbekannten Gebäuden kann die Verwendung von Indoor Navigation nützlich sein, um die Positionen von Menschen oder Objekten zu verfolgen. Das Problem bei der Navigation im Gebäude ist der schlechte bis fehlende GNSS-Empfang. Weshalb das sonst übliche Verfahren, mittels Satellitennavigation im Gebäude meistens keine zufriedenstellende Positionslösung bietet und somit meistens keine zuverlässige Möglichkeit bei der Indoor Navigation darstellt. Da Inertiales Navigationssysteme (INS) ohne GNSS-Signale auskommen, können sie hervorragend in der Indoor-Navigation eingesetzt werden. Dafür wird ein einfacher Bewegungssensor benötigt, welcher sich beispielsweise in einem Ortungssystem für gehende Personen befindet, das so genannte \textit{Personal Dead Reckoning (PDR)}-System. \textcolor{red}{Das PDR-System verwendet eine Inertialmesseinheit (IMU). Diese wird am Schuh des Nutzers befestigt und liefert Informationen wie die Schrittlänge und Schrittrichtung.} Diese Informationen können dabei helfen den Standpunkt des Nutzers relativ zu einem bekannten Referenzpunkten in Echtzeit zu ermitteln \parencite{borenstein2007}. In dieser Arbeit werden sogenannte 5G-Koordinaten als bekannte Referenzpunkte verwendet.
+Vorallem in unübersichtlichen und unbekannten Gebäuden kann die Verwendung von Indoor Navigation nützlich sein, um die Positionen von Menschen oder Objekten zu verfolgen. Das Problem bei der Navigation im Gebäude ist der schlechte bis fehlende GNSS-Empfang. Weshalb das sonst übliche Verfahren, mittels Satellitennavigation im Gebäude meistens keine zufriedenstellende Positionslösung bietet und somit meistens keine zuverlässige Möglichkeit bei der Indoor Navigation darstellt. Da Inertiales Navigationssysteme (INS) ohne GNSS-Signale auskommen, können sie hervorragend in der Indoor-Navigation eingesetzt werden. Dafür wird ein einfacher Bewegungssensor benötigt, welcher sich beispielsweise in einem Ortungssystem für gehende Personen befindet, das so genannte \textit{Personal Dead Reckoning (PDR)}-System. Das PDR-System verwendet eine Inertialmesseinheit (IMU). Diese wird am Schuh des Nutzers befestigt und liefert Informationen wie die Schrittlänge und Schrittrichtung. Diese Informationen können dabei helfen den Standpunkt des Nutzers relativ zu einem bekannten Referenzpunkten in Echtzeit zu ermitteln \parencite{borenstein2007}. In dieser Arbeit werden sogenannte 5G-Koordinaten als bekannte Referenzpunkte verwendet.
 
 Nachteile eines PDR-System ist das sie durch akkumulierte Messfehlern einen Drift aufweisen (siehe Abbildung \ref{fig:pdr}). Wie man sieht, kann die PDR Trajektorie der Ground Truth am Anfang für etwa 10 - 15 Meter relativ genau folgen. Anschließend driftet die PDR Trajektorie allerdings zunehmend nach rechts ab.
 \begin{figure}[h!]
@@ -217,14 +217,14 @@ Die zugehörige Kovarianzmatrix der Beobachtungen wird wie folgt aufgestellt:
 
 Die Ergebnisse der Zwischenschritte werden dann in die Formeln, die bereits im Kapitel \ref{subsub_diskret} (3. Gain-Matrix und 4. Update) aufgelistet sind eingesetzt, um am Ende ein Update zu erhalten. Dieses Update wird dann im nächsten Schritt das neue $\hat{x}_i$.
 \subsubsection{Ergebnisse}
-Das Ergebnis des Kalman Filters lässt sich steuern indem man die Genauigkeiten der 5G Punkte respektive der PDR Beobachtungen anpasst. Mit den Genauigkeiten wird die Kalman-Gain Matrix \ref{kalman_gain_matrix} gebildet welche im 4. Schritt des Kalman Filters dann die Beobachtungen gewichten. Das Ergebnis kann dementsprechend anders aussehen. In Abbildung \ref{fig:kf_11_schlecht} sind zwei Kalman Filter zu sehen, Kalman Filter 1 springt von 5G Koordinate zu 5G Koordinate weil, die Genauigkeit der 5G Koordinaten relativ zu der PDR Genauigkeit wesentlich kleiner ist. Im Kalman Filter 2 wurde dies umgekehrt hier folgt der Kalman Filter fasst ausschließlich den PDR Werten. 
+Das Ergebnis des Kalman Filters lässt sich steuern indem die Genauigkeiten der 5G Punkte bzw. der PDR Beobachtungen angepasst werden. Mit den Genauigkeiten wird die Kalman-Gain Matrix gebildet, welche im 4. Schritt des Kalman Filters die Beobachtungen gewichten. Das Ergebnis kann dementsprechend anders sein. In Abbildung \ref{fig:kf_11_schlecht} sind zwei Kalman Filter zu sehen, Kalman Filter 1 springt von 5G Koordinate zu 5G Koordinate, weil die Genauigkeit der 5G Koordinaten relativ zu der PDR Genauigkeit deutlich kleiner ist. Im Kalman Filter 2 ist dies umgekehrt, hier folgt der Kalman Filter fasst ausschließlich den PDR Werten. 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\linewidth]{source/images/kf_11_schlecht}
 	\caption{Kalman Filter, 5G Koordinaten (nfg11) und Ground Truth}
 	\label{fig:kf_11_schlecht}
 \end{figure} 
-Beides sind Beispiele für einen schlecht eingestellten Kalman Filter die Genauigkeitswerte sollten so eingestellt werden, dass ein guter Kompromiss zwischen PDR und 5G Koordinaten gefunden wird und beide sich gut ausgleichen. In Abbildung \ref{fig:kf_11} ist ein Beispiel mit einigermaßen gut austarierten Genauigkeitswerten. Das Ergebnis ist eine Trajektorie welche nicht zu sehr auf die teils ungenauen 5G Koordinaten reagiert aber auch nicht auf Dauer von der Ground Truth wegdriftet. 
+Beides sind Beispiele für einen schlecht eingestellten Kalman Filter. Die Genauigkeitswerte sollten so eingestellt werden, dass ein guter Kompromiss zwischen PDR und 5G Koordinaten gefunden wird und beide sich gut ausgleichen. In Abbildung \ref{fig:kf_11} ist ein Beispiel mit einigermaßen gut austarierten Genauigkeitswerten. Das Ergebnis ist eine Trajektorie, welche nicht zu sehr auf die teils ungenauen 5G Koordinaten reagiert aber auch nicht auf Dauer von der Ground Truth wegdriftet. 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\linewidth]{source/images/kf_11}
@@ -238,41 +238,50 @@ Abbildung \ref{fig:kf_53} zeigt den gleichen Filter allerdings mit dem 5G Datens
 	\caption{Kalman Filter, 5G Koordinaten (nfg53) und Ground Truth}
 	\label{fig:kf_53}
 \end{figure}
-Abbildung \ref{fig:kf_53} zeigt die Trajektorie welche sich durch den normalen Kalman Filter ergibt, sowie die 5G Koordinaten und die Ground Truth. Hier ist deutlich zu sehen, dass der Filter nur so viele Punkte hat wie 5G Punkte in den Filter einfließen dadurch wirkt die Trajektorie sehr eckig und weißt deutlich größere Abweichungen zur Ground Truth auf.
+Abbildung \ref{fig:kf_53} zeigt die Trajektorie, welche sich durch den diskreten Kalman Filter ergibt, sowie die 5G Koordinaten und die Ground Truth. Hier ist deutlich zu sehen, dass der Filter nur so viele Punkte hat wie 5G Punkte in den Filter einfließen. Dadurch wirkt die Trajektorie sehr eckig und weißt deutlich größere Abweichungen zur Ground Truth auf.
 \subsection{Extended Kalman-Filter}
 \subsubsection{Ergebnisse}
 \subsection{Weighted-Least-Square}
-
 Für die Implentation der Weighted-Least-Square Methode werden in einem ersten Schritt die 5G Beobachtungen anhand der PDR Beobachtungen interpoliert ($x_i, y_i$), indem aus der Schrittlänge $L$ und der Schrittrichtung $R$, $\Delta x$ und $\Delta y$ berechnet werden und diese auf die 5G Koordinaten aufaddiert werden.
 Je nachdem wie häufig eine neue 5G Beobachtung vorliegt wird entweder eine 5G Beobachtung für ($x_i, y_i$) herangezogen oder der vorangegangene interpolierte 5G Wert. Für die Schrittrichtung ist die Nordrichtung $\Phi_0$ essentiell, welche für den Beispiel Datensatz bei 3.5 rad liegt.
-
 \begin{equation}
 x_{i+1} = x_i + L_i \cdot \cos(\Phi_0 + R_i)
 \end{equation}
 \begin{equation}
 y_{i+1} = y_i + L_i \cdot \sin(\Phi_0 + R_i)
 \end{equation}
-
 Dieses Interpolieren wird so häufig durchgeführt, bis eine neue 5G Beobachtung vorliegt. Als Ergebnis liegt nun für jede PDR Beobachtung eine 5G Beobachtung bzw. eine interpolierte 5G Beobachtung vor. Dies ist die Voraussetzung für das Anwenden der Least-Square-Methode. Anschließend können die Daten in die Schätzung der unbekannten Parameter eingehen (siehe Formel \ref{LS}). In der Gewichtsmatrix $P$ findet die Gewichtung der Beobachtungen statt, wobei absolute (5G Koordinaten) und relative Beobachtungen (PDR Werte) unterschiedliche Standardabweichungen und somit Gewichte erhalten. So wird gesteuert, welche Beobachtungen mehr Einfluss bei dem Ausgleich haben sollen und bei welchen die quadratische Verbesserung höher sein darf. Die Ausgleichung findet bei jedem dazukommenden 5G Punkt neu statt. 
+
 \subsubsection{Ergebnisse}
+Dir für die Weighted-Least-Square Methode verwendeten Genauigkeiten bilden auf der einen Seite die von den 5G Koordinaten (absolute) und auf der anderen Seite die für die PDR Werte (relativen). Das Ergebnis in Abbildung \ref{fig:ls_11} zeigt den Datensatz 'nfg11', der weit aus mehr Beobachtungen hat als der 'nfg53' Datensatz. Hier wurden den PDR Beobachtungen mehr Gewicht gegeben womit sie eine sehr gute Genauigkeit aufweisen ($\sigma_{PDR}$ = 0.2). Im Gegensatz dazu wird den 5G Koordinaten weniger Einfluss in die Ausgleichung gegeben. Ihre Standardabweichung liegt deutlicher höher als die von den PDR Beobachtungen ($\sigma_{5G}$ = 3).  
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{source/images/ls_11}
+	\caption{WLS, 5G Koordinaten (nfg11) und Ground Truth}
+	\label{fig:ls_11}
+\end{figure}
+Das Ergebnis zeigt, dass der Verlauf der WLS-Ausgleichung der eigentlichen Wahrheit entspricht. Nur an einigen Kurvenbereichen gibt es einen kleinen Versatz. Das gleiche Muster ist auch in der Abbildung \ref{fig:ls_53} zu sehen. Obwohl dieser Datensatz eine geringe Menge an Beobachtungen aufweist als der zuvor, kann hier auch beobachtet werden, dass der grobe Verlauf der tatsächlichen Trajektorie entspricht. Die Einstellung der Standardabweichung sowohl für die 5G Koordniaten als auch für die PDR-Beobachungen sind unveränderlich. Sie entsprechen also den gleichen wie bereits in Abbildung \ref{fig:ls_11} zu sehen ist. 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{source/images/ls_53}
+	\caption{WLS, 5G Koordinaten (nfg53) und Ground Truth}
+	\label{fig:ls_53}
+\end{figure}
+
+\subsection{Vergleich der Ergebnisse}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{source/images/kf_11}
+	\caption{Kalman Filter, 5G Koordinaten (nfg11) und Ground Truth}
+	\label{fig:ver_kf_11}
+\end{figure}
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\linewidth]{source/images/ls_11}
-	\caption{Least Square, 5G Koordinaten (nfg11) und Ground Truth}
-	\label{fig:ls_11}
+	\caption{WLS, 5G Koordinaten (nfg11) und Ground Truth}
+	\label{fig:ver_ls_11}
 \end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=1\linewidth]{source/images/ls_53}
-	\caption{Least Square, 5G Koordinaten (nfg53) und Ground Truth}
-	\label{fig:ls_53}
-\end{figure}
-
-
-\subsection{Vergleich der Ergebnisse}
-
 \section{Fazit und Ausblick}
 \textcolor{red}{Eine Erörterung (oder "Bewertung") der Ergebnisse, Zusammenfassung und zukünftige Forschungsperspektiven
 }
