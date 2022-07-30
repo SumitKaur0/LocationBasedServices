@@ -255,19 +255,19 @@ Dir für die Weighted-Least-Square Methode verwendeten Genauigkeiten bilden auf d
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{source/images/ls_11}
-	\caption{WLS, 5G Koordinaten (nfg11) und Ground Truth}
+	\caption{WLS, 5G Koordinaten ('nfg11') und Ground Truth}
 	\label{fig:ls_11}
 \end{figure}
-Das Ergebnis zeigt, dass der Verlauf der WLS-Ausgleichung der eigentlichen Wahrheit entspricht. Nur an einigen Kurvenbereichen gibt es einen kleinen Versatz. Das gleiche Muster ist auch in der Abbildung \ref{fig:ls_53} zu sehen. Obwohl dieser Datensatz eine geringe Menge an Beobachtungen aufweist als der zuvor, kann hier auch beobachtet werden, dass der grobe Verlauf der tatsächlichen Trajektorie entspricht. Die Einstellung der Standardabweichung sowohl für die 5G Koordniaten als auch für die PDR-Beobachungen sind unveränderlich. Sie entsprechen also den gleichen wie bereits in Abbildung \ref{fig:ls_11} zu sehen ist. 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{source/images/ls_53}
 	\caption{WLS, 5G Koordinaten ('nfg53') und Ground Truth}
 	\label{fig:ls_53}
 \end{figure}
+Das Ergebnis zeigt, dass der Verlauf der WLS Ausgleichung der eigentlichen Wahrheit entspricht. Nur an einigen Kurvenbereichen gibt es einen kleinen Versatz. Das gleiche Muster ist auch in der Abbildung \ref{fig:ls_53} zu sehen. Obwohl dieser Datensatz eine geringe Menge an Beobachtungen aufweist als der zuvor, kann hier auch beobachtet werden, dass der grobe Verlauf der tatsächlichen Trajektorie entspricht. Die Einstellung der Standardabweichung sowohl für die 5G Koordinaten als auch für die PDR Beobachungen sind unveränderlich. Sie entsprechen also den gleichen wie bereits in Abbildung \ref{fig:ls_11} zu sehen ist. 
 
 \subsection{Vergleich der Ergebnisse}
-Abbildung \ref{fig:vergleich_2} und \ref{fig:vergleich_3} zeigen den Vergleich von Weigthed-Least Square und dem Kalman Filter mit der Ground Truth bei beiden 5G Datensätzen. Beim nfg11 Datensatz zeigen sich beide Trajektorien relativ gut, lediglich beim rechten Teil zeigt der Kalman Filter etwas größere Differenzen zur Ground Turth als WLS. Beim schlechteren nfg53 Datensatz werden die Unterschiede schon etwas größer.
+Abbildung \ref{fig:vergleich_2} und \ref{fig:vergleich_3} zeigen den Vergleich von Weigthed-Least-Square und dem Kalman Filter mit der Ground Truth bei beiden 5G Datensätzen. Beim 'nfg11' Datensatz zeigen sich beide Trajektorien relativ gut, lediglich beim rechten Teil zeigt der Kalman Filter etwas größere Differenzen zur Ground Turth als WLS. Beim schlechteren 'nfg53' Datensatz werden die Unterschiede schon etwas größer.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{source/images/vergleich_ls_kf_11}
@@ -280,7 +280,8 @@ Abbildung \ref{fig:vergleich_2} und \ref{fig:vergleich_3} zeigen den Vergleich v
 	\caption{Vergleich zwischen Kalman Filter und WLS ('nfg53')}
 	\label{fig:vergleich_3}
 \end{figure}
-Vergleicht man den Kalman Filter mit der Weighted Least Square Methode so fällt auf, dass der Kalman Filter insgesamt viel eckiger aussieht als die vergleichsweise runde Trajektorie von WLS. Gerade beim 'nfg53' Datensatz wird dies deutlich. Dies liegt daran, dass der Kalman Filter nur bei jeder neuen 5G Beobachtung updatet und eine neue Position berechnet. Abbildung \ref{fig:vergleich_1} verdeutlicht dies. Hier wurde eine größere Beobachtungslücke simuliert bei der die Ground Truth zwei Kurven zurücklegt. Während der Kalman Filter fast auf direktem Weg zur nächsten 5G Beobachtung abkürzt, simuliert die Least-Square Trajektorie die beiden Kurven einigermaßen gut. Hier schneidet die WLS Methode besser ab als der Kalman Filter.
+
+Vergleicht man den Kalman Filter mit der Weighted-Least-Square Methode so fällt auf, dass der Kalman Filter insgesamt viel eckiger ausfällt als die vergleichsweise runde Trajektorie von WLS. Gerade beim 'nfg53' Datensatz wird dies deutlich. Dies liegt daran, dass der Kalman Filter nur bei jeder neuen 5G Beobachtung updatet und eine neue Position berechnet. Abbildung \ref{fig:vergleich_1} verdeutlicht dies. Hier wurde eine größere Beobachtungslücke simuliert bei der die Ground Truth zwei Kurven zurücklegt. Während der Kalman Filter fast auf direktem Weg zur nächsten 5G Beobachtung abkürzt, simuliert die Least-Square Trajektorie die beiden Kurven einigermaßen gut. Hier schneidet die WLS Methode besser ab als der Kalman Filter.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{source/images/vergleich_ls_kf_gap}
@@ -288,11 +289,10 @@ Vergleicht man den Kalman Filter mit der Weighted Least Square Methode so fällt 
 	\label{fig:vergleich_1}
 \end{figure}
 
-
 \section{Fazit und Ausblick}
-\textcolor{red}{Eine Erörterung (oder "Bewertung") der Ergebnisse, Zusammenfassung und zukünftige Forschungsperspektiven
-}
-Zusammenfassend kann vorab festgehalten werden, dass die Weighted Least Square Methode besser abschneidet als der diskrete Kalman Filter. Das zeigt sich auch noch mal an der Abbildung \ref{fig:vergleich_1}, in der eine Beobachtungslücke simuliert wurde. Dadruch das die WLS Methode interpolierte 5G Werte mit in die Ausgleichung nimmt, kann die gesamte Trajektorie besser bestimmt werden als bei dem diskreten Kalman Filter. 
+\textcolor{red}{Eine Erörterung (oder "Bewertung") der Ergebnisse, Zusammenfassung und zukünftige Forschungsperspektiven}
+
+Zusammenfassend kann vorab festgehalten werden, dass die Trajektorie der Weighted-Least-Square Methode besser abschneidet als die des diskreten Kalman Filters. Das zeigt sich auch noch mal an der Abbildung \ref{fig:vergleich_1}, in der eine Beobachtungslücke simuliert wurde. Dadruch das die WLS Methode interpolierte 5G Werte mit in die Ausgleichung nimmt, kann die gesamte Trajektorie besser bestimmt werden als bei dem diskreten Kalman Filter. 
 
 Als zukünftige Forschungsperspektive könnte der Extended Kalman Filter noch mehr erweitert werden. Der Vektor der geschätzten Parameter $\boldsymbol{\hat{x}}_{i}$, der eine Dimension von 4x1 aufweist könnte auf eine Dimension von 6x1 erweitert werden. Dafür kommen neben dem ${x}_{i}$, ${y}_{i}$, ${L}_{i}$ und ${R}_{i}$ noch die Fehler der Schrittlänge und -richtung ($L_{error_i}$,$R_{error_i}$) hinzu. Es wird vermutet, dass durch Berücksichtigungen der Ungenauigkeit für Schrittlänge und -richtung das Vorhersage noch besser funktionieren. Ob das der Wirklichkeit entspricht, kann dieser Ansatz in Zukunft überprüft werden. 
 
