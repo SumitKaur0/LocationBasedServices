@@ -179,7 +179,7 @@ Dieser Prädiktionsschritt wird so lange durchgeführt, bis der Zeitpunkt erreicht
 \end{spmatrix}
 \end{equation}
 
-Im zweiten Schritt, der Innovation, wird die Differenz $\boldsymbol{d}_{i+1}$ aus den Beobachtungen und der Prädiktion berechnet. Die im Beobachtungsvektor vorhanden Größen sind neben dem 5G-Koordinaten $\boldsymbol{X_{5G}}$ und $\boldsymbol{Y_{5G}}$ auch die Differenz zwischen der aufsummierten Schrittlänge und -richtung $\boldsymbol{\Delta x_i}$ und $\boldsymbol{\Delta y_i}$. Da beide Matrizen identisch aufgebaut sind, ist die $\boldsymbol{A}$ Matrix eine Einheitsmatrix, welche also folglich keinen Einfluss auf weitere Berechnungen hat.
+Im zweiten Schritt, der Innovation, wird die Differenz $\boldsymbol{d}_{i+1}$ aus den Beobachtungen und der Prädiktion berechnet. Die im Beobachtungsvektor vorhanden Größen sind neben dem 5G-Koordinaten $X_{5G}$ und $Y_{5G}$ auch die Differenz zwischen der aufsummierten Schrittlänge und -richtung $\Delta x_i$ und $\Delta y_i$. Da beide Matrizen identisch aufgebaut sind, ist die $\boldsymbol{A}$ Matrix eine Einheitsmatrix, welche also folglich keinen Einfluss auf weitere Berechnungen hat.
 \begin{equation}
 	{\boldsymbol{d}}_{i+1} = 
 		\begin{spmatrix}{\boldsymbol{l}_i}
@@ -213,7 +213,6 @@ Die zugehörige Kovarianzmatrix der Beobachtungen wird wie folgt aufgestellt:
 		0 & 0 & 0 & \sigma_{\Delta y_i}^2\\
 	\end{spmatrix}
 \end{equation}
-
 Die Ergebnisse der Zwischenschritte werden dann in die Formeln, die bereits im Kapitel \ref{subsub_diskret} (3. Gain-Matrix und 4. Update) aufgelistet sind eingesetzt, um am Ende ein Update zu erhalten. Dieses Update wird dann im nächsten Schritt das neue $\boldsymbol{\hat{x}_i}$.
 \subsubsection{Ergebnisse}
 Das Ergebnis des Kalman Filters lässt sich steuern indem die Genauigkeiten der 5G Punkte bzw. der PDR Beobachtungen angepasst werden. Mit den Genauigkeiten wird die Kalman-Gain Matrix gebildet, welche im 4. Schritt des Kalman Filters die Beobachtungen gewichten. Das Ergebnis kann dementsprechend anders sein. In Abbildung \ref{fig:kf_11_schlecht} sind zwei Kalman Filter zu sehen, Kalman Filter 1 springt von 5G Koordinate zu 5G Koordinate, weil die Genauigkeit der 5G Koordinaten relativ zu der PDR Genauigkeit deutlich kleiner ist. Im Kalman Filter 2 ist dies umgekehrt, hier folgt der Kalman Filter fasst ausschließlich den PDR Werten. 
