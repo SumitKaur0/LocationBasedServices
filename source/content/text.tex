@@ -17,7 +17,9 @@ Diese Arbeit beschäftigt sich daher mit der Frage wie sich die Ergebnisse einer 
 
 Auch andere Arbeiten beschäftigen sich mit solchen Thema. Das Paper \textcite{kjellson2021} z.B. beschreibt Deep-Learning-Methoden sowohl für die Schätzung von absoluten Positionen als auch für die Durchführung einer Koppelnavigation für Fußgänger (PDR). Beiden Ansätze wurden zur Optimierung der Trajektorie mit Hilfe der gewichteten kleinsten Quadrate (engl.: weighted least square) kombiniert.
 
-In diese Arbeit ist aufgeteilt in drei Oberkapitel: Methodologie, Implementation und Fazit und Ausblick. In dem Kapitel Methodologie werden die generellen Konzepte des diskreten Kalman-Filters, des extended Kalman-Filter und der des weighted Least-Square Methode dargestellt. Bei der Implementation wird die detailiierte Ausführung der Arbeitsschritte samt ihrer Ergebnissen vorgestellt. Damit werden die Ergebnisse der unterschiedlichen Verfahren miteinander verglichen. Zum Schluss werden die Ergebnisse zusammengefasst und kritisch analysiert. Als Ausblick wird/werden zukünftige Forschungsperspektiven dargelegt. 
+Einige Herausforderungen, die während der Bearbeitung des Themas entstanden sind, war weniger das theoretische Verständnis, sondern viel mehr die Implementation in Python. Oft kommt es beim Programmieren zu Fehlermeldungen, die nicht immer so schnell zu lösen sind. 
+
+In diese Arbeit ist aufgeteilt in drei Oberkapitel: Methodologie, Implementation und Fazit und Ausblick. In dem Kapitel Methodologie werden die generellen Konzepte des Diskreten Kalman-Filters, des extended Kalman-Filter und der des Weighted Least-Square Methode dargestellt. Bei der Implementation wird die detailiierte Ausführung der Arbeitsschritte samt ihrer Ergebnissen vorgestellt. Damit werden die Ergebnisse der unterschiedlichen Verfahren miteinander verglichen. Zum Schluss werden die Ergebnisse zusammengefasst und kritisch analysiert. Als Ausblick wird/werden zukünftige Forschungsperspektiven dargelegt. 
 
 \textcolor{red}{Was sind die Anwendungsbereiche des Themas?\\Was sind die bisherigen Herausforderungen?}
 
@@ -27,12 +29,12 @@ In diesem Kapitel werden die theoretischen Methoden und allgemeinen Konzepten de
 \subsection{Das Kalman Filter}
 Während die meisten Systeme mit zahlreichen Sensoren ausgestattet sind führen diese mit Hilfe von Messungen eine Schätzung der unbekannten Parameter aus. Dabei kann es herausfordernd sein eine genaue und präzise Schätzung dieser Unbekannten unter Berücksichtigungen ihrer Unsicherheiten durchzuführen. Dafür wird nicht selten der Kalman-Filter zur Hilfe genommen. Er findet dort Anwendung, wo bestimmte Sensoren nicht funktionieren oder sogar ausfallen und man dennoch die Systemgrößen schätzen möchte. Das Kalman-Filter liefert somit eine Vorhersage des zukünftigen Systemzustands auf der Grundlage vergangener Schätzungen.
 
-Der Filter ist nach Rudolf E. Kálmán (19. Mai 1930 - 2. Juli 2016) benannt wurden. Im Jahr 1960 veröffentlichte Kálmán seine berühmte Arbeit, in der er eine rekursive Lösung für das lineare Filterproblem mit diskreten Daten beschrieb (Quelle: https://www.kalmanfilter.net/default.aspx).
+Der Filter ist nach Rudolf E. Kálmán (19. Mai 1930 - 2. Juli 2016) benannt wurden. Im Jahr 1960 veröffentlichte Kálmán seine berühmte Arbeit, in der er eine rekursive Lösung für das lineare Filterproblem mit diskreten Daten beschrieb \parencite{kalman}.
 
 Bei dem Kalman Filter unterscheidet man zwei Arten von Filter: der statische und der dynamische Kalman Filter. Diese Arbeit wird sich mit dem dynamischen Kalman Filter auseinander setzen. Dieser setzt sich aus einem Beobachtungsmodell und einem Bewegungsmodell zusammen. Bei dem Beobachtungsmodell handelt es sich um Beobachtungen und ihre Unsicherheiten. Bei dem Bewegungsmodell wird auch von einer Prädiktion (dynamisches Modell) und ihren Unsicherheiten gesprochen. Aus ihr erfolgt dann die Schätzung des Zustandes. Wenn sowohl Beobachtungsmodell als auch Bewegungsmodell linear sind wird der diskrete Kalman Filter verwendet. Wenn beide Modelle nicht-linear sind findet der Extended Kalman Filter Anwendung. 
 
 \subsubsection{Diskreter Kalman-Filter (lineares Modell)}\label{subsub_diskret}
-Bei dem diskreten Kalman-Filter ist die Idee die Beobachtungen zu bestimmten (diskreten) Zeitpunkten mit einem Bewegungsmodell zu kombinieren. Das Bewegungsmodell prädiziert dann den Zustandsvektor ausgehend von der Schätzung des vorherigen Schrittes. Generell werden vier Schritte benötigt: die Prädiktion, die Innovation, die Kalman-Gain-Matrix und das Update. 
+Bei dem diskreten Kalman-Filter ist die Idee die Beobachtungen zu bestimmten (diskreten) Zeitpunkten mit einem Bewegungsmodell zu kombinieren. Das Bewegungsmodell prädiziert dann den Zustandsvektor ausgehend von der Schätzung des vorherigen Schrittes. Generell werden vier Schritte benötigt: die Prädiktion, die Innovation, die Kalman-Gain-Matrix und das Update \parencite{teil1}. 
 
 Das generelle Beobachtungsmodell sieht wie folgt aus:
 \begin{equation}
@@ -76,7 +78,7 @@ In dem vierten und letzten Schritt dem Update wird ein gewichtiets Mittel aus de
 \end{equation}
 
 \subsubsection{Extended Kalman-Filter (nicht- lineares Modell)}
-In den meisten Anwendungsbereichen sind weder Bewegungsmodell noch Beobachtungsmodell linear. Häufig schaut das System in eine Richtung und misst in die andere. Wenn man von nicht-linearen Funktionen spricht, werden damit häufig Winkelfunktionen gemeint, mit Sinus und Kosinus. Das Problem ist, dass nicht-lineare Funktionen zu keiner Normalverteilung führen und man dadurch keinen diskreten Kalman Filter verwendet kann. Eine Lösung des Problems ist die Linearisierung durch eine Approximation. Durch die Taylor Entwicklung kann so eine lineare Annäherung der nicht-linearen Funktionen geschehen. Nach Anwendung der Approximation erhält man einen erweiterten Kalman Filter den so genannten Extended Kalman Filter. 
+In den meisten Anwendungsbereichen sind weder Bewegungsmodell noch Beobachtungsmodell linear. Häufig schaut das System in eine Richtung und misst in die andere. Wenn man von nicht-linearen Funktionen spricht, werden damit häufig Winkelfunktionen gemeint, mit Sinus und Kosinus. Das Problem ist, dass nicht-lineare Funktionen zu keiner Normalverteilung führen und man dadurch keinen diskreten Kalman Filter verwendet kann. Eine Lösung des Problems ist die Linearisierung durch eine Approximation. Durch die Taylor Entwicklung kann so eine lineare Annäherung der nicht-linearen Funktionen geschehen. Nach Anwendung der Approximation erhält man einen erweiterten Kalman Filter den so genannten Extended Kalman Filter \parencite{teil2}. 
 
 \textcolor{red}{Neues Bewegungsmodell:}
 \begin{equation}
@@ -96,8 +98,6 @@ Bei nicht-linearen Zusammenhängen werden die Matrizen $A$, $T$ und $C$ durch Lin
 \boldsymbol{C}_i = \frac{\partial \boldsymbol{f}_i^{i+1}(\boldsymbol{x}_i,\boldsymbol{w}_i)}{\partial \boldsymbol{w}_i} \bigg|_{w_i}
 \end{equation}
 Die Formeln für die Berechnung der vier Schritte: die Prädiktion, die Innovation, die Kalman Gain Matrix und das Update entsprechen den gleichen wie im Kapitel \ref{subsub_diskret}. 
-\textcolor{red}{Weitere Quellen:}
-https://www.cbcity.de/das-kalman-filter-einfach-erklaert-teil-2
 
 \subsection{Weigted Least-Square}
 Die Least-Square Methode findet häufig Einsatz in der Ausgleichungsrechnung. Die Idee ist es eine möglichst genau passende, parameterabhängige Kurve in einen Datensatz zu legen. Dabei werden die Parameter so gewählt, dass die Summe der quadratischen Abweichung der Kurve von den Beobachtungen minimiert wird (siehe Formel \ref{v}). 
@@ -116,14 +116,14 @@ Um eine möglichst genau Kurve zu schätzen werden Parameter gesucht, welche mit f
 \begin{equation}\label{LS}
 	\hat{\boldsymbol{x}} = \left(\boldsymbol{A}^T\boldsymbol{P}\boldsymbol{A}\right)^{-1}\boldsymbol{A}^T\boldsymbol{P}\boldsymbol{l}
 \end{equation}
-$A$ beschreibt wie beim Kalman Filter die Designmatrix. Die beinhaltet die partiellen Ableitungen der Beobachtungsgleichung nach den gesuchten Parametern. $l$ beschreibt den Beobachtungsvektor und beinhaltet alle Messgrößen, welche beobachtet wurden. 
+$\boldsymbol{A}$ beschreibt wie beim Kalman Filter die Designmatrix. Die beinhaltet die partiellen Ableitungen der Beobachtungsgleichung nach den gesuchten Parametern. $\boldsymbol{l}$ beschreibt den Beobachtungsvektor und beinhaltet alle Messgrößen, welche beobachtet wurden. 
 
 \section{Implementation}
 \textcolor{red}{Detaillierte Ausführung der Arbeitsschritte einschließlich der Ergebnisse bei verschiedenen Implementierungsparametern.}
 
 In dieser Arbeiten werden für die  5G-Koordinaten die simulierte Datensätze 'nfg11' und 'nfg53' verwendet. Diese Datensätze sind identisch aufgebaut und beinhalteten neben dem Zeitstempel auch die X-, Y- und Z-Position der 5G-Koordinaten sowie ihre Genauigkeit. Der 'nfg'-Datensatz weist eine Messrate von einer Sekunde auf wohingegen der andere Datensatz ('nfg53') eine von fünf Sekunden ausweist. Doch auch die Genauigkeit der Datensätze unterscheiden sich. Bei dem 'nfg11'-Datensatz beträgt dieser einen Meter und bei dem anderen drei Meter. Somit kann gesagt werden, dass der 'nfg11'-Datensatz genauer bestimmt wurde als der andere.
 
-Die PDR-Werte stammen aus zwei Datensätzen: 'nsl' für die Schrittlänge und 'nsh' für die Schrittrichtung. \textcolor{red}{Die Genauigkeiten der beiden Datensätze betragen einmal 0.2 ('nsl') und 0.25 ('nsh')}. Der zugehörige Zeitstempel liegt in der Datei 'EightStepTimes'. Wie man sieht liegen acht PDR-Werte zwischen zwei 5G-Koordinaten, womit der PDR-Datensatz deutlich mehr Beobachtungen ausweist als die 5G-Koordinaten. 
+Die PDR-Werte stammen aus zwei Datensätzen: 'nsl' für die Schrittlänge und 'nsh' für die Schrittrichtung. Die Genauigkeiten der beiden Datensätze betragen einmal 0.2 ('nsl') und 0.25 ('nsh'). Der zugehörige Zeitstempel liegt in der Datei 'EightStepTimes'. Wie man sieht liegen acht PDR-Werte zwischen zwei 5G-Koordinaten, womit der PDR-Datensatz deutlich mehr Beobachtungen ausweist als die 5G-Koordinaten. 
 
 Zu Kontrolle wird der Datensatz EightGroundTruth herangezogen, der die Wirklichkeit des Verlaufes der Trajektorie (Position?) beschreibt. Mit Hilfe dessen kann entschieden werden wie gut und richtig die unterschiedlichen Methoden funktionieren. Die Umsetzung der Methoden erfolgt mit Pyhton.
 
@@ -180,7 +180,7 @@ Dieser Prädiktionsschritt wird so lange durchgeführt, bis der Zeitpunkt erreicht
 \end{spmatrix}
 \end{equation}
 
-Im zweiten Schritt, der Innovation, wird die Differenz $\boldsymbol{d}_{i+1}$ aus den Beobachtungen und der Prädiktion berechnet. Die im Beobachtungsvektor vorhanden Größen sind neben dem 5G-Koordinaten $X_{5G}$ und $Y_{5G}$ auch die Differenz zwischen der aufsummierten Schrittlänge und -richtung $\Delta x_i$ und $\Delta y_i$. Da beide Matrizen identisch aufgebaut sind, ist die $A$ Matrix eine Einheitsmatrix, welche also folglich keinen Einfluss auf weitere Berechnungen hat.
+Im zweiten Schritt, der Innovation, wird die Differenz $\boldsymbol{d}_{i+1}$ aus den Beobachtungen und der Prädiktion berechnet. Die im Beobachtungsvektor vorhanden Größen sind neben dem 5G-Koordinaten $\boldsymbol{X_{5G}}$ und $\boldsymbol{Y_{5G}}$ auch die Differenz zwischen der aufsummierten Schrittlänge und -richtung $\boldsymbol{\Delta x_i}$ und $\boldsymbol{\Delta y_i}$. Da beide Matrizen identisch aufgebaut sind, ist die $\boldsymbol{A}$ Matrix eine Einheitsmatrix, welche also folglich keinen Einfluss auf weitere Berechnungen hat.
 \begin{equation}
 	{\boldsymbol{d}}_{i+1} = 
 		\begin{spmatrix}{\boldsymbol{l}_i}
@@ -215,7 +215,7 @@ Die zugehörige Kovarianzmatrix der Beobachtungen wird wie folgt aufgestellt:
 	\end{spmatrix}
 \end{equation}
 
-Die Ergebnisse der Zwischenschritte werden dann in die Formeln, die bereits im Kapitel \ref{subsub_diskret} (3. Gain-Matrix und 4. Update) aufgelistet sind eingesetzt, um am Ende ein Update zu erhalten. Dieses Update wird dann im nächsten Schritt das neue $\hat{x}_i$.
+Die Ergebnisse der Zwischenschritte werden dann in die Formeln, die bereits im Kapitel \ref{subsub_diskret} (3. Gain-Matrix und 4. Update) aufgelistet sind eingesetzt, um am Ende ein Update zu erhalten. Dieses Update wird dann im nächsten Schritt das neue $\boldsymbol{\hat{x}_i}$.
 \subsubsection{Ergebnisse}
 Das Ergebnis des Kalman Filters lässt sich steuern indem die Genauigkeiten der 5G Punkte bzw. der PDR Beobachtungen angepasst werden. Mit den Genauigkeiten wird die Kalman-Gain Matrix gebildet, welche im 4. Schritt des Kalman Filters die Beobachtungen gewichten. Das Ergebnis kann dementsprechend anders sein. In Abbildung \ref{fig:kf_11_schlecht} sind zwei Kalman Filter zu sehen, Kalman Filter 1 springt von 5G Koordinate zu 5G Koordinate, weil die Genauigkeit der 5G Koordinaten relativ zu der PDR Genauigkeit deutlich kleiner ist. Im Kalman Filter 2 ist dies umgekehrt, hier folgt der Kalman Filter fasst ausschließlich den PDR Werten. 
 \begin{figure}[h!]
@@ -228,14 +228,14 @@ Beides sind Beispiele für einen schlecht eingestellten Kalman Filter. Die Genaui
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\linewidth]{source/images/kf_11}
-	\caption{Kalman Filter, 5G Koordinaten (nfg11) und Ground Truth}
+	\caption{Kalman Filter, 5G Koordinaten ('nfg11') und Ground Truth}
 	\label{fig:kf_11}
 \end{figure}
 Abbildung \ref{fig:kf_53} zeigt den gleichen Filter allerdings mit dem 5G Datensatz welcher wesentlich weniger Beobachtungen beinhaltet und ungenauer ist. 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\linewidth]{source/images/kf_53}
-	\caption{Kalman Filter, 5G Koordinaten (nfg53) und Ground Truth}
+	\caption{Kalman Filter, 5G Koordinaten ('nfg53') und Ground Truth}
 	\label{fig:kf_53}
 \end{figure}
 Abbildung \ref{fig:kf_53} zeigt die Trajektorie, welche sich durch den diskreten Kalman Filter ergibt, sowie die 5G Koordinaten und die Ground Truth. Hier ist deutlich zu sehen, dass der Filter nur so viele Punkte hat wie 5G Punkte in den Filter einfließen. Dadurch wirkt die Trajektorie sehr eckig und weißt deutlich größere Abweichungen zur Ground Truth auf.
@@ -243,7 +243,7 @@ Abbildung \ref{fig:kf_53} zeigt die Trajektorie, welche sich durch den diskreten
 \subsubsection{Ergebnisse}
 \subsection{Weighted-Least-Square}
 Für die Implentation der Weighted-Least-Square Methode werden in einem ersten Schritt die 5G Beobachtungen anhand der PDR Beobachtungen interpoliert ($x_i, y_i$), indem aus der Schrittlänge $L$ und der Schrittrichtung $R$, $\Delta x$ und $\Delta y$ berechnet werden und diese auf die 5G Koordinaten aufaddiert werden.
-Je nachdem wie häufig eine neue 5G Beobachtung vorliegt wird entweder eine 5G Beobachtung für ($x_i, y_i$) herangezogen oder der vorangegangene interpolierte 5G Wert. Für die Schrittrichtung ist die Nordrichtung $\Phi_0$ essentiell, welche für den Beispiel Datensatz bei 3.5 rad liegt.
+Je nachdem wie häufig eine neue 5G Beobachtung vorliegt wird entweder eine 5G Beobachtung für $x_i, y_i$) herangezogen oder der vorangegangene interpolierte 5G Wert. Für die Schrittrichtung ist die Nordrichtung $\Phi_0$ essentiell, welche für den Beispiel Datensatz bei 3.5 rad liegt.
 \begin{equation}
 x_{i+1} = x_i + L_i \cdot \cos(\Phi_0 + R_i)
 \end{equation}
@@ -264,7 +264,7 @@ Das Ergebnis zeigt, dass der Verlauf der WLS-Ausgleichung der eigentlichen Wahrh
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\linewidth]{source/images/ls_53}
-	\caption{WLS, 5G Koordinaten (nfg53) und Ground Truth}
+	\caption{WLS, 5G Koordinaten ('nfg53') und Ground Truth}
 	\label{fig:ls_53}
 \end{figure}
 
@@ -272,16 +272,11 @@ Das Ergebnis zeigt, dass der Verlauf der WLS-Ausgleichung der eigentlichen Wahrh
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\linewidth]{source/images/kf_11}
-	\caption{Kalman Filter, 5G Koordinaten (nfg11) und Ground Truth}
-	\label{fig:ver_kf_11}
+	\caption{Vergleich zwischen Kalman Filter und WLS}
+	\label{fig:vergleich}
 \end{figure}
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=1\linewidth]{source/images/ls_11}
-	\caption{WLS, 5G Koordinaten (nfg11) und Ground Truth}
-	\label{fig:ver_ls_11}
-\end{figure}
+
 \section{Fazit und Ausblick}
 \textcolor{red}{Eine Erörterung (oder "Bewertung") der Ergebnisse, Zusammenfassung und zukünftige Forschungsperspektiven
 }
