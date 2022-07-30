@@ -20,7 +20,7 @@ Einige Herausforderungen, die während der Bearbeitung des Themas entstanden sind
 
 In diese Arbeit ist aufgeteilt in drei Oberkapitel: Methodologie, Implementation und Fazit und Ausblick. In dem Kapitel Methodologie werden die generellen Konzepte des Diskreten Kalman-Filters, des extended Kalman-Filter und der des Weighted Least-Square Methode dargestellt. Bei der Implementation wird die detailiierte Ausführung der Arbeitsschritte samt ihrer Ergebnissen vorgestellt. Damit werden die Ergebnisse der unterschiedlichen Verfahren miteinander verglichen. Zum Schluss werden die Ergebnisse zusammengefasst und kritisch analysiert. Als Ausblick wird/werden zukünftige Forschungsperspektiven dargelegt. 
 
-\textcolor{red}{Was sind die Anwendungsbereiche des Themas?\\Was sind die bisherigen Herausforderungen?}
+\textcolor{red}{Was sind die Anwendungsbereiche des Themas?}
 
 \section{Methodologie}
 In diesem Kapitel werden die theoretischen Methoden und allgemeinen Konzepten des Kalman Filters und der Least Square-Methode beschrieben. 
@@ -118,9 +118,7 @@ Um eine möglichst genau Kurve zu schätzen werden Parameter gesucht, welche mit f
 $\boldsymbol{A}$ beschreibt wie beim Kalman Filter die Designmatrix. Die beinhaltet die partiellen Ableitungen der Beobachtungsgleichung nach den gesuchten Parametern. $\boldsymbol{l}$ beschreibt den Beobachtungsvektor und beinhaltet alle Messgrößen, welche beobachtet wurden. 
 
 \section{Implementation}
-\textcolor{red}{Detaillierte Ausführung der Arbeitsschritte einschließlich der Ergebnisse bei verschiedenen Implementierungsparametern.}
-
-In dieser Arbeiten werden für die  5G-Koordinaten die simulierte Datensätze 'nfg11' und 'nfg53' verwendet. Diese Datensätze sind identisch aufgebaut und beinhalteten neben dem Zeitstempel auch die X-, Y- und Z-Position der 5G-Koordinaten sowie ihre Genauigkeit. Der 'nfg'-Datensatz weist eine Messrate von einer Sekunde auf wohingegen der andere Datensatz ('nfg53') eine von fünf Sekunden ausweist. Doch auch die Genauigkeit der Datensätze unterscheiden sich. Bei dem 'nfg11'-Datensatz beträgt dieser einen Meter und bei dem anderen drei Meter. Somit kann gesagt werden, dass der 'nfg11'-Datensatz genauer bestimmt wurde als der andere.
+In diesem Kapitel Implementation wird die detaillierte Ausführung der Arbeitsschritte einschließlich der Ergebnisse bei verschiedenen Implementierungsparametern beschrieben. Die für diese Arbeiten verwendet  simulierten Datensätze 'nfg11' und 'nfg53' beinhalten absolute 5G Koordinaten. Diese Datensätze sind identisch aufgebaut und beinhalteten neben dem Zeitstempel auch die X-, Y- und Z-Position der 5G-Koordinaten sowie ihre Genauigkeit. Der 'nfg'-Datensatz weist eine Messrate von einer Sekunde auf wohingegen der andere Datensatz ('nfg53') eine von fünf Sekunden ausweist. Doch auch die Genauigkeit der Datensätze unterscheiden sich. Bei dem 'nfg11'-Datensatz beträgt dieser einen Meter und bei dem anderen drei Meter. Somit kann gesagt werden, dass der 'nfg11'-Datensatz genauer bestimmt wurde als der andere.
 
 Die PDR-Werte stammen aus zwei Datensätzen: 'nsl' für die Schrittlänge und 'nsh' für die Schrittrichtung. Die Genauigkeiten der beiden Datensätze betragen einmal 0.2 ('nsl') und 0.25 ('nsh'). Der zugehörige Zeitstempel liegt in der Datei 'EightStepTimes'. Wie man sieht liegen acht PDR-Werte zwischen zwei 5G-Koordinaten, womit der PDR-Datensatz deutlich mehr Beobachtungen ausweist als die 5G-Koordinaten. 
 
@@ -290,10 +288,9 @@ Vergleicht man den Kalman Filter mit der Weighted-Least-Square Methode so fällt 
 \end{figure}
 
 \section{Fazit und Ausblick}
-\textcolor{red}{Eine Erörterung (oder "Bewertung") der Ergebnisse, Zusammenfassung und zukünftige Forschungsperspektiven}
 
 Zusammenfassend kann vorab festgehalten werden, dass die Trajektorie der Weighted-Least-Square Methode besser abschneidet als die des diskreten Kalman Filters. Das zeigt sich auch noch mal an der Abbildung \ref{fig:vergleich_1}, in der eine Beobachtungslücke simuliert wurde. Dadruch das die WLS Methode interpolierte 5G Werte mit in die Ausgleichung nimmt, kann die gesamte Trajektorie besser bestimmt werden als bei dem diskreten Kalman Filter. 
 
 Als zukünftige Forschungsperspektive könnte der Extended Kalman Filter noch mehr erweitert werden. Der Vektor der geschätzten Parameter $\boldsymbol{\hat{x}}_{i}$, der eine Dimension von 4x1 aufweist könnte auf eine Dimension von 6x1 erweitert werden. Dafür kommen neben dem ${x}_{i}$, ${y}_{i}$, ${L}_{i}$ und ${R}_{i}$ noch die Fehler der Schrittlänge und -richtung ($L_{error_i}$,$R_{error_i}$) hinzu. Es wird vermutet, dass durch Berücksichtigungen der Ungenauigkeit für Schrittlänge und -richtung das Vorhersage noch besser funktionieren. Ob das der Wirklichkeit entspricht, kann dieser Ansatz in Zukunft überprüft werden. 
 
-%\bibliography
+\textcolor{red}{Eine Erörterung (oder "Bewertung") der Ergebnisse, Zusammenfassung und zukünftige Forschungsperspektiven}
