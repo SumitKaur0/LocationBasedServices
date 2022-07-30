@@ -4,11 +4,10 @@ Vorallem in unübersichtlichen und unbekannten Gebäuden kann die Verwendung von I
 Nachteile eines PDR-System ist das sie durch akkumulierte Messfehlern einen Drift aufweisen (siehe Abbildung \ref{fig:pdr}). Wie man sieht, kann die PDR Trajektorie der Ground Truth am Anfang für etwa 10 - 15 Meter relativ genau folgen. Anschließend driftet die PDR Trajektorie allerdings zunehmend nach rechts ab.
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\linewidth]{source/images/pdr_drift}
+	\includegraphics[width=0.8\linewidth]{source/images/pdr_drift}
 	\caption{PDR Trajektorie und Ground Truth}
 	\label{fig:pdr}
 \end{figure}
-
 Dies liegt daran, dass sie der Fehler der Schrittrichtung immer akkumuliert und so auch bei einem geringen Fehler mit der Zeit ein erheblicher Drift entsteht. Insgesamt lässt sich aber feststellen, dass die PDR Trajektorie für kurze Distanzen sehr gut geeignet ist. Dieser Drift kann jedoch mit Hilfe regelmäßiger Abgleichung von Referenzpunkten (in diesem Fall absolute 5G-Koordinaten) korrigiert werden. 
 
 Durch diese Abgleichung entsteht eine optimierte Trajektorie, welche dann sowohl aus 5G-Koordniaten und PDR-Messwerten besteht. So nutzt man die 5G-Koordinaten zur absoluten Positionsbestimmung, während die PDR-Messungen durch ihre höhere Messrate dafür sorgen, dass der Verlauf der Trajektorie der Ground Truth nähert kommt. Dafür sind in der Geodäsie Optimierungsansätze wie das Kalman-Filter oder die Methode der kleinsten Quadrate (engl.: Least-Square) häufig im Einsatz.
@@ -80,7 +79,7 @@ In dem vierten und letzten Schritt dem Update wird ein gewichtiets Mittel aus de
 \subsubsection{Extended Kalman-Filter (nicht- lineares Modell)}
 In den meisten Anwendungsbereichen sind weder Bewegungsmodell noch Beobachtungsmodell linear. Häufig schaut das System in eine Richtung und misst in die andere. Wenn man von nicht-linearen Funktionen spricht, werden damit häufig Winkelfunktionen gemeint, mit Sinus und Kosinus. Das Problem ist, dass nicht-lineare Funktionen zu keiner Normalverteilung führen und man dadurch keinen diskreten Kalman Filter verwendet kann. Eine Lösung des Problems ist die Linearisierung durch eine Approximation. Durch die Taylor Entwicklung kann so eine lineare Annäherung der nicht-linearen Funktionen geschehen. Nach Anwendung der Approximation erhält man einen erweiterten Kalman Filter den so genannten Extended Kalman Filter \parencite{teil2}. 
 
-\textcolor{red}{Neues Bewegungsmodell:}
+Neues Bewegungsmodell:
 \begin{equation}
 \boldsymbol{x}_{i+1} = \boldsymbol{f}^{i+1}_i(\boldsymbol{x}_i, \boldsymbol{w}_i)
 \end{equation}
@@ -220,21 +219,21 @@ Die Ergebnisse der Zwischenschritte werden dann in die Formeln, die bereits im K
 Das Ergebnis des Kalman Filters lässt sich steuern indem die Genauigkeiten der 5G Punkte bzw. der PDR Beobachtungen angepasst werden. Mit den Genauigkeiten wird die Kalman-Gain Matrix gebildet, welche im 4. Schritt des Kalman Filters die Beobachtungen gewichten. Das Ergebnis kann dementsprechend anders sein. In Abbildung \ref{fig:kf_11_schlecht} sind zwei Kalman Filter zu sehen, Kalman Filter 1 springt von 5G Koordinate zu 5G Koordinate, weil die Genauigkeit der 5G Koordinaten relativ zu der PDR Genauigkeit deutlich kleiner ist. Im Kalman Filter 2 ist dies umgekehrt, hier folgt der Kalman Filter fasst ausschließlich den PDR Werten. 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\linewidth]{source/images/kf_11_schlecht}
-	\caption{Kalman Filter, 5G Koordinaten (nfg11) und Ground Truth}
+	\includegraphics[width=0.8\linewidth]{source/images/kf_11_schlecht}
+	\caption{Kalman Filter, 5G Koordinaten ('nfg11') und Ground Truth}
 	\label{fig:kf_11_schlecht}
 \end{figure} 
 Beides sind Beispiele für einen schlecht eingestellten Kalman Filter. Die Genauigkeitswerte sollten so eingestellt werden, dass ein guter Kompromiss zwischen PDR und 5G Koordinaten gefunden wird und beide sich gut ausgleichen. In Abbildung \ref{fig:kf_11} ist ein Beispiel mit einigermaßen gut austarierten Genauigkeitswerten. Das Ergebnis ist eine Trajektorie, welche nicht zu sehr auf die teils ungenauen 5G Koordinaten reagiert aber auch nicht auf Dauer von der Ground Truth wegdriftet. 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\linewidth]{source/images/kf_11}
+	\includegraphics[width=0.8\linewidth]{source/images/kf_11}
 	\caption{Kalman Filter, 5G Koordinaten ('nfg11') und Ground Truth}
 	\label{fig:kf_11}
 \end{figure}
 Abbildung \ref{fig:kf_53} zeigt den gleichen Filter allerdings mit dem 5G Datensatz welcher wesentlich weniger Beobachtungen beinhaltet und ungenauer ist. 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\linewidth]{source/images/kf_53}
+	\includegraphics[width=0.8\linewidth]{source/images/kf_53}
 	\caption{Kalman Filter, 5G Koordinaten ('nfg53') und Ground Truth}
 	\label{fig:kf_53}
 \end{figure}
@@ -256,22 +255,23 @@ Dieses Interpolieren wird so häufig durchgeführt, bis eine neue 5G Beobachtung v
 Dir für die Weighted-Least-Square Methode verwendeten Genauigkeiten bilden auf der einen Seite die von den 5G Koordinaten (absolute) und auf der anderen Seite die für die PDR Werte (relativen). Das Ergebnis in Abbildung \ref{fig:ls_11} zeigt den Datensatz 'nfg11', der weit aus mehr Beobachtungen hat als der 'nfg53' Datensatz. Hier wurden den PDR Beobachtungen mehr Gewicht gegeben womit sie eine sehr gute Genauigkeit aufweisen ($\sigma_{PDR}$ = 0.2). Im Gegensatz dazu wird den 5G Koordinaten weniger Einfluss in die Ausgleichung gegeben. Ihre Standardabweichung liegt deutlicher höher als die von den PDR Beobachtungen ($\sigma_{5G}$ = 3).  
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\linewidth]{source/images/ls_11}
+	\includegraphics[width=0.8\linewidth]{source/images/ls_11}
 	\caption{WLS, 5G Koordinaten (nfg11) und Ground Truth}
 	\label{fig:ls_11}
 \end{figure}
 Das Ergebnis zeigt, dass der Verlauf der WLS-Ausgleichung der eigentlichen Wahrheit entspricht. Nur an einigen Kurvenbereichen gibt es einen kleinen Versatz. Das gleiche Muster ist auch in der Abbildung \ref{fig:ls_53} zu sehen. Obwohl dieser Datensatz eine geringe Menge an Beobachtungen aufweist als der zuvor, kann hier auch beobachtet werden, dass der grobe Verlauf der tatsächlichen Trajektorie entspricht. Die Einstellung der Standardabweichung sowohl für die 5G Koordniaten als auch für die PDR-Beobachungen sind unveränderlich. Sie entsprechen also den gleichen wie bereits in Abbildung \ref{fig:ls_11} zu sehen ist. 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\linewidth]{source/images/ls_53}
+	\includegraphics[width=0.8\linewidth]{source/images/ls_53}
 	\caption{WLS, 5G Koordinaten ('nfg53') und Ground Truth}
 	\label{fig:ls_53}
 \end{figure}
 
 \subsection{Vergleich der Ergebnisse}
+
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\linewidth]{source/images/kf_11}
+	\includegraphics[width=0.8\linewidth]{source/images/kf_11}
 	\caption{Vergleich zwischen Kalman Filter und WLS}
 	\label{fig:vergleich}
 \end{figure}
@@ -280,5 +280,7 @@ Das Ergebnis zeigt, dass der Verlauf der WLS-Ausgleichung der eigentlichen Wahrh
 \section{Fazit und Ausblick}
 \textcolor{red}{Eine Erörterung (oder "Bewertung") der Ergebnisse, Zusammenfassung und zukünftige Forschungsperspektiven
 }
+
+Als zukünftige Forschungsperspektive könnte der Extended Kalman Filter noch mehr erweitert werden. Der Vektor der geschätzten Parameter $\boldsymbol{\hat{x}}_{i}$, der eine Dimension von 4x1 aufweist könnte auf eine Dimension von 6x1 erweitert werden. Dafür kommen neben dem ${x}_{i}$, ${y}_{i}$, ${L}_{i}$ und ${R}_{i}$ noch die Fehler der Schrittlänge und -richtung ($L_{error_i}$,$R_{error_i}$) hinzu. Es wird vermutet, dass durch Berücksichtigungen der Ungenauigkeit für Schrittlänge und -richtung das Vorhersage noch besser funktionieren. Ob das der Wirklichkeit entspricht, kann dieser Ansatz in Zukunft überprüft werden. 
 
 %\bibliography
