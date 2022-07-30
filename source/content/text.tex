@@ -18,7 +18,7 @@ Auch andere Arbeiten beschäftigen sich mit solchen Thema. Das Paper \textcite{kj
 
 Einige Herausforderungen, die während der Bearbeitung des Themas entstanden sind, war weniger das theoretische Verständnis, sondern viel mehr die Implementation in Python. Oft kommt es beim Programmieren zu Fehlermeldungen, die nicht immer so schnell zu lösen sind. 
 
-In diese Arbeit ist aufgeteilt in drei Oberkapitel: Methodologie, Implementation und Fazit und Ausblick. In dem Kapitel Methodologie werden die generellen Konzepte des Diskreten Kalman-Filters, des extended Kalman-Filter und der des Weighted Least-Square Methode dargestellt. Bei der Implementation wird die detailiierte Ausführung der Arbeitsschritte samt ihrer Ergebnissen vorgestellt. Damit werden die Ergebnisse der unterschiedlichen Verfahren miteinander verglichen. Zum Schluss werden die Ergebnisse zusammengefasst und kritisch analysiert. Als Ausblick wird/werden zukünftige Forschungsperspektiven dargelegt. 
+Diese Arbeit ist aufgeteilt in drei Oberkapitel: Methodologie, Implementation und Fazit und Ausblick. In dem Kapitel Methodologie werden die generellen Konzepte des Diskreten Kalman-Filters, des extended Kalman-Filter und der des Weighted Least-Square Methode dargestellt. Bei der Implementation wird die detailiierte Ausführung der Arbeitsschritte samt ihrer Ergebnissen vorgestellt. Damit werden die Ergebnisse der unterschiedlichen Verfahren miteinander verglichen. Zum Schluss werden die Ergebnisse zusammengefasst und kritisch analysiert. Als Ausblick wird/werden zukünftige Forschungsperspektiven dargelegt. 
 
 \textcolor{red}{Was sind die Anwendungsbereiche des Themas?}
 
@@ -262,7 +262,7 @@ Dir für die Weighted-Least-Square Methode verwendeten Genauigkeiten bilden auf d
 	\caption{WLS, 5G Koordinaten ('nfg53') und Ground Truth}
 	\label{fig:ls_53}
 \end{figure}
-Das Ergebnis zeigt, dass der Verlauf der WLS Ausgleichung der eigentlichen Wahrheit entspricht. Nur an einigen Kurvenbereichen gibt es einen kleinen Versatz. Das gleiche Muster ist auch in der Abbildung \ref{fig:ls_53} zu sehen. Obwohl dieser Datensatz eine geringe Menge an Beobachtungen aufweist als der zuvor, kann hier auch beobachtet werden, dass der grobe Verlauf der tatsächlichen Trajektorie entspricht. Die Einstellung der Standardabweichung sowohl für die 5G Koordinaten als auch für die PDR Beobachungen sind unveränderlich. Sie entsprechen also den gleichen wie bereits in Abbildung \ref{fig:ls_11} zu sehen ist. 
+Das Ergebnis zeigt, dass der Verlauf der WLS Ausgleichung der eigentlichen Wahrheit entspricht, nur an einigen Kurvenbereichen gibt es einen kleinen Versatz. Das gleiche Muster ist auch in der Abbildung \ref{fig:ls_53} zu sehen. Obwohl dieser Datensatz eine geringe Menge an Beobachtungen aufweist als der zuvor, kann hier auch beobachtet werden, dass der grobe Verlauf der tatsächlichen Trajektorie entspricht. Die Einstellung der Standardabweichung sowohl für die 5G Koordinaten als auch für die PDR Beobachungen sind unveränderlich. Sie entsprechen also den gleichen wie bereits in Abbildung \ref{fig:ls_11} zu sehen ist. 
 
 \subsection{Vergleich der Ergebnisse}
 Abbildung \ref{fig:vergleich_2} und \ref{fig:vergleich_3} zeigen den Vergleich von Weigthed-Least-Square und dem Kalman Filter mit der Ground Truth bei beiden 5G Datensätzen. Beim 'nfg11' Datensatz zeigen sich beide Trajektorien relativ gut, lediglich beim rechten Teil zeigt der Kalman Filter etwas größere Differenzen zur Ground Turth als WLS. Beim schlechteren 'nfg53' Datensatz werden die Unterschiede schon etwas größer.
@@ -289,8 +289,11 @@ Vergleicht man den Kalman Filter mit der Weighted-Least-Square Methode so fällt 
 
 \section{Fazit und Ausblick}
 
+In diesem Bericht wurden verschiedene Möglichkeiten gezeigt, wie 5G Koordinaten mit Schrittlängen und Schrittrichtungsbeobachtungen eines PDRs kombiniert werden können um eine Trajektorie zu berechnen, welche möglichst der Ground Truth nahe kommt. Einsatzzweck könnten Indoorumgebungen sein, bei der eine genaue Lokalisation notwendig ist. Wir haben dabei drei Methoden untersucht: Kalman Filter, Extended Kalman Filter und Weighted Least Square. 
+
 Zusammenfassend kann vorab festgehalten werden, dass die Trajektorie der Weighted-Least-Square Methode besser abschneidet als die des diskreten Kalman Filters. Das zeigt sich auch noch mal an der Abbildung \ref{fig:vergleich_1}, in der eine Beobachtungslücke simuliert wurde. Dadruch das die WLS Methode interpolierte 5G Werte mit in die Ausgleichung nimmt, kann die gesamte Trajektorie besser bestimmt werden als bei dem diskreten Kalman Filter. 
 
 Als zukünftige Forschungsperspektive könnte der Extended Kalman Filter noch mehr erweitert werden. Der Vektor der geschätzten Parameter $\boldsymbol{\hat{x}}_{i}$, der eine Dimension von 4x1 aufweist könnte auf eine Dimension von 6x1 erweitert werden. Dafür kommen neben dem ${x}_{i}$, ${y}_{i}$, ${L}_{i}$ und ${R}_{i}$ noch die Fehler der Schrittlänge und -richtung ($L_{error_i}$,$R_{error_i}$) hinzu. Es wird vermutet, dass durch Berücksichtigungen der Ungenauigkeit für Schrittlänge und -richtung das Vorhersage noch besser funktionieren. Ob das der Wirklichkeit entspricht, kann dieser Ansatz in Zukunft überprüft werden. 
 
-\textcolor{red}{Eine Erörterung (oder "Bewertung") der Ergebnisse, Zusammenfassung und zukünftige Forschungsperspektiven}
+Desweiteren sollten die Filter auch mit anderen Datensätzen getestet werden, um zu vermeiden, dass die getroffenen Einstellungen die Filter zu sehr an die beiden vorhandenen Datensätze anpasst und nicht universell einsetzbar sind. Ein weiterer Ansatz könnte sein, die Methoden echtzeitfähig zu machen. In der Theorie ist dies möglich allerdings würde dies eine Umstrukturierung des Quellcodes erfordern.
+
