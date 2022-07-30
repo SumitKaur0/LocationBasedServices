@@ -267,12 +267,12 @@ Das Ergebnis zeigt, dass der Verlauf der WLS-Ausgleichung der eigentlichen Wahrh
 \end{figure}
 
 \subsection{Vergleich der Ergebnisse}
-
+Vergleicht man den Kalman Filter mit der Weighted Least Square Methode so fällt auf, dass der Kalman Filter insgesamt viel eckiger aussieht als die vergleichsweise runde Trajektorie von WLS. Gerade beim nfg53 Datensatz wird dies deutlich. Dies liegt daran, dass der Kalman Filter nur bei jeder neuen 5G Beobachtung updated und eine neue Position berechnet. Abbildung \ref{fig:vergleich_1} verdeutlicht dies. Hier wurde eine größere Beobachtungslücke simuliert bei der die Ground Truth zwei Kurven zurücklegt. Während der Kalman-Filter fast auf direktem Weg zur nächsten 5G Beobachtung abkürzt, simuliert die Least-Square Trajektorie die beiden Kurven einigermaßen gut. Hier schneidet die WLS Methode klar besser ab als der Kalman Filter.
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.8\linewidth]{source/images/kf_11}
-	\caption{Vergleich zwischen Kalman Filter und WLS}
-	\label{fig:vergleich}
+	\includegraphics[width=0.8\linewidth]{source/images/vergleich_ls_kf_gap}
+	\caption{Vergleich zwischen Kalman Filter und WLS bei Beobachtungslücke}
+	\label{fig:vergleich_1}
 \end{figure}
 
 
