@@ -18,12 +18,10 @@ Auch andere Arbeiten beschäftigen sich mit solchen Thema. Das Paper \textcite{kj
 
 Einige Herausforderungen, die während der Bearbeitung des Themas entstanden sind, war weniger das theoretische Verständnis, sondern viel mehr die Implementation in Python. Oft kommt es beim Programmieren zu Fehlermeldungen, die nicht immer so schnell zu lösen sind. 
 
-Diese Arbeit ist aufgeteilt in drei Oberkapitel: Methodologie, Implementation und Fazit und Ausblick. In dem Kapitel Methodologie werden die generellen Konzepte des Diskreten Kalman-Filters, des extended Kalman-Filter und der des Weighted Least-Square Methode dargestellt. Bei der Implementation wird die detailiierte Ausführung der Arbeitsschritte samt ihrer Ergebnissen vorgestellt. Damit werden die Ergebnisse der unterschiedlichen Verfahren miteinander verglichen. Zum Schluss werden die Ergebnisse zusammengefasst und kritisch analysiert. Als Ausblick wird/werden zukünftige Forschungsperspektiven dargelegt. 
-
-\textcolor{red}{Was sind die Anwendungsbereiche des Themas?}
+Diese Arbeit ist aufgeteilt in drei Oberkapitel: Methodologie, Implementation und Fazit und Ausblick. In dem Kapitel Methodologie werden die generellen Konzepte des Diskreten Kalman-Filters, des Extended Kalman-Filter und der des Weighted-Least-Square Methode dargestellt. Bei der Implementation wird die detaillierte Ausführung der Arbeitsschritte samt ihrer Ergebnissen vorgestellt. Damit werden die Ergebnisse der unterschiedlichen Verfahren miteinander verglichen. Zum Schluss werden die Ergebnisse zusammengefasst und kritisch analysiert. Als Ausblick wird/werden zukünftige Forschungsperspektiven dargelegt. 
 
 \section{Methodologie}
-In diesem Kapitel werden die theoretischen Methoden und allgemeinen Konzepten des Kalman Filters und der Least Square-Methode beschrieben. 
+In diesem Kapitel werden die theoretischen Methoden und allgemeinen Konzepten des Kalman Filters und der Least-Square Methode beschrieben. 
 
 \subsection{Das Kalman Filter}
 Während die meisten Systeme mit zahlreichen Sensoren ausgestattet sind führen diese mit Hilfe von Messungen eine Schätzung der unbekannten Parameter aus. Dabei kann es herausfordernd sein eine genaue und präzise Schätzung dieser Unbekannten unter Berücksichtigungen ihrer Unsicherheiten durchzuführen. Dafür wird nicht selten der Kalman-Filter zur Hilfe genommen. Er findet dort Anwendung, wo bestimmte Sensoren nicht funktionieren oder sogar ausfallen und man dennoch die Systemgrößen schätzen möchte. Das Kalman-Filter liefert somit eine Vorhersage des zukünftigen Systemzustands auf der Grundlage vergangener Schätzungen.
@@ -289,11 +287,11 @@ Vergleicht man den Kalman Filter mit der Weighted-Least-Square Methode so fällt 
 
 \section{Fazit und Ausblick}
 
-In diesem Bericht wurden verschiedene Möglichkeiten gezeigt, wie 5G Koordinaten mit Schrittlängen und Schrittrichtungsbeobachtungen eines PDRs kombiniert werden können um eine Trajektorie zu berechnen, welche möglichst der Ground Truth nahe kommt. Einsatzzweck könnten Indoorumgebungen sein, bei der eine genaue Lokalisation notwendig ist. Wir haben dabei drei Methoden untersucht: Kalman Filter, Extended Kalman Filter und Weighted Least Square. 
+In diesem Bericht wurden verschiedene Möglichkeiten gezeigt, wie 5G Koordinaten mit Schrittlängen und Schrittrichtungsbeobachtungen eines PDRs kombiniert werden können, um eine Trajektorie zu berechnen, welche möglichst der Ground Truth nahe kommt. Einsatzzweck könnten Indoorumgebungen sein, bei der eine genaue Lokalisation notwendig ist. Wir haben dabei drei Methoden untersucht: der Diskrete Kalman Filter, der Extended Kalman Filter und die Weighted-Least-Square Methode. 
 
 Zusammenfassend kann vorab festgehalten werden, dass die Trajektorie der Weighted-Least-Square Methode besser abschneidet als die des diskreten Kalman Filters. Das zeigt sich auch noch mal an der Abbildung \ref{fig:vergleich_1}, in der eine Beobachtungslücke simuliert wurde. Dadruch das die WLS Methode interpolierte 5G Werte mit in die Ausgleichung nimmt, kann die gesamte Trajektorie besser bestimmt werden als bei dem diskreten Kalman Filter. 
 
 Als zukünftige Forschungsperspektive könnte der Extended Kalman Filter noch mehr erweitert werden. Der Vektor der geschätzten Parameter $\boldsymbol{\hat{x}}_{i}$, der eine Dimension von 4x1 aufweist könnte auf eine Dimension von 6x1 erweitert werden. Dafür kommen neben dem ${x}_{i}$, ${y}_{i}$, ${L}_{i}$ und ${R}_{i}$ noch die Fehler der Schrittlänge und -richtung ($L_{error_i}$,$R_{error_i}$) hinzu. Es wird vermutet, dass durch Berücksichtigungen der Ungenauigkeit für Schrittlänge und -richtung das Vorhersage noch besser funktionieren. Ob das der Wirklichkeit entspricht, kann dieser Ansatz in Zukunft überprüft werden. 
 
-Desweiteren sollten die Filter auch mit anderen Datensätzen getestet werden, um zu vermeiden, dass die getroffenen Einstellungen die Filter zu sehr an die beiden vorhandenen Datensätze anpasst und nicht universell einsetzbar sind. Ein weiterer Ansatz könnte sein, die Methoden echtzeitfähig zu machen. In der Theorie ist dies möglich allerdings würde dies eine Umstrukturierung des Quellcodes erfordern.
+Des weiteren sollten die Filter auch mit anderen Datensätzen getestet werden, um zu vermeiden, dass die getroffenen Einstellungen die Filter zu sehr an die beiden vorhandenen Datensätze anpasst und nicht universell einsetzbar sind. Ein weiterer Ansatz könnte sein, die Methoden echtzeitfähig zu machen. In der Theorie ist dies möglich allerdings würde dies eine Umstrukturierung des Quellcodes erfordern.
 
