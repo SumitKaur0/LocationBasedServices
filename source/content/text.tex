@@ -237,9 +237,14 @@ Abbildung \ref{fig:kf_53} zeigt die Trajektorie, welche sich durch den diskreten
 	\centering
 	\includegraphics[width=1\linewidth]{source/images/kf_11_variance_vergleich}
 	\caption{Kalman Filter Vergleich $\sigma_{\Delta_{x,y}}²$}
-	\label{fig:kf_53}
+	\label{fig:virance_vergleich_1}
 \end{figure}
-
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{source/images/Figure_4}
+	\caption{Kalman Filter Vergleich $\sigma_{5G_{x,y}}²$}
+	\label{fig:variance_vergleich_2}
+\end{figure}
 \subsection{Extended Kalman-Filter}
 \subsubsection{Ergebnisse}
 \subsection{Weighted-Least-Square}
@@ -268,7 +273,18 @@ Dir für die Weighted-Least-Square Methode verwendeten Genauigkeiten bilden auf d
 	\label{fig:ls_53}
 \end{figure}
 Das Ergebnis zeigt, dass der Verlauf der WLS Ausgleichung der eigentlichen Wahrheit entspricht, nur an einigen Kurvenbereichen gibt es einen kleinen Versatz. Das gleiche Muster ist auch in der Abbildung \ref{fig:ls_53} zu sehen. Obwohl dieser Datensatz eine geringe Menge an Beobachtungen aufweist als der zuvor, kann hier auch beobachtet werden, dass der grobe Verlauf der tatsächlichen Trajektorie entspricht. Die Einstellung der Standardabweichung sowohl für die 5G Koordinaten als auch für die PDR Beobachungen sind unveränderlich. Sie entsprechen also den gleichen wie bereits in Abbildung \ref{fig:ls_11} zu sehen ist. 
-
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{source/images/Figure_2}
+	\caption{Least Square ${1}$}
+	\label{fig:virance_vergleich_3}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{source/images/Figure_3}
+	\caption{Least Square $s{2}$}
+	\label{fig:variance_vergleich_4}
+\end{figure}
 \subsection{Vergleich der Ergebnisse}
 Abbildung \ref{fig:vergleich_2} und \ref{fig:vergleich_3} zeigen den Vergleich von Weigthed-Least-Square und dem Kalman Filter mit der Ground Truth bei beiden 5G Datensätzen. Beim 'nfg11' Datensatz zeigen sich beide Trajektorien relativ gut, lediglich beim rechten Teil zeigt der Kalman Filter etwas größere Differenzen zur Ground Turth als WLS. Beim schlechteren 'nfg53' Datensatz werden die Unterschiede schon etwas größer.
 \begin{figure}[h!]
