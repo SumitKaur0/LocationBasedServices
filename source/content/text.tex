@@ -233,12 +233,16 @@ Abbildung \ref{fig:kf_53} zeigt den gleichen Filter allerdings mit dem 5G Datens
 	\label{fig:kf_53}
 \end{figure}
 Abbildung \ref{fig:kf_53} zeigt die Trajektorie, welche sich durch den diskreten Kalman Filter ergibt, sowie die 5G Koordinaten und die Ground Truth. Hier ist deutlich zu sehen, dass der Filter nur so viele Punkte hat wie 5G Punkte in den Filter einfließen. Dadurch wirkt die Trajektorie sehr eckig und weißt deutlich größere Abweichungen zur Ground Truth auf.
+Das Ergebnis der Trajektorie und somit auch auch die Präzision der Trajektorie hängt maßgeblich von den Genauigkeitsparametern ein, welche in der Innovation mit in den Algorythmus einfließen. Abbildung \ref{fig:virance_vergleich_1} zeigt verschiedene Trajektorien, bei denen jeweils die Varianz von $\Delta_{x,y}$ angepasst wurde. Die Varianz der 5G Koordinaten (0.0001)ist in allen Trajektorien gleich geblieben. 
+Es zeigt sich folgender Zusammenhang: Je größer die Varianz von $\Delta_{x,y}$ wird, desto näher orientiert sich die Trajektorie an den 5G Koordinaten, was mit den Nachteilen einer springenden Trajektorie mit einhergeht. Dies liegt daran, dass mit steigender Varianz den $\Delta_{x,y}$ zunehmend weniger vertraut wird und die 5G Koordinaten wichtiger werden zur Bildung der Trajektorie. Andersherum zeigt sich, dass bei kleineren Varianzen sich die Trajektorie zunehmend von der Ground Truth entfernt und sich einer reinen PDR Trajektorie \ref{fig:pdr} annähert. Auch hier gillt nun, dass der Algorytmus den PDR Werten im Vergleich zu den 5G Werten zu sehr vertraut, da die Varianzen sehr niedrig sind.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\linewidth]{source/images/kf_11_variance_vergleich}
 	\caption{Kalman Filter Vergleich $\sigma_{\Delta_{x,y}}²$}
 	\label{fig:virance_vergleich_1}
 \end{figure}
+Abbildung \ref{fig:virance_vergleich_2} zeigt einen ähnlichen Zusammenhang, nur das hier nun die PDR Varianzen (0.000001) unverändert sind und nur die Varianzen von den 5G Koordinaten verändert worden ist. Das Ergebnis ist ähnlich, erhöhen wir die Varianzen von den 5G Koordinaten driftet die Trajektorie wie die reinen PDR Beobachtungen senken wir die Varianzen, dann springen wir von 5G Koordinate zu 5G Koordinate. 
+Es lässt sich also feststellen, dass die Varianzen gut austariert werden müssen um ein zufriedenstellendes Ergebnis zu erhalten welches die beiden Beobachtungsverfahren gut kombiniert und sich nicht zu sehr auf ein Beobachtungsverfahren verlässt. 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\linewidth]{source/images/Figure_4}
