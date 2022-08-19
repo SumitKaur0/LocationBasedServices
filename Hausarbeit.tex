@@ -10,24 +10,23 @@
 
 % Beginn des Dokuments
 \begin{document}
-%\nocite{*}
-
 \include{source/Titelseite}
 %\frontmatter
-\pagenumbering{Roman} 
+\nocite{*}
+\pagenumbering{roman} 
 %\listoffigures
 \clearpage
 \tableofcontents
 \clearpage
 \pagenumbering{arabic}
-%\mainmatter
-% Abstand Gleichung und Text
-\setlength\abovedisplayskip{8pt}
-\setlength\belowdisplayskip{8pt}
+%\setlength\abovedisplayskip{8pt}
+%\setlength\belowdisplayskip{8pt}
 \include{source/content/text}
-\addcontentsline{toc}{section}{Bibliography}
-\printbibliography[title = Literaturverzeichnis]
-%\backmatter
+%\addcontentsline{toc}{section}{Bibliography}
+%\printbibliography[title = Literaturverzeichnis]
+
+\bibliographystyle{IEEEtran}
+\bibliography{sampleBibFile}
 \end{document}
 
 
