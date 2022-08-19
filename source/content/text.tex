@@ -1,5 +1,8 @@
+
+
 \section{Einleitung}
-Vorallem in unübersichtlichen und unbekannten Gebäuden kann die Verwendung von Indoor Navigation nützlich sein, um die Positionen von Menschen oder Objekten zu verfolgen. Das Problem bei der Navigation im Gebäude ist der schlechte bis fehlende GNSS-Empfang. Weshalb das sonst übliche Verfahren, mittels Satellitennavigation im Gebäude meistens keine zufriedenstellende Positionslösung bietet und somit meistens keine zuverlässige Möglichkeit bei der Indoor Navigation darstellt. Da Inertiales Navigationssysteme (INS) ohne GNSS-Signale auskommen, können sie hervorragend in der Indoor-Navigation eingesetzt werden. Dafür wird ein einfacher Bewegungssensor benötigt, welcher sich beispielsweise in einem Ortungssystem für gehende Personen befindet, das so genannte \textit{Personal Dead Reckoning (PDR)}-System. Das PDR-System verwendet eine Inertialmesseinheit (IMU). Diese wird am Schuh des Nutzers befestigt und liefert Informationen wie die Schrittlänge und Schrittrichtung. Diese Informationen können dabei helfen den Standpunkt des Nutzers relativ zu einem bekannten Referenzpunkten in Echtzeit zu ermitteln \cite{borenstein2007}. In dieser Arbeit werden sogenannte 5G-Koordinaten als bekannte Referenzpunkte verwendet.
+Vorallem in unübersichtlichen und unbekannten Gebäuden kann die Verwendung von Indoor Navigation nützlich sein, um die Positionen von Menschen oder Objekten zu verfolgen. Das Problem bei der Navigation im Gebäude ist der schlechte bis fehlende GNSS-Empfang. Weshalb das sonst übliche Verfahren, mittels Satellitennavigation im Gebäude meistens keine zufriedenstellende Positionslösung bietet und somit meistens keine zuverlässige Möglichkeit bei der Indoor Navigation darstellt. Da Inertiales Navigationssysteme (INS) ohne GNSS-Signale auskommen, können sie hervorragend in der Indoor-Navigation eingesetzt werden. Dafür wird ein einfacher Bewegungssensor benötigt, welcher sich beispielsweise in einem Ortungssystem für gehende Personen befindet, das so genannte \textit{Personal Dead Reckoning (PDR)}-System. Das PDR-System verwendet eine Inertialmesseinheit (IMU). Diese wird am Schuh des Nutzers befestigt und liefert Informationen wie die Schrittlänge und Schrittrichtung. Diese Informationen können dabei helfen den Standpunkt des Nutzers relativ zu einem bekannten Referenzpunkten in Echtzeit zu ermitteln. In dieser Arbeit werden absolute 5G-Koordinaten als bekannte Referenzpunkte verwendet. Diese neue 5G-Technologie zur Standortbestimmung bietet eine Vielzahl von Mobilfunk-basierten und hybriden Ortungsdiensten an. Die sowohl auch absolute und relative Positionierung anbieten \cite{borenstein2007,sylvia}. 
+\textcolor{red}{Die zu erwartende Genauigkeit von 5G soll sich laut Frauenhofer \cite{fraunhofer} die nächsten Jahren stetig verbessern.}
 
 Nachteile eines PDR-System ist das sie durch akkumulierte Messfehlern einen Drift aufweisen (siehe Abbildung \ref{fig:pdr}). Wie man sieht, kann die PDR Trajektorie der Ground Truth am Anfang für etwa 10 - 15 Meter relativ genau folgen. Anschließend driftet die PDR Trajektorie allerdings zunehmend nach rechts ab.
 \begin{figure}[h!]
@@ -242,7 +245,6 @@ Es zeigt sich folgender Zusammenhang: Je größer die Varianz von $\Delta_{x,y}$ w
 	\caption{Kalman Filter Vergleich $\sigma_{\Delta_{x,y}}²$}
 	\label{fig:virance_vergleich_1}
 \end{figure}
-
 Abbildung \ref{fig:variance_vergleich_2} zeigt einen ähnlichen Zusammenhang, nur das hier nun die PDR Varianzen (0.000001) unverändert sind und nur die Varianzen von den 5G Koordinaten verändert worden ist. Das Ergebnis ist ähnlich, erhöhen wir die Varianzen von den 5G Koordinaten driftet die Trajektorie wie die reinen PDR Beobachtungen senken wir die Varianzen, dann springen wir von 5G Koordinate zu 5G Koordinate. 
 Es lässt sich also feststellen, dass die Varianzen gut austariert werden müssen um ein zufriedenstellendes Ergebnis zu erhalten welches die beiden Beobachtungsverfahren gut kombiniert und sich nicht zu sehr auf ein Beobachtungsverfahren verlässt. 
 \begin{figure}[h!]
@@ -252,8 +254,11 @@ Es lässt sich also feststellen, dass die Varianzen gut austariert werden müssen 
 	\label{fig:variance_vergleich_2}
 \end{figure}
 \subsection{Extended Kalman-Filter}
+
 \subsubsection{Ergebnisse}
 Die Implentation des Extended Kalman Filters konnte leider nicht beendet werden, da Fehler im Code nicht gefunden werden konnten. 
+Ergebnisse werden im weiteren Verlauf nicht diskutiert und berücksichtigt. 
+
 \subsection{Weighted-Least-Square}
 Für die Implentation der Weighted-Least-Square Methode werden in einem ersten Schritt die 5G Beobachtungen anhand der PDR Beobachtungen interpoliert ($x_i, y_i$), indem aus der Schrittlänge $L$ und der Schrittrichtung $R$, $\Delta x$ und $\Delta y$ berechnet werden und diese auf die 5G Koordinaten aufaddiert werden.
 Je nachdem wie häufig eine neue 5G Beobachtung vorliegt wird entweder eine 5G Beobachtung für $x_i, y_i$) herangezogen oder der vorangegangene interpolierte 5G Wert. Für die Schrittrichtung ist die Nordrichtung $\Phi_0$ essentiell, welche für den Beispiel Datensatz bei 3.5 rad liegt.
@@ -302,7 +307,7 @@ Die Abbildung \ref{fig:variance_vergleich_4} zeigt die Auswirkungen wenn der $s_
 	\label{fig:variance_vergleich_4}
 \end{figure}
 \subsection{Vergleich der Ergebnisse}
-Abbildung \ref{fig:vergleich_2} und \ref{fig:vergleich_3} zeigen den Vergleich von Weigthed-Least-Square und dem Kalman Filter mit der Ground Truth bei beiden 5G Datensätzen. Beim 'nfg11' Datensatz zeigen sich beide Trajektorien relativ gut, lediglich beim rechten Teil zeigt der Kalman Filter etwas größere Differenzen zur Ground Turth als WLS. Beim schlechteren 'nfg53' Datensatz werden die Unterschiede schon etwas größer.
+Abbildung \ref{fig:vergleich_2} und \ref{fig:vergleich_3} zeigen den Vergleich von Weigthed-Least-Square und dem Kalman Filter mit der Ground Truth bei beiden 5G Datensätzen. Beim 'nfg11' Datensatz zeigen sich beide Trajektorien relativ gut, lediglich beim rechten Teil zeigt der Kalman Filter etwas größere Differenzen zur Ground Truth als WLS. Beim schlechteren 'nfg53' Datensatz werden die Unterschiede schon etwas größer.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{source/images/vergleich_ls_kf_11}

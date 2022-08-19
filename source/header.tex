@@ -12,4 +12,10 @@
 \newenvironment{spmatrix}[1]
 {\def\mysubscript{#1}\mathop\bgroup\begin{pmatrix}}
 	{\end{pmatrix}\egroup_{\textstyle\mathstrut\mysubscript}}
+\usepackage{xcolor}
+\usepackage{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\ohead{LBS}
+\automark{section}
+\ofoot{\pagemark}
 
