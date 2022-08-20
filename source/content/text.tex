@@ -1,7 +1,8 @@
-
+\ohead{LBS}
+\automark{section}
 
 \section{Einleitung}
-Vorallem in unübersichtlichen und unbekannten Gebäuden kann die Verwendung von Indoor Navigation nützlich sein, um die Positionen von Menschen oder Objekten zu verfolgen. Das Problem bei der Navigation im Gebäude ist der schlechte bis fehlende GNSS-Empfang. Weshalb das sonst übliche Verfahren, mittels Satellitennavigation im Gebäude meistens keine zufriedenstellende Positionslösung bietet und somit meistens keine zuverlässige Möglichkeit bei der Indoor Navigation darstellt. Da Inertiales Navigationssysteme (INS) ohne GNSS-Signale auskommen, können sie hervorragend in der Indoor-Navigation eingesetzt werden. Dafür wird ein einfacher Bewegungssensor benötigt, welcher sich beispielsweise in einem Ortungssystem für gehende Personen befindet, das so genannte \textit{Personal Dead Reckoning (PDR)}-System. Das PDR-System verwendet eine Inertialmesseinheit (IMU). Diese wird am Schuh des Nutzers befestigt und liefert Informationen wie die Schrittlänge und Schrittrichtung. Diese Informationen können dabei helfen den Standpunkt des Nutzers relativ zu einem bekannten Referenzpunkten in Echtzeit zu ermitteln. In dieser Arbeit werden absolute 5G-Koordinaten als bekannte Referenzpunkte verwendet. Diese neue 5G-Technologie zur Standortbestimmung bietet eine Vielzahl von Mobilfunk-basierten und hybriden Ortungsdiensten an. Die sowohl auch absolute und relative Positionierung anbieten \cite{borenstein2007,sylvia}. 
+Vorallem in unübersichtlichen und unbekannten Gebäuden kann die Verwendung von Indoor Navigation nützlich sein, um die Positionen von Menschen oder Objekten zu verfolgen. Das Problem bei der Navigation im Gebäude ist der schlechte bis fehlende GNSS-Empfang. Weshalb das sonst übliche Verfahren, mittels Satellitennavigation im Gebäude meistens keine zufriedenstellende Positionslösung bietet und somit meistens keine zuverlässige Möglichkeit bei der Indoor Navigation darstellt. Da Inertiales Navigationssysteme (INS) ohne GNSS-Signale auskommen, können sie hervorragend in der Indoor Navigation eingesetzt werden. Dafür wird ein einfacher Bewegungssensor benötigt, welcher sich beispielsweise in einem Ortungssystem für gehende Personen befindet, das so genannte \textit{Personal Dead Reckoning (PDR)}-System. Das PDR-System verwendet eine Inertialmesseinheit (IMU). Diese wird am Schuh des Nutzers befestigt und liefert Informationen wie die Schrittlänge und Schrittrichtung. Diese Informationen können dabei helfen den Standpunkt des Nutzers relativ zu einem bekannten Referenzpunkten in Echtzeit zu ermitteln. In dieser Arbeit werden absolute 5G-Koordinaten als bekannte Referenzpunkte verwendet. Diese neue 5G-Technologie zur Standortbestimmung bietet eine Vielzahl von Mobilfunk-basierten und hybriden Ortungsdiensten an. Die sowohl absolute als auch relative Positionierungen wiedergeben \cite{borenstein2007,sylvia}. 
 \textcolor{red}{Die zu erwartende Genauigkeit von 5G soll sich laut Frauenhofer \cite{fraunhofer} die nächsten Jahren stetig verbessern.}
 
 Nachteile eines PDR-System ist das sie durch akkumulierte Messfehlern einen Drift aufweisen (siehe Abbildung \ref{fig:pdr}). Wie man sieht, kann die PDR Trajektorie der Ground Truth am Anfang für etwa 10 - 15 Meter relativ genau folgen. Anschließend driftet die PDR Trajektorie allerdings zunehmend nach rechts ab.
@@ -13,14 +14,10 @@ Nachteile eines PDR-System ist das sie durch akkumulierte Messfehlern einen Drif
 \end{figure}
 Dies liegt daran, dass sie der Fehler der Schrittrichtung immer akkumuliert und so auch bei einem geringen Fehler mit der Zeit ein erheblicher Drift entsteht. Insgesamt lässt sich aber feststellen, dass die PDR Trajektorie für kurze Distanzen sehr gut geeignet ist. Dieser Drift kann jedoch mit Hilfe regelmäßiger Abgleichung von Referenzpunkten (in diesem Fall absolute 5G-Koordinaten) korrigiert werden. 
 
-Durch diese Abgleichung entsteht eine optimierte Trajektorie, welche dann sowohl aus 5G-Koordniaten und PDR-Messwerten besteht. So nutzt man die 5G-Koordinaten zur absoluten Positionsbestimmung, während die PDR-Messungen durch ihre höhere Messrate dafür sorgen, dass der Verlauf der Trajektorie der Ground Truth nähert kommt. Dafür sind in der Geodäsie Optimierungsansätze wie das Kalman-Filter oder die Methode der kleinsten Quadrate (engl.: Least-Square) häufig im Einsatz.
-
+Durch diese Abgleichung entsteht eine optimierte Trajektorie, welche dann sowohl aus 5G-Koordinaten und PDR-Messwerten besteht. So nutzt man die 5G-Koordinaten zur absoluten Positionsbestimmung, während die PDR-Messungen durch ihre höhere Messrate dafür sorgen, dass der Verlauf der Trajektorie der Ground Truth nähert kommt. Dafür sind in der Geodäsie Optimierungsansätze wie das Kalman-Filter oder die Methode der kleinsten Quadrate (engl.: Least-Square) häufig im Einsatz.\\
 Diese Arbeit beschäftigt sich daher mit der Frage wie sich die Ergebnisse einer Ausgleichung von Personal Dead Reckoning (PDR) mittels dem dynamischen Kalman-Filter und der Least-Square Methode unterscheiden?
-
-Auch andere Arbeiten beschäftigen sich mit solchen Thema. Das Paper \cite{kjellson2021} z.B. beschreibt Deep-Learning-Methoden sowohl für die Schätzung von absoluten Positionen als auch für die Durchführung einer Koppelnavigation für Fußgänger (PDR). Beiden Ansätze wurden zur Optimierung der Trajektorie mit Hilfe der gewichteten kleinsten Quadrate (engl.: weighted least square) kombiniert.
-
-Einige Herausforderungen, die während der Bearbeitung des Themas entstanden sind, war weniger das theoretische Verständnis, sondern viel mehr die Implementation in Python. Oft kommt es beim Programmieren zu Fehlermeldungen, die nicht immer so schnell zu lösen sind. 
-
+Auch andere Arbeiten beschäftigen sich mit solchen Thema. Das Paper \cite{kjellson2021} z.B. beschreibt Deep-Learning-Methoden sowohl für die Schätzung von absoluten Positionen als auch für die Durchführung einer Koppelnavigation für Fußgänger (PDR). Beiden Ansätze wurden zur Optimierung der Trajektorie mit Hilfe der gewichteten kleinsten Quadrate (engl.: weighted least square) kombiniert.\\
+Einige Herausforderungen, die während der Bearbeitung des Themas entstanden sind, waren weniger das theoretische Verständnis, sondern viel mehr die Implementation in Python. Oft kommt es beim Programmieren zu Fehlermeldungen, die nicht immer so schnell zu lösen sind. \\
 Diese Arbeit ist aufgeteilt in drei Oberkapitel: Methodologie, Implementation und Fazit und Ausblick. In dem Kapitel Methodologie werden die generellen Konzepte des Diskreten Kalman-Filters, des Extended Kalman-Filter und der des Weighted-Least-Square Methode dargestellt. Bei der Implementation wird die detaillierte Ausführung der Arbeitsschritte samt ihrer Ergebnissen vorgestellt. Damit werden die Ergebnisse der unterschiedlichen Verfahren miteinander verglichen. Zum Schluss werden die Ergebnisse zusammengefasst und kritisch analysiert. Als Ausblick wird/werden zukünftige Forschungsperspektiven dargelegt. 
 
 \section{Methodologie}
@@ -34,7 +31,7 @@ Der Filter ist nach Rudolf E. Kálmán (19. Mai 1930 - 2. Juli 2016) benannt wurde
 Bei dem Kalman Filter unterscheidet man zwei Arten von Filter: der statische und der dynamische Kalman Filter. Diese Arbeit wird sich mit dem dynamischen Kalman Filter auseinander setzen. Dieser setzt sich aus einem Beobachtungsmodell und einem Bewegungsmodell zusammen. Bei dem Beobachtungsmodell handelt es sich um Beobachtungen und ihre Unsicherheiten. Bei dem Bewegungsmodell wird auch von einer Prädiktion (dynamisches Modell) und ihren Unsicherheiten gesprochen. Aus ihr erfolgt dann die Schätzung des Zustandes. Wenn sowohl Beobachtungsmodell als auch Bewegungsmodell linear sind wird der diskrete Kalman Filter verwendet. Wenn beide Modelle nicht-linear sind findet der Extended Kalman Filter Anwendung. 
 
 \subsubsection{Diskreter Kalman-Filter (lineares Modell)}\label{subsub_diskret}
-Bei dem diskreten Kalman-Filter ist die Idee die Beobachtungen zu bestimmten (diskreten) Zeitpunkten mit einem Bewegungsmodell zu kombinieren. Das Bewegungsmodell prädiziert dann den Zustandsvektor ausgehend von der Schätzung des vorherigen Schrittes. Generell werden vier Schritte benötigt: die Prädiktion, die Innovation, die Kalman-Gain-Matrix und das Update \cite{teil1}. 
+Bei dem diskreten Kalman-Filter ist die Idee die Beobachtungen zu bestimmten (diskreten) Zeitpunkten mit einem Bewegungsmodell zu kombinieren. Das Bewegungsmodell prädiziert dann den Zustandsvektor ausgehend von der Schätzung des vorherigen Schrittes. Generell werden vier Schritte benötigt: die Prädiktion, die Innovation, die Kalman-Gain-Matrix und das Update \cite{teil1, github}. 
 
 Das generelle Beobachtungsmodell sieht wie folgt aus:
 \begin{equation}
@@ -78,7 +75,7 @@ In dem vierten und letzten Schritt dem Update wird ein gewichtiets Mittel aus de
 \end{equation}
 
 \subsubsection{Extended Kalman-Filter (nicht- lineares Modell)}
-In den meisten Anwendungsbereichen sind weder Bewegungsmodell noch Beobachtungsmodell linear. Häufig schaut das System in eine Richtung und misst in die andere. Wenn man von nicht-linearen Funktionen spricht, werden damit häufig Winkelfunktionen gemeint, mit Sinus und Kosinus. Das Problem ist, dass nicht-lineare Funktionen zu keiner Normalverteilung führen und man dadurch keinen diskreten Kalman Filter verwendet kann. Eine Lösung des Problems ist die Linearisierung durch eine Approximation. Durch die Taylor Entwicklung kann so eine lineare Annäherung der nicht-linearen Funktionen geschehen. Nach Anwendung der Approximation erhält man einen erweiterten Kalman Filter den so genannten Extended Kalman Filter \cite{teil2}. 
+In den meisten Anwendungsbereichen sind weder Bewegungsmodell noch Beobachtungsmodell linear. Häufig schaut das System in eine Richtung und misst in die andere. Wenn man von nicht-linearen Funktionen spricht, werden damit häufig Winkelfunktionen gemeint, mit Sinus und Kosinus. Das Problem ist, dass nicht-lineare Funktionen zu keiner Normalverteilung führen und man dadurch keinen diskreten Kalman Filter verwendet kann. Eine Lösung des Problems ist die Linearisierung durch eine Approximation. Durch die Taylor Entwicklung kann so eine lineare Annäherung der nicht-linearen Funktionen geschehen. Nach Anwendung der Approximation erhält man einen erweiterten Kalman Filter den so genannten Extended Kalman Filter \cite{teil2, github}. 
 
 Neues Bewegungsmodell:
 \begin{equation}
@@ -87,7 +84,7 @@ Neues Bewegungsmodell:
 \begin{equation}
 \boldsymbol{l}_{i+1} = \boldsymbol{a}_{i+1}(\boldsymbol{x}_{i+1}) + \boldsymbol{e}_{i+1}
 \end{equation}
-Bei nicht-linearen Zusammenhängen werden die Matrizen $A$, $T$ und $C$ durch Linearisierung (partielle Ableitungen) der nicht-linearen Funktionen f und a bestimmt:
+Bei nicht-linearen Zusammenhängen werden die Matrizen $\boldsymbol{A}$, $\boldsymbol{T}$ und $\boldsymbol{C}$ durch Linearisierung (partielle Ableitungen) der nicht-linearen Funktionen f und a bestimmt:
 \begin{equation}
 	\boldsymbol{A}_{i+1}= \frac{\partial \boldsymbol{a}_{i+1}(\boldsymbol{x}_{i+1})}{\partial \boldsymbol{x}_{i+1}} \bigg|_{x_{i+1} = \bar{x}_{i+1}}
 \end{equation}
@@ -119,15 +116,15 @@ Um eine möglichst genau Kurve zu schätzen werden Parameter gesucht, welche mit f
 $\boldsymbol{A}$ beschreibt wie beim Kalman Filter die Designmatrix. Die beinhaltet die partiellen Ableitungen der Beobachtungsgleichung nach den gesuchten Parametern. $\boldsymbol{l}$ beschreibt den Beobachtungsvektor und beinhaltet alle Messgrößen, welche beobachtet wurden. 
 
 \section{Implementation}
-In diesem Kapitel Implementation wird die detaillierte Ausführung der Arbeitsschritte einschließlich der Ergebnisse bei verschiedenen Implementierungsparametern beschrieben. Die für diese Arbeiten verwendet  simulierten Datensätze 'nfg11' und 'nfg53' beinhalten absolute 5G Koordinaten. Diese Datensätze sind identisch aufgebaut und beinhalteten neben dem Zeitstempel auch die X-, Y- und Z-Position der 5G-Koordinaten sowie ihre Genauigkeit. Der 'nfg'-Datensatz weist eine Messrate von einer Sekunde auf wohingegen der andere Datensatz ('nfg53') eine von fünf Sekunden ausweist. Doch auch die Genauigkeit der Datensätze unterscheiden sich. Bei dem 'nfg11'-Datensatz beträgt dieser einen Meter und bei dem anderen drei Meter. Somit kann gesagt werden, dass der 'nfg11'-Datensatz genauer bestimmt wurde als der andere.
+In diesem Kapitel Implementation wird die detaillierte Ausführung der Arbeitsschritte einschließlich der Ergebnisse bei verschiedenen Implementierungsparametern beschrieben. Die für diese Arbeiten verwendet  simulierten Datensätze 'nfg11' und 'nfg53' beinhalten absolute 5G-Koordinaten. Diese Datensätze sind identisch aufgebaut und beinhalteten neben dem Zeitstempel auch die X-, Y- und Z-Position der 5G-Koordinaten sowie ihre Genauigkeit. Der 'nfg'-Datensatz weist eine Messrate von einer Sekunde auf wohingegen der andere Datensatz ('nfg53') eine von fünf Sekunden ausweist. Doch auch die Genauigkeit der Datensätze unterscheiden sich. Bei dem 'nfg11'-Datensatz beträgt dieser einen Meter und bei dem anderen drei Meter. Somit kann gesagt werden, dass der 'nfg11'-Datensatz genauer bestimmt wurde als der andere.
 
 Die PDR-Werte stammen aus zwei Datensätzen: 'nsl' für die Schrittlänge und 'nsh' für die Schrittrichtung. Die Genauigkeiten der beiden Datensätze betragen einmal 0.2 ('nsl') und 0.25 ('nsh'). Der zugehörige Zeitstempel liegt in der Datei 'EightStepTimes'. Wie man sieht liegen acht PDR-Werte zwischen zwei 5G-Koordinaten, womit der PDR-Datensatz deutlich mehr Beobachtungen ausweist als die 5G-Koordinaten. 
 
-Zu Kontrolle wird der Datensatz EightGroundTruth herangezogen, der die Wirklichkeit des Verlaufes der Trajektorie (Position?) beschreibt. Mit Hilfe dessen kann entschieden werden wie gut und richtig die unterschiedlichen Methoden funktionieren. Die Umsetzung der Methoden erfolgt mit Pyhton.
+Zu Kontrolle wird der Datensatz EightGroundTruth herangezogen, der die Wirklichkeit des Verlaufes der Trajektorie (Position) beschreibt. Mit Hilfe dessen kann entschieden werden wie gut und richtig die unterschiedlichen Methoden funktionieren. Die Umsetzung der Methoden erfolgt mit Pyhton.
 
 \subsection{Diskreter Kalman-Filter}
 
-Im ersten Schritt des Kalman Filters der Prädiktion wird eine Voraussage getroffen. Dies geschieht anhand des folgenden Bewegungsmodells:
+Im ersten Schritt des Kalman Filters der Prädiktion wird eine Voraussage getroffen. Dies geschieht mit Hilfe des folgenden Bewegungsmodells:
 \begin{equation}
 \begin{spmatrix}{}
 x_{i}+\Delta x_{i}\\
@@ -214,42 +211,43 @@ Die zugehörige Kovarianzmatrix der Beobachtungen wird wie folgt aufgestellt:
 \end{equation}
 Die Ergebnisse der Zwischenschritte werden dann in die Formeln, die bereits im Kapitel \ref{subsub_diskret} (3. Gain-Matrix und 4. Update) aufgelistet sind eingesetzt, um am Ende ein Update zu erhalten. Dieses Update wird dann im nächsten Schritt das neue $\boldsymbol{\hat{x}_i}$.
 \subsubsection{Ergebnisse}
-Das Ergebnis des Kalman Filters lässt sich steuern indem die Genauigkeiten der 5G Punkte bzw. der PDR Beobachtungen angepasst werden. Mit den Genauigkeiten wird die Kalman-Gain Matrix gebildet, welche im 4. Schritt des Kalman Filters die Beobachtungen gewichten. Das Ergebnis kann dementsprechend anders sein. In Abbildung \ref{fig:kf_11_schlecht} sind zwei Kalman Filter zu sehen, Kalman Filter 1 springt von 5G Koordinate zu 5G Koordinate, weil die Genauigkeit der 5G Koordinaten relativ zu der PDR Genauigkeit deutlich kleiner ist. Im Kalman Filter 2 ist dies umgekehrt, hier folgt der Kalman Filter fasst ausschließlich den PDR Werten. 
+Das Ergebnis des Kalman Filters lässt sich steuern indem die Genauigkeiten der 5G Punkte bzw. der PDR Beobachtungen angepasst werden. Mit den Genauigkeiten wird die Kalman-Gain Matrix gebildet, welche im 4. Schritt des Kalman Filters die Beobachtungen gewichten. Das Ergebnis kann dementsprechend anders sein. In Abbildung \ref{fig:kf_11_schlecht} sind zwei Kalman Filter zu sehen, Kalman Filter 1 springt von 5G-Koordinate zu 5G-Koordinate, weil die Genauigkeit der 5G-Koordinaten relativ zu der PDR Genauigkeit deutlich kleiner ist. Im Kalman Filter 2 ist dies umgekehrt, hier folgt der Kalman Filter fasst ausschließlich den PDR Werten. 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{source/images/kf_11_schlecht}
-	\caption{Kalman Filter, 5G Koordinaten ('nfg11') und Ground Truth}
+	\caption{Kalman Filter, 5G-Koordinaten ('nfg11') und Ground Truth}
 	\label{fig:kf_11_schlecht}
 \end{figure} 
-Beides sind Beispiele für einen schlecht eingestellten Kalman Filter. Die Genauigkeitswerte sollten so eingestellt werden, dass ein guter Kompromiss zwischen PDR und 5G Koordinaten gefunden wird und beide sich gut ausgleichen. In Abbildung \ref{fig:kf_11} ist ein Beispiel mit einigermaßen gut austarierten Genauigkeitswerten. Das Ergebnis ist eine Trajektorie, welche nicht zu sehr auf die teils ungenauen 5G Koordinaten reagiert aber auch nicht auf Dauer von der Ground Truth wegdriftet. 
+Beides sind Beispiele für einen schlecht eingestellten Kalman Filter. Die Genauigkeitswerte sollten so eingestellt werden, dass ein guter Kompromiss zwischen PDR und 5G-Koordinaten gefunden wird und beide sich gut ausgleichen. In Abbildung \ref{fig:kf_11} ist ein Beispiel mit einigermaßen gut austarierten Genauigkeitswerten. Das Ergebnis ist eine Trajektorie, welche nicht zu sehr auf die teils ungenauen 5G-Koordinaten reagiert aber auch nicht auf Dauer von der Ground Truth wegdriftet. 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{source/images/kf_11}
-	\caption{Kalman Filter, 5G Koordinaten ('nfg11') und Ground Truth}
+	\caption{Kalman Filter, 5G-Koordinaten ('nfg11') und Ground Truth}
 	\label{fig:kf_11}
 \end{figure}
 Abbildung \ref{fig:kf_53} zeigt den gleichen Filter allerdings mit dem 5G Datensatz welcher wesentlich weniger Beobachtungen beinhaltet und ungenauer ist. 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{source/images/kf_53}
-	\caption{Kalman Filter, 5G Koordinaten ('nfg53') und Ground Truth}
+	\caption{Kalman Filter, 5G-Koordinaten ('nfg53') und Ground Truth}
 	\label{fig:kf_53}
 \end{figure}
-Abbildung \ref{fig:kf_53} zeigt die Trajektorie, welche sich durch den diskreten Kalman Filter ergibt, sowie die 5G Koordinaten und die Ground Truth. Hier ist deutlich zu sehen, dass der Filter nur so viele Punkte hat wie 5G Punkte in den Filter einfließen. Dadurch wirkt die Trajektorie sehr eckig und weißt deutlich größere Abweichungen zur Ground Truth auf.
+Abbildung \ref{fig:kf_53} zeigt die Trajektorie, welche sich durch den diskreten Kalman Filter ergibt, sowie die 5G-Koordinaten und die Ground Truth. Hier ist deutlich zu sehen, dass der Filter nur so viele Punkte hat wie 5G Punkte in den Filter einfließen. Dadurch wirkt die Trajektorie sehr eckig und weißt deutlich größere Abweichungen zur Ground Truth auf.
 
-Das Ergebnis der Trajektorie und somit auch auch die Präzision der Trajektorie hängt maßgeblich von den Genauigkeitsparametern ein, welche in der Innovation mit in den Algorithmus einfließen. Abbildung \ref{fig:virance_vergleich_1} zeigt verschiedene Trajektorien, bei denen jeweils die Varianz von $\Delta_{x,y}$ angepasst wurde. Die Varianz der 5G Koordinaten (0.0001) ist in allen Trajektorien gleich geblieben. 
-Es zeigt sich folgender Zusammenhang: Je größer die Varianz von $\Delta_{x,y}$ wird, desto näher orientiert sich die Trajektorie an den 5G Koordinaten, was mit den Nachteilen einer springenden Trajektorie mit einhergeht. Dies liegt daran, dass mit steigender Varianz den $\Delta_{x,y}$ zunehmend weniger vertraut wird und die 5G Koordinaten wichtiger werden zur Bildung der Trajektorie. Andersherum zeigt sich, dass bei kleineren Varianzen sich die Trajektorie zunehmend von der Ground Truth entfernt und sich einer reinen PDR Trajektorie \ref{fig:pdr} annähert. Auch hier gilt nun, dass der Algorithmus den PDR Werten im Vergleich zu den 5G Werten zu sehr vertraut, da die Varianzen sehr niedrig sind.
+Das Ergebnis der Trajektorie und somit auch auch die Präzision der Trajektorie hängt maßgeblich von den Genauigkeitsparametern ein, welche in der Innovation mit in den Algorithmus einfließen. Abbildung \ref{fig:virance_vergleich_1} zeigt verschiedene Trajektorien, bei denen jeweils die Varianz von $\Delta_{x,y}$ angepasst wurde. Die Varianz der 5G-Koordinaten (0.0001) ist in allen Trajektorien gleich geblieben. 
+Es zeigt sich folgender Zusammenhang: Je größer die Varianz von $\Delta_{x,y}$ wird, desto näher orientiert sich die Trajektorie an den 5G-Koordinaten, was mit den Nachteilen einer springenden Trajektorie mit einhergeht. Dies liegt daran, dass mit steigender Varianz den $\Delta_{x,y}$ zunehmend weniger vertraut wird und die 5G-Koordinaten wichtiger werden zur Bildung der Trajektorie. Andersherum zeigt sich, dass bei kleineren Varianzen sich die Trajektorie zunehmend von der Ground Truth entfernt und sich einer reinen PDR Trajektorie (siehe Abb. \ref{fig:pdr}) annähert. Auch hier gilt nun, dass der Algorithmus den PDR Werten im Vergleich zu den 5G Werten zu sehr vertraut, da die Varianzen sehr niedrig sind.
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\linewidth]{source/images/kf_11_variance_vergleich}
+	\includegraphics[width=0.8\linewidth]{source/images/kf_11_variance_vergleich}
 	\caption{Kalman Filter Vergleich $\sigma_{\Delta_{x,y}}²$}
 	\label{fig:virance_vergleich_1}
 \end{figure}
-Abbildung \ref{fig:variance_vergleich_2} zeigt einen ähnlichen Zusammenhang, nur das hier nun die PDR Varianzen (0.000001) unverändert sind und nur die Varianzen von den 5G Koordinaten verändert worden ist. Das Ergebnis ist ähnlich, erhöhen wir die Varianzen von den 5G Koordinaten driftet die Trajektorie wie die reinen PDR Beobachtungen senken wir die Varianzen, dann springen wir von 5G Koordinate zu 5G Koordinate. 
-Es lässt sich also feststellen, dass die Varianzen gut austariert werden müssen um ein zufriedenstellendes Ergebnis zu erhalten welches die beiden Beobachtungsverfahren gut kombiniert und sich nicht zu sehr auf ein Beobachtungsverfahren verlässt. 
+
+Abbildung \ref{fig:variance_vergleich_2} zeigt einen ähnlichen Zusammenhang, nur das hier nun die PDR Varianzen (0.000001) unverändert sind und nur die Varianzen von den 5G-Koordinaten verändert worden. Das Ergebnis ist ähnlich, erhöht man die Varianzen von den 5G-Koordinaten driftet die Trajektorie wie die reinen PDR Beobachtungen. Senken wir die Varianzen, dann springt die Trajektorie von 5G-Koordinate zu 5G-Koordinate. 
+Es lässt sich also feststellen, dass die Varianzen gut austariert werden müssen, um ein zufriedenstellendes Ergebnis zu erhalten, welches die beiden Beobachtungsverfahren gut kombiniert und sich nicht zu sehr auf ein Beobachtungsverfahren orientiert. 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\linewidth]{source/images/Figure_4}
+	\includegraphics[width=0.8\linewidth]{source/images/Figure_4}
 	\caption{Kalman Filter Vergleich $\sigma_{5G_{x,y}}²$}
 	\label{fig:variance_vergleich_2}
 \end{figure}
@@ -257,10 +255,10 @@ Es lässt sich also feststellen, dass die Varianzen gut austariert werden müssen 
 
 \subsubsection{Ergebnisse}
 Die Implentation des Extended Kalman Filters konnte leider nicht beendet werden, da Fehler im Code nicht gefunden werden konnten. 
-Ergebnisse werden im weiteren Verlauf nicht diskutiert und berücksichtigt. 
+Die Ergebnisse werden daher im weiteren Verlauf nicht diskutiert und berücksichtigt. 
 
 \subsection{Weighted-Least-Square}
-Für die Implentation der Weighted-Least-Square Methode werden in einem ersten Schritt die 5G Beobachtungen anhand der PDR Beobachtungen interpoliert ($x_i, y_i$), indem aus der Schrittlänge $L$ und der Schrittrichtung $R$, $\Delta x$ und $\Delta y$ berechnet werden und diese auf die 5G Koordinaten aufaddiert werden.
+Für die Implentation der Weighted-Least-Square Methode werden in einem ersten Schritt die 5G Beobachtungen anhand der PDR Beobachtungen interpoliert ($x_i, y_i$), indem aus der Schrittlänge $L$ und der Schrittrichtung $R$, $\Delta x$ und $\Delta y$ berechnet werden und diese auf die 5G-Koordinaten aufaddiert werden.
 Je nachdem wie häufig eine neue 5G Beobachtung vorliegt wird entweder eine 5G Beobachtung für $x_i, y_i$) herangezogen oder der vorangegangene interpolierte 5G Wert. Für die Schrittrichtung ist die Nordrichtung $\Phi_0$ essentiell, welche für den Beispiel Datensatz bei 3.5 rad liegt.
 \begin{equation}
 x_{i+1} = x_i + L_i \cdot \cos(\Phi_0 + R_i)
@@ -268,44 +266,46 @@ x_{i+1} = x_i + L_i \cdot \cos(\Phi_0 + R_i)
 \begin{equation}
 y_{i+1} = y_i + L_i \cdot \sin(\Phi_0 + R_i)
 \end{equation}
-Dieses Interpolieren wird so häufig durchgeführt, bis eine neue 5G Beobachtung vorliegt. Als Ergebnis liegt nun für jede PDR Beobachtung eine 5G Beobachtung bzw. eine interpolierte 5G Beobachtung vor. Dies ist die Voraussetzung für das Anwenden der Least-Square-Methode. Anschließend können die Daten in die Schätzung der unbekannten Parameter eingehen (siehe Formel \ref{LS}). In der Gewichtsmatrix $P$ findet die Gewichtung der Beobachtungen statt, wobei absolute (5G Koordinaten) und relative Beobachtungen (PDR Werte) unterschiedliche Standardabweichungen und somit Gewichte erhalten. So wird gesteuert, welche Beobachtungen mehr Einfluss bei dem Ausgleich haben sollen und bei welchen die quadratische Verbesserung höher sein darf. Die Ausgleichung findet bei jedem dazukommenden 5G Punkt neu statt. 
+Dieses Interpolieren wird so häufig durchgeführt, bis eine neue 5G Beobachtung vorliegt. Als Ergebnis liegt nun für jede PDR Beobachtung eine 5G Beobachtung bzw. eine interpolierte 5G Beobachtung vor. Dies ist die Voraussetzung für das Anwenden der Least-Square-Methode. Anschließend können die Daten in die Schätzung der unbekannten Parameter eingehen (siehe Formel \ref{LS}). In der Gewichtsmatrix $\boldsymbol{P}$ findet die Gewichtung der Beobachtungen statt, wobei absolute (5G-Koordinaten) und relative Beobachtungen (PDR Werte) unterschiedliche Standardabweichungen und somit Gewichte erhalten. So wird gesteuert, welche Beobachtungen mehr Einfluss bei dem Ausgleich haben sollen und bei welchen die quadratische Verbesserung höher sein darf. Die Ausgleichung findet bei jedem dazukommenden 5G Punkt neu statt. 
 
 \subsubsection{Ergebnisse}
-Die für die Weighted-Least-Square Methode verwendeten Genauigkeiten bilden auf der einen Seite die von den 5G Koordinaten (absolute) und auf der anderen Seite die für die PDR Werte (relativen). Das Ergebnis in Abbildung \ref{fig:ls_11} zeigt den Datensatz 'nfg11', der weit aus mehr Beobachtungen hat als der 'nfg53' Datensatz. Hier wurden den PDR Beobachtungen mehr Gewicht gegeben womit sie eine sehr gute Genauigkeit aufweisen ($\sigma_{PDR}$ = 0.2). Im Gegensatz dazu wird den 5G Koordinaten weniger Einfluss in die Ausgleichung gegeben. Ihre Standardabweichung liegt deutlicher höher als die von den PDR Beobachtungen ($\sigma_{5G}$ = 3).  
+Die für die Weighted-Least-Square Methode verwendeten Genauigkeiten bilden auf der einen Seite die von den 5G-Koordinaten (absolute) und auf der anderen Seite die für die PDR Werte (relativen). Das Ergebnis in Abbildung \ref{fig:ls_11} zeigt den Datensatz 'nfg11', der weit aus mehr Beobachtungen hat als der 'nfg53' Datensatz. Hier wurden den PDR Beobachtungen mehr Gewicht gegeben womit sie eine sehr gute Genauigkeit aufweisen ($\sigma_{PDR}$ = 0.2). Im Gegensatz dazu wird den 5G-Koordinaten weniger Einfluss in die Ausgleichung gegeben. Ihre Standardabweichung liegt deutlicher höher als die von den PDR Beobachtungen ($\sigma_{5G}$ = 3).  
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{source/images/ls_11}
-	\caption{WLS, 5G Koordinaten ('nfg11') und Ground Truth}
+	\caption{WLS, 5G-Koordinaten ('nfg11') und Ground Truth}
 	\label{fig:ls_11}
 \end{figure}
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{source/images/ls_53}
-	\caption{WLS, 5G Koordinaten ('nfg53') und Ground Truth}
+	\caption{WLS, 5G-Koordinaten ('nfg53') und Ground Truth}
 	\label{fig:ls_53}
 \end{figure}
 
-Das Ergebnis zeigt, dass der Verlauf der WLS Ausgleichung der eigentlichen Wahrheit entspricht, nur an einigen Kurvenbereichen gibt es einen kleinen Versatz. Das gleiche Muster ist auch in der Abbildung \ref{fig:ls_53} zu sehen. Obwohl dieser Datensatz eine geringe Menge an Beobachtungen aufweist als der zuvor, kann hier auch beobachtet werden, dass der grobe Verlauf der tatsächlichen Trajektorie entspricht. Die Einstellung der Standardabweichung sowohl für die 5G Koordinaten als auch für die PDR Beobachungen sind unveränderlich. Sie entsprechen also den gleichen wie bereits in Abbildung \ref{fig:ls_11} zu sehen ist. 
+Das Ergebnis zeigt, dass der Verlauf der WLS Ausgleichung der eigentlichen Wahrheit entspricht, nur an einigen Kurvenbereichen gibt es einen kleinen Versatz. Das gleiche Muster ist auch in der Abbildung \ref{fig:ls_53} zu sehen. Obwohl dieser Datensatz eine geringe Menge an Beobachtungen aufweist als der zuvor, kann hier auch beobachtet werden, dass der grobe Verlauf der tatsächlichen Trajektorie entspricht. Die Einstellung der Standardabweichung sowohl für die 5G-Koordinaten als auch für die PDR Beobachungen sind unveränderlich. Sie entsprechen also den gleichen wie bereits in Abbildung \ref{fig:ls_11} zu sehen ist. 
 
-Auch bei der Least Square Methode ist das Ergebnis abhängig von den Genauigkeitsparametern welche steuern in wiefern die PDR Daten und die 5G Koordinaten gewichtet werden. Je nach Gewichtung, kann entweder den 5G Koordinaten mehr vertraut werden oder den PDR beobachtungen. 
+Auch bei der Least Square Methode ist das Ergebnis abhängig von den Genauigkeitsparametern welche steuern in wiefern die PDR Daten und die 5G-Koordinaten gewichtet werden. Je nach Gewichtung, kann entweder den 5G-Koordinaten mehr vertraut werden oder den PDR beobachtungen. 
 
-Die Genauigkeitsparameter sind in dem Algoritmus als $s_{1}$ und $s_{2}$ implentiert. $s_{1}$ steht für die absolute Genauigkeit, also die Genauigkeit der 5G Koordinaten und $s_{2}$ steht für die relative Genauigkeit, also die der PDR Beobachtungen. 
+Die Genauigkeitsparameter sind in dem Algoritmus als $s_{1}$ und $s_{2}$ implentiert. $s_{1}$ steht für die absolute Genauigkeit, also die Genauigkeit der 5G-Koordinaten und $s_{2}$ steht für die relative Genauigkeit, also die der PDR Beobachtungen. 
 
-Die Abbildung \ref{fig:variance_vergleich_3} zeigt die Auswirkungen wenn der $s_{2}$ Wert (0.2) konstant bleibt und der $s_{1}$ Wert verändert wird. Es zeigt sich, dass je größer $s_{1}$ gewählt wird, desto weniger wird den absoluten (5G Koordinaten) vertraut und desto mehr nähert sich die trajektorie der reinen PDR Trajektorie \ref{fig:pdr} an. Umgekehrt, je kleiner $s_{1}$, desto mehr wird den absoluten Werten vertraut und die Trajektorie nähert sich den 5G Koordinaten an. Beide extreme sind natürlich mit Nachteilen im Ergebnis verbunden. Entweder driftet die Trajektorie von der Ground Truth weg oder die Trajektorie beinhaltet alle Ungenauigkeiten der 5G Koordinaten. 
+
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\linewidth]{source/images/Figure_2}
-	\caption{Least Square ${1}$}
+	\includegraphics[width=0.8\linewidth]{source/images/Figure_2}
+	\caption{Least Square $s_{1}$}
 	\label{fig:variance_vergleich_3}
 \end{figure}
+Die Abbildung \ref{fig:variance_vergleich_3} zeigt die Auswirkungen wenn der $s_{2}$ Wert (0.2) konstant bleibt und der $s_{1}$ Wert verändert wird. Es zeigt sich, dass je größer $s_{1}$ gewählt wird, desto weniger wird den absoluten (5G-Koordinaten) vertraut und desto mehr nähert sich die Trajektorie der reinen PDR Trajektorie an (siehe Abbildung \ref{fig:pdr}). Umgekehrt gilt, je kleiner $s_{1}$ ist, desto mehr wird den absoluten Werten vertraut und die Trajektorie nähert sich den 5G-Koordinaten an. Beide Extrembeispiele sind jedoch mit Nachteilen im Ergebnis verbunden: entweder driftet die Trajektorie von der Ground Truth weg oder die Trajektorie beinhaltet alle Ungenauigkeiten der 5G-Koordinaten. 
 
-Die Abbildung \ref{fig:variance_vergleich_4} zeigt die Auswirkungen wenn der $s_{a}$ Wert (3) konstant bleibt und der $s_{2}$ Wert verändert wird. Es zeigt sich, dass je größer $s_{2}$ gewählt wird, desto weniger wird den relativen (PDR Beobachtungen) vertraut und desto mehr nähert sich die Trajektorie den 5G Koordinaten an. Umgekehrt, je kleiner $s_{2}$, desto mehr wird den relativen Werten vertraut und die Trajektorie nähert sich der reinen PDR Trajektorie \ref{fig:pdr} an. Dies führt ebenfalls wieder dazu, dass die Trajektorie entweder von der Ground Truth weg driftet oder alle Ungenauigkeiten der 5G Koordinaten beinhaltet.
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\linewidth]{source/images/Figure_3}
-	\caption{Least Square $s{2}$}
+	\includegraphics[width=0.8\linewidth]{source/images/Figure_3}
+	\caption{Least Square $s_{2}$}
 	\label{fig:variance_vergleich_4}
 \end{figure}
+Die Abbildung \ref{fig:variance_vergleich_4} zeigt die Auswirkungen wenn der $s_{1}$-Wert (= 3) konstant bleibt und der $s_{2}$ Wert verändert wird. Es zeigt sich, dass je größer $s_{2}$ gewählt wird, desto weniger wird den relativen (PDR Beobachtungen) vertraut und desto mehr nähert sich die Trajektorie den 5G-Koordinaten an. Umgekehrt gilt, je kleiner $s_{2}$, desto mehr wird den relativen Werten vertraut und die Trajektorie nähert sich der reinen PDR Trajektorie (siehe Abbildung \ref{fig:pdr}) an. Dies führt ebenfalls wieder dazu, dass die Trajektorie entweder von der Ground Truth weg driftet oder alle Ungenauigkeiten der 5G-Koordinaten beinhaltet.
+
 \subsection{Vergleich der Ergebnisse}
 Abbildung \ref{fig:vergleich_2} und \ref{fig:vergleich_3} zeigen den Vergleich von Weigthed-Least-Square und dem Kalman Filter mit der Ground Truth bei beiden 5G Datensätzen. Beim 'nfg11' Datensatz zeigen sich beide Trajektorien relativ gut, lediglich beim rechten Teil zeigt der Kalman Filter etwas größere Differenzen zur Ground Truth als WLS. Beim schlechteren 'nfg53' Datensatz werden die Unterschiede schon etwas größer.
 \begin{figure}[h!]
@@ -331,11 +331,11 @@ Vergleicht man den Kalman Filter mit der Weighted-Least-Square Methode so fällt 
 
 \section{Fazit und Ausblick}
 
-In diesem Bericht wurden verschiedene Möglichkeiten gezeigt, wie 5G Koordinaten mit Schrittlängen und Schrittrichtungsbeobachtungen eines PDRs kombiniert werden können, um eine Trajektorie zu berechnen, welche möglichst der Ground Truth nahe kommt. Einsatzzweck könnten Indoorumgebungen sein, bei der eine genaue Lokalisation notwendig ist. Wir haben dabei drei Methoden untersucht: der Diskrete Kalman Filter, der Extended Kalman Filter und die Weighted-Least-Square Methode. Der Extended Kalmen Filter konnte leider nicht komplett Implentiert werden, weshalb keine Extended Kalman Filter Ergebnisse produziert werden konnten. 
+In diesem Bericht wurden verschiedene Möglichkeiten gezeigt, wie 5G-Koordinaten mit Schrittlängen und Schrittrichtungsbeobachtungen eines PDRs kombiniert werden können, um eine Trajektorie zu berechnen, welche möglichst der Ground Truth nahe kommt. Einsatzzweck könnten Indoorumgebungen sein, bei der eine genaue Lokalisation notwendig ist. Wir haben dabei drei Methoden untersucht: der Diskrete Kalman Filter, der Extended Kalman Filter und die Weighted-Least-Square Methode. Der Extended Kalmen Filter konnte leider nicht komplett Implentiert werden, weshalb keine Extended Kalman Filter Ergebnisse produziert werden konnten. 
 
-Zusammenfassend kann vorab festgehalten werden, dass die Trajektorie der Weighted-Least-Square Methode besser abschneidet als die des diskreten Kalman Filters. Das zeigt sich auch noch mal an der Abbildung \ref{fig:vergleich_1}, in der eine Beobachtungslücke simuliert wurde. Dadruch das die WLS Methode interpolierte 5G Werte mit in die Ausgleichung nimmt, kann die gesamte Trajektorie besser bestimmt werden als bei dem diskreten Kalman Filter. 
+Zusammenfassend kann vorab festgehalten werden, dass die Trajektorie der Weighted-Least-Square Methode besser abschneidet als die des diskreten Kalman Filters. Das zeigt sich auch noch mal an der Abbildung \ref{fig:vergleich_1}, in der eine Beobachtungslücke simuliert wurde. Dadurch das die WLS Methode interpolierte 5G Werte mit in die Ausgleichung nimmt, kann die gesamte Trajektorie besser bestimmt werden als bei dem diskreten Kalman Filter. 
 
-Ausblickend sollte die Fehlersuche im Code des Extended Kalman Filters fortgesetzt werden um auch hier Ergebnisse zu produzieren und den Extended Kalman Filter mit in den Vergleich aufnehmen zu können. 
+Ausblickend sollte die Fehlersuche im Code des Extended Kalman Filters fortgesetzt werden, um auch hier Ergebnisse zu produzieren und den Extended Kalman Filter mit in den Vergleich aufnehmen zu können. 
 Als zukünftige Forschungsperspektive könnte der Extended Kalman Filter noch mehr erweitert werden. Der Vektor der geschätzten Parameter $\boldsymbol{\hat{x}}_{i}$, der eine Dimension von 4x1 aufweist könnte auf eine Dimension von 6x1 erweitert werden. Dafür kommen neben dem ${x}_{i}$, ${y}_{i}$, ${L}_{i}$ und ${R}_{i}$ noch die Fehler der Schrittlänge und -richtung ($L_{error_i}$,$R_{error_i}$) hinzu. Es wird vermutet, dass durch Berücksichtigungen der Ungenauigkeit für Schrittlänge und -richtung das Vorhersage noch besser funktionieren. Ob das der Wirklichkeit entspricht, kann dieser Ansatz in Zukunft überprüft werden. 
 
 Des weiteren sollten die Filter auch mit anderen Datensätzen getestet werden, um zu vermeiden, dass die getroffenen Einstellungen die Filter zu sehr an die beiden vorhandenen Datensätze anpasst und nicht universell einsetzbar sind. Ein weiterer Ansatz könnte sein, die Methoden echtzeitfähig zu machen. In der Theorie ist dies möglich allerdings würde dies eine Umstrukturierung des Quellcodes erfordern.
