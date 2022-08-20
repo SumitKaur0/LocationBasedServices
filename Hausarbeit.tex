@@ -22,10 +22,12 @@
 \setlength\belowdisplayskip{8pt}
 \include{source/content/text}
 \addcontentsline{toc}{section}{Literatur}
-%\printbibliography[title = Literaturverzeichnis]
-
 \bibliographystyle{IEEEtran}
 \bibliography{sampleBibFile}
+\clearpage
+\addcontentsline{toc}{section}{Anhang}
+\includepdf[pages=-,scale=0.9,pagecommand={\thispagestyle{plain}}]{README}
+%\include{source/content/readme}
 \end{document}
 
 
